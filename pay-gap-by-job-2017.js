@@ -1,8 +1,8 @@
 function PayGapByJob2017() {
-  // Name for the visualisation to appear in the menu bar.
+  // Name for the visualization to appear in the menu bar.
   this.name = "Pay gap by job: 2017";
 
-  // Each visualisation must have a unique ID with no special
+  // Each visualization must have a unique ID with no special
   // characters.
   this.id = "pay-gap-by-job-2017";
 
@@ -15,7 +15,7 @@ function PayGapByJob2017() {
   this.dotSizeMax = 40;
 
   // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
+  // gallery when a visualization is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
@@ -55,7 +55,7 @@ function PayGapByJob2017() {
     numJobs = stringsToNumbers(numJobs);
 
     // Set ranges for axes.
-    //
+
     // Use full 100% for x-axis (proportion of women in roles).
     var propFemaleMin = 0;
     var propFemaleMax = 100;
@@ -78,11 +78,22 @@ function PayGapByJob2017() {
 
     for (i = 0; i < this.data.getRowCount(); i++) {
       // Draw an ellipse for each point.
-      // x = propFemale
-      // y = payGap
-      // size = numJobs
-      ellipse();
-      /// ???
+      x = map(
+        propFemale[i],
+        propFemaleMin,
+        propFemaleMax,
+        this.pad,
+        width - this.pad
+      );
+      y = map(payGap[i], payGapMin, payGapMax, height - this.pad, this.pad);
+      size = map(
+        numJobs[i],
+        numJobsMin,
+        numJobsMax,
+        this.dotSizeMin,
+        this.dotSizeMax
+      );
+      ellipse(x, y, size);
     }
   };
 
