@@ -2,8 +2,7 @@ function PayGapTimeSeries() {
   // Name for the visualisation to appear in the menu bar.
   this.name = "Pay gap: 1997-2017";
 
-  // Each visualisation must have a unique ID with no special
-  // characters.
+  // Each visualisation must have a unique ID with no special characters.
   this.id = "pay-gap-timeseries";
 
   // Title to display above the plot.
@@ -16,13 +15,11 @@ function PayGapTimeSeries() {
 
   var marginSize = 35;
 
-  // Layout object to store all common plot layout parameters and
-  // methods.
+  // Layout object to store all common plot layout parameters and methods.
   this.layout = {
     marginSize: marginSize,
 
-    // Margin positions around the plot. Left and bottom have double
-    // margin size to make space for axis and tick labels on the canvas.
+    // Margin positions around the plot. Left and bottom have double margin size to make space for axis and tick labels on the canvas.
     leftMargin: marginSize * 2,
     rightMargin: width - marginSize,
     topMargin: marginSize,
