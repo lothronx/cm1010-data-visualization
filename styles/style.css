@@ -1,0 +1,29 @@
+body{
+    font-family: sans-serif
+}
+
+.menu-item {
+    width: 11rem;
+    height: auto;
+    border: 1px ridge rgb(180, 180, 180);
+    border-radius: 4px;
+    box-shadow: 1px 1px 4px gray;
+    list-style-type: none;
+    padding: 1rem;
+}
+
+li{
+    margin: 1rem 0;
+}
+
+.container {
+  display: flex;
+}
+
+.hover {
+    background: rgb(230, 230, 230)
+}
+
+.selected{
+    background: gold
+}
