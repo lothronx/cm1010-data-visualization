@@ -1,19 +1,16 @@
 function TechDiversityGender() {
-  // Name for the visualisation to appear in the menu bar.
+  // Name for the visualization to appear in the menu bar.
   this.name = "Tech Diversity: Gender";
 
-  // Each visualisation must have a unique ID with no special
-  // characters.
+  // Each visualization must have a unique ID with no special characters.
   this.id = "tech-diversity-gender";
 
-  // Layout object to store all common plot layout parameters and
-  // methods.
+  // Layout object to store all common plot layout parameters and methods.
   this.layout = {
-    // Margin positions around the plot. Left and bottom margins are
-    // bigger so there is space for axis and tick labels on the canvas.
-    leftMargin: 130,
-    rightMargin: width,
-    topMargin: 30,
+    // Margin positions around the plot. Left and bottom margins are bigger so there is space for axis and tick labels on the canvas.
+    leftMargin: 150,
+    rightMargin: width - 50,
+    topMargin: 50,
     bottomMargin: height,
     pad: 5,
 
@@ -24,8 +21,7 @@ function TechDiversityGender() {
     // Boolean to enable/disable background grid.
     grid: true,
 
-    // Number of axis tick labels to draw so that they are not drawn on
-    // top of one another.
+    // Number of axis tick labels to draw so that they are not drawn on top of one another.
     numXTickLabels: 10,
     numYTickLabels: 8,
   };
@@ -33,22 +29,21 @@ function TechDiversityGender() {
   // Middle of the plot: for 50% line.
   this.midX = this.layout.plotWidth() / 2 + this.layout.leftMargin;
 
-  // Default visualisation colours.
-  this.femaleColour = color(255, 0, 0);
-  this.maleColour = color(0, 255, 0);
+  // Default visualization colors.
+  this.femaleColor = color(243, 57, 70);
+  this.maleColor = color(29, 53, 87);
 
   // Property to represent whether data has been loaded.
   this.loaded = false;
 
-  // Preload the data. This function is called automatically by the gallery when a visualisation is added.
+  // Preload the data. This function is called automatically by the gallery when a visualization is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/tech-diversity/gender-2018.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
+      // Callback function to set the value this.loaded to true.
       function (table) {
         self.loaded = true;
       }
@@ -81,9 +76,9 @@ function TechDiversityGender() {
       // Create an object that stores data from the current row.
       var company = {
         // Convert strings to numbers.
-        // 'name': ???
-        // 'female': ???
-        // 'male': ???
+        name: this.data.getString(i, "company"),
+        female: this.data.getNum(i, "female"),
+        male: this.data.getNum(i, "male"),
       };
 
       // Draw the company name in the left margin.
@@ -93,7 +88,7 @@ function TechDiversityGender() {
       text(company.name, this.layout.leftMargin - this.layout.pad, lineY);
 
       // Draw female employees rectangle.
-      fill(this.femaleColour);
+      fill(this.femaleColor);
       rect(
         this.layout.leftMargin,
         lineY,
@@ -102,7 +97,13 @@ function TechDiversityGender() {
       );
 
       // Draw male employees rectangle.
-      // ???
+      fill(this.maleColor);
+      rect(
+        this.layout.leftMargin + this.mapPercentToWidth(company.female),
+        lineY,
+        this.mapPercentToWidth(company.male),
+        lineHeight - this.layout.pad
+      );
     }
 
     // Draw 50% line
@@ -112,14 +113,16 @@ function TechDiversityGender() {
   };
 
   this.drawCategoryLabels = function () {
-    fill(0);
     noStroke();
+    fill(this.femaleColor);
     textAlign("left", "top");
-    text("Female", this.layout.leftMargin, this.layout.pad);
+    text("Female", this.layout.leftMargin, this.layout.pad * 4);
+    fill(0);
     textAlign("center", "top");
-    text("50%", this.midX, this.layout.pad);
+    text("50%", this.midX, this.layout.pad * 4);
+    fill(this.maleColor);
     textAlign("right", "top");
-    text("Male", this.layout.rightMargin, this.layout.pad);
+    text("Male", this.layout.rightMargin, this.layout.pad * 4);
   };
 
   this.mapPercentToWidth = function (percent) {

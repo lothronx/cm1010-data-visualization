@@ -15,8 +15,7 @@ function TechDiversityRace() {
     var self = this;
     this.data = loadTable(
       './data/tech-diversity/race-2018.csv', 'csv', 'header',
-      // Callback function to set the value
-      // this.loaded to true.
+      // Callback function to set the value this.loaded to true.
       function(table) {
         self.loaded = true;
       });
