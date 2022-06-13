@@ -14,7 +14,7 @@ function TechDiversityGender() {
     bottomMargin: height,
     pad: 5,
 
-    plotWidth: function () {
+    plotWidth() {
       return this.rightMargin - this.leftMargin;
     },
 

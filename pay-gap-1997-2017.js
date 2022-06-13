@@ -1,8 +1,8 @@
 function PayGapTimeSeries() {
-  // Name for the visualisation to appear in the menu bar.
+  // Name for the visualization to appear in the menu bar.
   this.name = "Pay gap: 1997-2017";
 
-  // Each visualisation must have a unique ID with no special characters.
+  // Each visualization must have a unique ID with no special characters.
   this.id = "pay-gap-timeseries";
 
   // Title to display above the plot.
@@ -26,19 +26,18 @@ function PayGapTimeSeries() {
     bottomMargin: height - marginSize * 2,
     pad: 5,
 
-    plotWidth: function () {
+    plotWidth() {
       return this.rightMargin - this.leftMargin;
     },
 
-    plotHeight: function () {
+    plotHeight() {
       return this.bottomMargin - this.topMargin;
     },
 
     // Boolean to enable/disable background grid.
     grid: true,
 
-    // Number of axis tick labels to draw so that they are not drawn on
-    // top of one another.
+    // Number of axis tick labels to draw so that they are not drawn on top of one another.
     numXTickLabels: 10,
     numYTickLabels: 8,
   };
@@ -46,16 +45,14 @@ function PayGapTimeSeries() {
   // Property to represent whether data has been loaded.
   this.loaded = false;
 
-  // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
+  // Preload the data. This function is called automatically by the gallery when a visualization is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/pay-gap/all-employees-hourly-pay-by-gender-1997-2017.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
+      // Callback function to set the value this.loaded to true.
       function (table) {
         self.loaded = true;
       }
@@ -101,29 +98,29 @@ function PayGapTimeSeries() {
     // Draw x and y axis labels.
     drawAxisLabels(this.xAxisLabel, this.yAxisLabel, this.layout);
 
-    // Plot all pay gaps between startYear and endYear using the width
-    // of the canvas minus margins.
+    // Plot all pay gaps between startYear and endYear using the width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
 
-    // Loop over all rows and draw a line from the previous value to
-    // the current.
+    // Loop over all rows and draw a line from the previous value to the current.
     for (var i = 0; i < this.data.getRowCount(); i++) {
       // Create an object to store data for the current year.
       var current = {
-        // Convert strings to numbers.
-        // 'year': ???,
-        // 'payGap': ???
+        year: this.data.getNum(i, 'year'),
+        payGap: this.data.getNum(i, 'pay_gap')
       };
 
       if (previous != null) {
-        // Draw line segment connecting previous year to current
-        // year pay gap.
+        // Draw line segment connecting previous year to current year pay gap.
         stroke(0);
-        // line( ??? );
+        line(
+          this.mapYearToWidth(previous.year),
+          this.mapPayGapToHeight(previous.payGap),
+          this.mapYearToWidth(current.year),
+          this.mapPayGapToHeight(current.payGap)
+        );
 
-        // The number of x-axis labels to skip so that only
-        // numXTickLabels are drawn.
+        // The number of x-axis labels to skip so that only numXTickLabels are drawn.
         var xLabelSkip = ceil(numYears / this.layout.numXTickLabels);
 
         // Draw the tick label marking the start of the previous year.
@@ -136,9 +133,7 @@ function PayGapTimeSeries() {
         }
       }
 
-      // Assign current year to previous year so that it is available
-      // during the next iteration of this loop to give us the start
-      // position of the next line segment.
+      // Assign current year to previous year so that it is available during the next iteration of this loop to give us the start position of the next line segment.
       previous = current;
     }
   };
@@ -166,6 +161,12 @@ function PayGapTimeSeries() {
   };
 
   this.mapPayGapToHeight = function (value) {
-    // ???
+    return map(
+      value,
+      this.maxPayGap,
+      this.minPayGap,
+      this.layout.topMargin,
+      this.layout.bottomMargin
+    );
   };
 }
