@@ -1,6 +1,6 @@
 function PayGapTimeSeries() {
   // Name for the visualisation to appear in the menu bar.
-  this.name = "Pay gap: 1997-2017";
+  this.name = "Pay Gap: 1997-2017";
 
   // Each visualisation must have a unique ID with no special
   // characters.
