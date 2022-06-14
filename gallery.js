@@ -34,6 +34,7 @@ function Gallery() {
 
     menuItem.mouseClicked(function (e) {
       //remove selected class from any other menu-items
+
       var menuItems = selectAll(".menu-item");
 
       for (var i = 0; i < menuItems.length; i++) {
