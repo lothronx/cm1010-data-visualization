@@ -5,9 +5,8 @@ function SexRatioAtBirth() {
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
   this.description =
     "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
-
   this.xAxisLabel = "year";
-  this.yAxisLabel = "Male births per female birth";
+  this.yAxisLabel = "Male births per 100 female births";
 
   /* Layout ----------------------------------------------------------------------------------*/
   var marginSize = 30;
@@ -52,12 +51,12 @@ function SexRatioAtBirth() {
     textSize(14);
 
     // Set min and max years: assumes data is sorted by date.
-    this.startYear = this.data.getNum(0, "year");
-    this.endYear = this.data.getNum(this.data.getRowCount() - 1, "year");
+    this.startYear = Number(this.data.columns[1]);
+    this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
 
-    // Find min and max pay gap for mapping to canvas height.
-    this.minPercentage = 0; // Pay equality (zero pay gap).
-    this.maxPercentage = max(this.data.getColumn("pay_gap"));
+    // Find min and max percentage for mapping to canvas height.
+    this.minPercentage = 100;
+    this.maxPercentage = 120;
   };
 
   /* Destroy ----------------------------------------------------------------------------------*/
@@ -85,8 +84,7 @@ function SexRatioAtBirth() {
     // Draw x and y axis labels.
     drawAxisLabels(this.xAxisLabel, this.yAxisLabel, this.layout);
 
-    // Plot all pay gaps between startYear and endYear using the width
-    // of the canvas minus margins.
+    // Plot all percentages between startYear and endYear using the width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
 
@@ -102,7 +100,7 @@ function SexRatioAtBirth() {
 
       if (previous != null) {
         // Draw line segment connecting previous year to current
-        // year pay gap.
+        // year percentage.
         stroke(0);
         line(
           this.mapYearToWidth(previous.year),
