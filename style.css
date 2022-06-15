@@ -3,6 +3,38 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+.container {
+  display: grid;
+  grid-template-areas:
+    "menu header"
+    "menu body";
+  grid-template-rows: 10rem 1fr;
+  grid-template-columns: 18rem 1fr;
+}
+
+ul {
+  grid-area: menu;
+  align-self: center;
+}
+
+header {
+  grid-area: header;
+}
+
+canvas {
+  grid-area: body;
+}
+
+h1{
+margin-bottom: 0%;
+text-align: center;
+}
+
+p{
+  text-indent: 2rem;
+  padding: 0 4rem;
+  line-height: 125%;
+}
 .menu-item {
   width: 11rem;
   height: auto;
@@ -15,10 +47,6 @@ body {
 
 li {
   margin: 1rem 0;
-}
-
-.container {
-  display: flex;
 }
 
 .hover {

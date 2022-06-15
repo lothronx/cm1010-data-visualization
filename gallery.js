@@ -83,13 +83,18 @@ function Gallery() {
       // Select the visualisation in the gallery.
       this.selectedVisual = this.visuals[visIndex];
 
+      // Create title.
+      var title = createElement("h1", this.selectedVisual.title);
+      var description = createElement("p", this.selectedVisual.description);
+      select("header").child(title);
+      select("header").child(description);
+
       // Initialise visualisation if necessary.
       if (this.selectedVisual.hasOwnProperty("setup")) {
         this.selectedVisual.setup();
       }
 
-      // Enable animation in case it has been paused by the current
-      // visualisation.
+      // Enable animation in case it has been paused by the current visualisation.
       loop();
     }
   };

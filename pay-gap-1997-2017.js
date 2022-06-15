@@ -86,9 +86,6 @@ function PayGapTimeSeries() {
       return;
     }
 
-    // Draw the title above the plot.
-    this.drawTitle();
-
     // Draw all y-axis labels.
     drawYAxisTickLabels(
       this.minPayGap,
@@ -149,18 +146,6 @@ function PayGapTimeSeries() {
       // position of the next line segment.
       previous = current;
     }
-  };
-
-  this.drawTitle = function () {
-    fill(0);
-    noStroke();
-    textAlign("center", "center");
-
-    text(
-      this.title,
-      this.layout.plotWidth() / 2 + this.layout.leftMargin,
-      this.layout.topMargin - this.layout.marginSize / 2
-    );
   };
 
   this.mapYearToWidth = function (value) {
