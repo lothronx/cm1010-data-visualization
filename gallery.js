@@ -50,6 +50,23 @@ function Gallery() {
     var visMenu = select("#visuals-menu");
     visMenu.child(menuItem);
 
+    // Create title and description.
+    var title = createElement("h1", vis.title);
+    title.addClass(vis.id);
+    select("header").child(title);
+
+    var description = createElement("p", vis.description);
+    description.addClass(vis.id);
+    select("header").child(description);
+
+    // Hide title and description by default.
+    for (let i = 0; i < document.getElementsByTagName("h1").length; i++) {
+      document.getElementsByTagName("h1")[i].style.display = "none";
+    }
+    for (let i = 0; i < document.getElementsByTagName("p").length; i++) {
+      document.getElementsByTagName("p")[i].style.display = "none";
+    }
+
     // Preload data if necessary.
     if (vis.hasOwnProperty("preload")) {
       vis.preload();
@@ -57,8 +74,7 @@ function Gallery() {
   };
 
   this.findVisIndex = function (visId) {
-    // Search through the visualisations looking for one with the id
-    // matching visId.
+    // Search through the visualisations looking for one with the id matching visId.
     for (var i = 0; i < this.visuals.length; i++) {
       if (this.visuals[i].id == visId) {
         return i;
@@ -88,14 +104,18 @@ function Gallery() {
         this.selectedVisual.setup();
       }
 
-      // Create title.
-      var title = createElement("h1", this.selectedVisual.title);
-      title.addClass(this.selectedVisual.id);
-      select("header").child(title);
+      // Only display the selected title and description.
+      for (let i = 0; i < document.getElementsByTagName("h1").length; i++) {
+        document.getElementsByTagName("h1")[i].style.display = "none";
+      }
+      for (let i = 0; i < document.getElementsByTagName("p").length; i++) {
+        document.getElementsByTagName("p")[i].style.display = "none";
+      }
 
-      var description = createElement("p", this.selectedVisual.description);
-      description.addClass(this.selectedVisual.id);
-      select("header").child(description);
+      document.getElementsByClassName(this.selectedVisual.id)[0].style.display =
+        "block";
+      document.getElementsByClassName(this.selectedVisual.id)[1].style.display =
+        "block";
 
       // Enable animation in case it has been paused by the current visualisation.
       loop();
