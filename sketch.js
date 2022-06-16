@@ -5,8 +5,8 @@ var gallery;
 function setup() {
   // Create a canvas to fill the content div from index.html.
   canvasContainer = select("#app");
-  var c = createCanvas(1024, 576);
-  c.parent("app");
+  var c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
+  c.parent("diagram-container");
 
   // Create a new gallery object.
   gallery = new Gallery();
@@ -20,6 +20,10 @@ function setup() {
   gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new GenderRatio());
   gallery.addVisual(new GenderRatioByYear());
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {

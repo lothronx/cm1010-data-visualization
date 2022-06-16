@@ -60,12 +60,7 @@ function Gallery() {
     select("header").child(description);
 
     // Hide title and description by default.
-    for (let i = 0; i < document.getElementsByTagName("h1").length; i++) {
-      document.getElementsByTagName("h1")[i].style.display = "none";
-    }
-    for (let i = 0; i < document.getElementsByTagName("p").length; i++) {
-      document.getElementsByTagName("p")[i].style.display = "none";
-    }
+    document.getElementsByTagName("header")[0].style.display = "none";
 
     // Preload data if necessary.
     if (vis.hasOwnProperty("preload")) {
@@ -105,6 +100,8 @@ function Gallery() {
       }
 
       // Only display the selected title and description.
+      document.getElementsByTagName("header")[0].style.display = "block";
+
       for (let i = 0; i < document.getElementsByTagName("h1").length; i++) {
         document.getElementsByTagName("h1")[i].style.display = "none";
       }

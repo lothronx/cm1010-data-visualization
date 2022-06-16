@@ -9,7 +9,7 @@ function SexRatioAtBirth() {
   this.yAxisLabel = "Male births per 100 female births";
 
   /* Layout ----------------------------------------------------------------------------------*/
-  var marginSize = 30;
+  const marginSize = 30;
   this.layout = {
     marginSize: marginSize,
     leftMargin: marginSize * 2,
@@ -29,7 +29,7 @@ function SexRatioAtBirth() {
     grid: true,
 
     numXTickLabels: 10,
-    numYTickLabels: 8,
+    numYTickLabels: 9,
   };
 
   /* Load Data -------------------------------------------------------------------------------*/
@@ -50,13 +50,20 @@ function SexRatioAtBirth() {
   this.setup = function () {
     textSize(14);
 
-    // Set min and max years: assumes data is sorted by date.
+    // Find start and end years.
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
 
-    // Find min and max percentage for mapping to canvas height.
-    this.minPercentage = 100;
-    this.maxPercentage = 120;
+    // Find min and max Ratio for mapping to canvas height.
+    this.minRatio = 100; //the minimum sex ratio at birth is 100 male per 100 female.
+
+    const allData = [];
+    for (let i = 0; i < this.data.rows.length; i++) {
+      for (let j = 1; j < this.data.columns.length; j++) {
+        allData.push(this.data.getNum(i, j));
+      }
+    }
+    this.maxRatio = ceil(max(allData)) + 1;
   };
 
   /* Destroy ----------------------------------------------------------------------------------*/
@@ -69,44 +76,45 @@ function SexRatioAtBirth() {
       return;
     }
 
-    // Draw all y-axis labels.
-    drawYAxisTickLabels(
-      this.minPercentage,
-      this.maxPercentage,
-      this.layout,
-      this.mapPercentageToHeight.bind(this),
-      0
-    );
-
     // Draw x and y axis.
     drawAxis(this.layout);
 
     // Draw x and y axis labels.
     drawAxisLabels(this.xAxisLabel, this.yAxisLabel, this.layout);
 
-    // Plot all percentages between startYear and endYear using the width of the canvas minus margins.
+    // Draw all y-axis labels.
+    drawYAxisTickLabels(
+      this.minRatio,
+      this.maxRatio,
+      this.layout,
+      this.mapRatioToHeight.bind(this),
+      0
+    );
+
+    // Plot all Ratios between startYear and endYear using the width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
 
-    // Loop over all rows and draw a line from the previous value to
-    // the current.
-    for (var i = 0; i < this.data.getRowCount(); i++) {
-      // Create an object to store data for the current year.
-      var current = {
-        // Convert strings to numbers.
-        year: this.data.getNum(i, "year"),
-        Percentage: this.data.getNum(i, "pay_gap"),
-      };
+    // Loop over all rows and draw a line from the previous value to the current.
+    for (let i = 0; i < this.data.rows.length; i++) {
+      for (var j = 1; j < this.data.columns.length; j++) {
+        // Create an object to store data for the current year.
+        var current = {
+          // Convert strings to numbers.
+          year: this.data.getNum(j, "year"),
+          Ratio: this.data.getNum(j, "pay_gap"),
+        };
+      }
 
       if (previous != null) {
         // Draw line segment connecting previous year to current
-        // year percentage.
+        // year Ratio.
         stroke(0);
         line(
           this.mapYearToWidth(previous.year),
-          this.mapPercentageToHeight(previous.Percentage),
+          this.mapRatioToHeight(previous.Ratio),
           this.mapYearToWidth(current.year),
-          this.mapPercentageToHeight(current.Percentage)
+          this.mapRatioToHeight(current.Ratio)
         );
 
         // The number of x-axis labels to skip so that only
@@ -138,13 +146,13 @@ function SexRatioAtBirth() {
     );
   };
 
-  this.mapPercentageToHeight = function (value) {
+  this.mapRatioToHeight = function (value) {
     return map(
       value,
-      this.minPercentage,
-      this.maxPercentage,
-      this.layout.bottomMargin, // Lower percentage at bottom.
-      this.layout.topMargin // Higher percentage at top.
+      this.minRatio,
+      this.maxRatio,
+      this.layout.bottomMargin, // Lower Ratio at bottom.
+      this.layout.topMargin // Higher Ratio at top.
     );
   };
 }
