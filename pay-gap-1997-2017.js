@@ -1,28 +1,18 @@
 function PayGapTimeSeries() {
-  // Name for the visualisation to appear in the menu bar.
+  /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Pay Gap: 1997-2017";
-
-  // Each visualisation must have a unique ID with no special
-  // characters.
   this.id = "pay-gap-timeseries";
-
-  // Title to display above the plot.
-  this.title =
-    "Gender Pay Gap: Average difference between male and female pay.";
-
-  // Names for each axis.
+  this.title = "Gender Pay Gap: Average difference between male and female pay";
+  this.description =
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
   this.xAxisLabel = "year";
   this.yAxisLabel = "%";
 
+  /* Layout ----------------------------------------------------------------------------------*/
   var marginSize = 35;
 
-  // Layout object to store all common plot layout parameters and
-  // methods.
   this.layout = {
     marginSize: marginSize,
-
-    // Locations of margin positions. Left and bottom have double margin
-    // size due to axis and tick labels.
     leftMargin: marginSize * 2,
     rightMargin: width - marginSize,
     topMargin: marginSize,
@@ -37,34 +27,27 @@ function PayGapTimeSeries() {
       return this.bottomMargin - this.topMargin;
     },
 
-    // Boolean to enable/disable background grid.
     grid: true,
 
-    // Number of axis tick labels to draw so that they are not drawn on
-    // top of one another.
     numXTickLabels: 10,
     numYTickLabels: 8,
   };
 
-  // Property to represent whether data has been loaded.
+  /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
-
-  // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/pay-gap/all-employees-hourly-pay-by-gender-1997-2017.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
       function (table) {
         self.loaded = true;
       }
     );
   };
 
+  /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
     // Font defaults.
     textSize(16);
@@ -78,8 +61,10 @@ function PayGapTimeSeries() {
     this.maxPayGap = max(this.data.getColumn("pay_gap"));
   };
 
+  /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {};
 
+  /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");

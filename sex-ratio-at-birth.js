@@ -62,7 +62,7 @@ function SexRatioAtBirth() {
   /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {};
 
-  /* Draw ----------------------------------------------------------------------------------*/
+  /* Draw ------------------------------------------------------------------------------------*/
   this.draw = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");
@@ -127,6 +127,7 @@ function SexRatioAtBirth() {
     }
   };
 
+  /* Helper Functions -------------------------------------------------------------------------*/
   this.mapYearToWidth = function (value) {
     return map(
       value,

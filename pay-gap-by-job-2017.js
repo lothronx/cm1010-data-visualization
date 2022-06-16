@@ -1,39 +1,37 @@
 function PayGapByJob2017() {
-  // Name for the visualisation to appear in the menu bar.
+  /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Pay Gap by Job: 2017";
-
-  // Each visualisation must have a unique ID with no special
-  // characters.
   this.id = "pay-gap-by-job-2017";
+  this.title = "Occupation Hourly Pay by Gender 2017";
+  this.description =
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
 
-  // Property to represent whether data has been loaded.
-  this.loaded = false;
-
-  // Graph properties.
+  /* Layout ----------------------------------------------------------------------------------*/
   this.pad = 20;
   this.dotSizeMin = 15;
   this.dotSizeMax = 40;
 
-  // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
+  /* Load Data -------------------------------------------------------------------------------*/
+  this.loaded = false;
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/pay-gap/occupation-hourly-pay-by-gender-2017.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
       function (table) {
         self.loaded = true;
       }
     );
   };
 
+  /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {};
 
+  /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {};
 
+  /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");

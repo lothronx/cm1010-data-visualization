@@ -1,24 +1,17 @@
 function ClimateChange() {
-  // Name for the visualisation to appear in the menu bar.
+  /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Climate Change";
-
-  // Each visualisation must have a unique ID with no special
-  // characters.
   this.id = "climate-change";
-
-  // Names for each axis.
+  this.title = "Global Climate Change 1880-2018";
+  this.description =
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
   this.xAxisLabel = "year";
   this.yAxisLabel = "℃";
 
+  /* Layout ----------------------------------------------------------------------------------*/
   var marginSize = 35;
-
-  // Layout object to store all common plot layout parameters and
-  // methods.
   this.layout = {
     marginSize: marginSize,
-
-    // Locations of margin positions. Left and bottom have double margin
-    // size due to axis and tick labels.
     leftMargin: marginSize * 2,
     rightMargin: width - marginSize,
     topMargin: marginSize,
@@ -33,36 +26,28 @@ function ClimateChange() {
       return this.bottomMargin - this.topMargin;
     },
 
-    // Boolean to enable/disable background grid.
     grid: false,
 
-    // Number of axis tick labels to draw so that they are not drawn on
-    // top of one another.
     numXTickLabels: 8,
     numYTickLabels: 8,
   };
 
-  // Property to represent whether data has been loaded.
+  /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
-
-  // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/surface-temperature/surface-temperature.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
       function (table) {
         self.loaded = true;
       }
     );
   };
 
+  /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
-    // Font defaults.
     textSize(16);
     textAlign("center", "center");
 
@@ -77,12 +62,10 @@ function ClimateChange() {
     // Find mean temperature to plot average marker.
     this.meanTemperature = mean(this.data.getColumn("temperature"));
 
-    // Count the number of frames drawn since the visualisation
-    // started so that we can animate the plot.
+    // Count the number of frames drawn since the visualisation started so that we can animate the plot.
     this.frameCount = 0;
 
-    // Create sliders to control start and end years. Default to
-    // visualise full range.
+    // Create sliders to control start and end years. Default to visualise full range.
     this.startSlider = createSlider(
       this.minYear,
       this.maxYear - 1,
@@ -100,11 +83,13 @@ function ClimateChange() {
     this.endSlider.position(600, 10);
   };
 
+  /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {
     this.startSlider.remove();
     this.endSlider.remove();
   };
 
+  /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");

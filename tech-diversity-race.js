@@ -1,30 +1,26 @@
 function TechDiversityRace() {
-  // Name for the visualisation to appear in the menu bar.
+  /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Tech Diversity: Race";
-
-  // Each visualisation must have a unique ID with no special
-  // characters.
   this.id = "tech-diversity-race";
+  this.title = "Race Diversity in Major Tech Companies";
+  this.description =
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
 
-  // Property to represent whether data has been loaded.
+  /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
-
-  // Preload the data. This function is called automatically by the
-  // gallery when a visualisation is added.
   this.preload = function () {
     var self = this;
     this.data = loadTable(
       "./data/tech-diversity/race-2018.csv",
       "csv",
       "header",
-      // Callback function to set the value
-      // this.loaded to true.
       function (table) {
         self.loaded = true;
       }
     );
   };
 
+  /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");
@@ -43,10 +39,12 @@ function TechDiversityRace() {
     }
   };
 
+  /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {
     this.select.remove();
   };
 
+  /* Draw ----------------------------------------------------------------------------------*/
   // Create a new pie chart object.
   this.pie = new PieChart(width / 2, height / 2, width * 0.4);
 
