@@ -66,13 +66,17 @@ function ClimateChange() {
     this.frameCount = 0;
 
     // Create sliders to control start and end years. Default to visualise full range.
+    var inputContainer = createElement("div");
+    inputContainer.attribute("id", "input");
+    inputContainer.parent("diagram-container");
+    
     this.startSlider = createSlider(
       this.minYear,
       this.maxYear - 1,
       this.minYear,
       1
     );
-    this.startSlider.position(400, 10);
+    this.startSlider.parent("input");
 
     this.endSlider = createSlider(
       this.minYear + 1,
@@ -80,7 +84,7 @@ function ClimateChange() {
       this.maxYear,
       1
     );
-    this.endSlider.position(600, 10);
+    this.endSlider.parent("input");
   };
 
   /* Destroy ----------------------------------------------------------------------------------*/

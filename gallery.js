@@ -53,11 +53,11 @@ function Gallery() {
     // Create title and description.
     var title = createElement("h1", vis.title);
     title.addClass(vis.id);
-    select("header").child(title);
+    title.parent("title");
 
     var description = createElement("p", vis.description);
     description.addClass(vis.id);
-    select("header").child(description);
+    description.parent("title");
 
     // Hide title and description by default.
     document.getElementsByTagName("header")[0].style.display = "none";
