@@ -3,8 +3,7 @@ function ClimateChange() {
   this.name = "Climate Change";
   this.id = "climate-change";
   this.title = "Global Climate Change 1880-2018";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
+  
   this.xAxisLabel = "year";
   this.yAxisLabel = "℃";
 

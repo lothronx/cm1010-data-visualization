@@ -3,8 +3,6 @@ function PayGapTimeSeries() {
   this.name = "Pay Gap: 1997-2017";
   this.id = "pay-gap-timeseries";
   this.title = "Gender Pay Gap: Average difference between male and female pay";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
   this.xAxisLabel = "year";
   this.yAxisLabel = "%";
 

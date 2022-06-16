@@ -3,8 +3,6 @@ function TechDiversityRace() {
   this.name = "Tech Diversity: Race";
   this.id = "tech-diversity-race";
   this.title = "Race Diversity in Major Tech Companies";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;

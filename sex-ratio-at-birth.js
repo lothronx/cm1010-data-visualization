@@ -1,14 +1,12 @@
 function SexRatioAtBirth() {
-  /* Basic Information -------------------------------------------------------------------------*/
+  /* Basic Information ----------------------------------------------------------------------*/
   this.name = "Global Sex Ratio at Birth";
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
   this.xAxisLabel = "year";
   this.yAxisLabel = "Male births per 100 female births";
 
-  /* Load Data -------------------------------------------------------------------------------*/
+  /* Load Data ------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
     var self = this;
@@ -81,6 +79,23 @@ function SexRatioAtBirth() {
     // Draw x and y axis labels.
     drawAxisLabels(this.xAxisLabel, this.yAxisLabel, this.layout);
 
+    // Draw all x-axis labels.
+    var numYears = this.endYear - this.startYear;
+    var yearGap = ceil(numYears / this.layout.numXTickLabels);
+    for (let i = 0; i < this.data.columns.length; i++) {
+      for (let j = 0; j < this.data.columns.length; j++)
+        if (
+          this.data.columns[i] == this.startYear + yearGap * j ||
+          this.data.columns[i] == this.endYear
+        ) {
+          drawXAxisTickLabel(
+            Number(this.data.columns[i]),
+            this.layout,
+            this.mapYearToWidth.bind(this)
+          );
+        }
+    }
+
     // Draw all y-axis labels.
     drawYAxisTickLabels(
       this.minRatio,
@@ -94,28 +109,13 @@ function SexRatioAtBirth() {
     for (let i = 0; i < this.data.rows.length; i++) {
       var previous = null;
       var country = this.data.getRow(i);
+
       for (var j = 1; j < this.data.columns.length; j++) {
         // Create an object to store data for the current year.
         var current = {
           year: Number(this.data.columns[j]),
           Ratio: country.getNum(j),
         };
-
-        // Draw all x-axis labels.
-        var numYears = this.endYear - this.startYear;
-        var yearGap = ceil(numYears / this.layout.numXTickLabels);
-        for (let k = 0; k < this.layout.numXTickLabels; k++) {
-          if (
-            current.year == this.startYear + yearGap * k ||
-            current.year == this.endYear
-          ) {
-            drawXAxisTickLabel(
-              current.year,
-              this.layout,
-              this.mapYearToWidth.bind(this)
-            );
-          }
-        }
 
         // Draw line segment connecting previous year's data to current year's.
         if (previous != null) {
@@ -127,12 +127,21 @@ function SexRatioAtBirth() {
             this.mapRatioToHeight(current.Ratio)
           );
         }
+
+        // Draw dots representing each data.
+        strokeWeight(3);
+        point(
+          this.mapYearToWidth(current.year),
+          this.mapRatioToHeight(current.Ratio)
+        );
+        strokeWeight(1);
+
         previous = current;
       }
     }
   };
 
-  /* Helper Functions -------------------------------------------------------------------------*/
+  /* Helper Functions -----------------------------------------------------------------------*/
   this.mapYearToWidth = function (value) {
     return map(
       value,
