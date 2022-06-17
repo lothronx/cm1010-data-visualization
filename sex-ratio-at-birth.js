@@ -16,7 +16,7 @@ function SexRatioAtBirth() {
       "./data/global-sex-ratio/global-sex-ratio-1962-2020.csv",
       "csv",
       "header",
-      function (table) {
+      function () {
         self.loaded = true;
       }
     );
@@ -67,15 +67,11 @@ function SexRatioAtBirth() {
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
 
-    // Find min and max Ratio for mapping to canvas height.
-    const allData = [];
-    for (let i = 0; i < this.data.rows.length; i++) {
-      for (let j = 1; j < this.data.columns.length; j++) {
-        allData.push(this.data.getNum(i, j));
-      }
-    }
-    this.minRatio = floor(min(allData));
-    this.maxRatio = ceil(max(allData)) + 1;
+    // Find min and max Ratio by putting all data (filtering country names out) in an one dimensional array.
+    const allData = this.data.getArray().reduce((a, c) => a.concat(c));
+    const filteredData = allData.filter((data) => data >= 0);
+    this.minRatio = floor(min(filteredData));
+    this.maxRatio = ceil(max(filteredData)) + 1;
   };
 
   /* Destroy --------------------------------------------------------------------------------*/
@@ -92,6 +88,7 @@ function SexRatioAtBirth() {
     textSize(16);
     textAlign(CENTER);
     textStyle(NORMAL);
+
     // Draw x and y axis.
     drawAxis(this.layout, 0);
 
@@ -102,19 +99,12 @@ function SexRatioAtBirth() {
     textSize(14);
     const numYears = this.endYear - this.startYear;
     const yearGap = ceil(numYears / this.layout.numXTickLabels);
-    for (let i = 0; i < this.data.columns.length; i++) {
-      for (let j = 0; j < this.data.columns.length; j++)
-        if (
-          this.data.columns[i] == this.startYear + yearGap * j ||
-          this.data.columns[i] == this.endYear
-        ) {
-          drawXAxisTickLabel(
-            Number(this.data.columns[i]),
-            this.layout,
-            this.mapYearToWidth.bind(this)
-          );
-        }
-    }
+    const yearLabels = this.data.columns.filter(
+      (year) => (year - this.startYear) % yearGap == 0 || year == this.endYear
+    );
+    yearLabels.forEach((yearLabel) =>
+      drawXAxisTickLabel(yearLabel, this.layout, this.mapYearToWidth.bind(this))
+    );
 
     // Draw all y-axis labels.
     drawYAxisTickLabels(
@@ -125,17 +115,24 @@ function SexRatioAtBirth() {
       0
     );
 
-    // Loop over all rows. In each row draw a line from the previous value to the current.
-    for (let i = 0; i < this.data.rows.length; i++) {
+    // Loop over all rows (countries). In each row (country) draw a line from the previous value to the current.
+    this.data.rows.forEach((country, i) => {
       let previous = null;
 
-      let country = this.data.getRow(i);
-      for (let j = 1; j < this.data.columns.length; j++) {
+      const years = this.data.columns.filter((value) => value != "");
+      years.forEach((year, j) => {
         // Create an object to store data for the current year.
         let current = {
-          year: Number(this.data.columns[j]),
-          Ratio: country.getNum(j),
+          year: year,
+          Ratio: country.getNum(j + 1),
         };
+
+        // Draw dots representing each data.
+        strokeWeight(4);
+        point(
+          this.mapYearToWidth(current.year),
+          this.mapRatioToHeight(current.Ratio)
+        );
 
         // Draw line segment connecting previous year's data to current year's.
         if (previous != null) {
@@ -149,15 +146,8 @@ function SexRatioAtBirth() {
           );
         }
 
-        // Draw dots representing each data.
-        strokeWeight(4);
-        point(
-          this.mapYearToWidth(current.year),
-          this.mapRatioToHeight(current.Ratio)
-        );
-
         // Draw country names.
-        let name = country.getString(0);
+        let countryName = country.get(0);
         if (current.year == this.endYear) {
           noStroke();
           fill(colors[i]);
@@ -165,15 +155,15 @@ function SexRatioAtBirth() {
           textAlign(LEFT);
           textStyle(BOLD);
           text(
-            name,
+            countryName,
             this.mapYearToWidth(current.year) + 10,
             this.mapRatioToHeight(current.Ratio)
           );
         }
 
         previous = current;
-      }
-    }
+      });
+    });
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
