@@ -3,7 +3,6 @@ function ClimateChange() {
   this.name = "Climate Change";
   this.id = "climate-change";
   this.title = "Global Climate Change 1880-2018";
-  
   this.xAxisLabel = "year";
   this.yAxisLabel = "℃";
 
@@ -68,7 +67,7 @@ function ClimateChange() {
     var inputContainer = createElement("div");
     inputContainer.attribute("id", "input");
     inputContainer.parent("diagram-container");
-    
+
     this.startSlider = createSlider(
       this.minYear,
       this.maxYear - 1,
@@ -131,14 +130,12 @@ function ClimateChange() {
       this.mapTemperatureToHeight(this.meanTemperature)
     );
 
-    // Plot all temperatures between startYear and endYear using the
-    // width of the canvas minus margins.
+    // Plot all temperatures between startYear and endYear using the width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
     var segmentWidth = this.layout.plotWidth() / numYears;
 
-    // Count the number of years plotted each frame to create
-    // animation effect.
+    // Count the number of years plotted each frame to create animation effect.
     var yearCount = 0;
 
     // Loop over all rows but only plot those in range.
@@ -155,8 +152,7 @@ function ClimateChange() {
         current.year > this.startYear &&
         current.year <= this.endYear
       ) {
-        // Draw background gradient to represent colour temperature of
-        // the current year.
+        // Draw background gradient to represent colour temperature of the current year.
         noStroke();
         fill(this.mapTemperatureToColour(current.temperature));
         rect(
@@ -166,8 +162,7 @@ function ClimateChange() {
           this.layout.plotHeight()
         );
 
-        // Draw line segment connecting previous year to current
-        // year temperature.
+        // Draw line segment connecting previous year to current year temperature.
         stroke(0);
         line(
           this.mapYearToWidth(previous.year),
@@ -176,8 +171,7 @@ function ClimateChange() {
           this.mapTemperatureToHeight(current.temperature)
         );
 
-        // The number of x-axis labels to skip so that only
-        // numXTickLabels are drawn.
+        // The number of x-axis labels to skip so that only numXTickLabels are drawn.
         var xLabelSkip = ceil(numYears / this.layout.numXTickLabels);
 
         // Draw the tick label marking the start of the previous year.
@@ -189,8 +183,7 @@ function ClimateChange() {
           );
         }
 
-        // When six or fewer years are displayed also draw the final
-        // year x tick label.
+        // When six or fewer years are displayed also draw the final year x tick label.
         if (numYears <= 6 && yearCount == numYears - 1) {
           drawXAxisTickLabel(
             current.year,
@@ -202,9 +195,7 @@ function ClimateChange() {
         yearCount++;
       }
 
-      // Stop drawing this frame when the number of years drawn is
-      // equal to the frame count. This creates the animated effect
-      // over successive frames.
+      // Stop drawing this frame when the number of years drawn is equal to the frame count. This creates the animated effect over successive frames.
       if (yearCount >= this.frameCount) {
         break;
       }
