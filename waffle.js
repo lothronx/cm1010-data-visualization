@@ -1,7 +1,7 @@
 function Waffle(x, y, size, table, columnHeading) {
   const boxesEachLine = 10;
 
-  // Get information from the table to prepare for the categories.
+  // Get necessary information from the table.
   const labels = table.getColumn(0).filter((value) => value != "");
   let percentage = table.getColumn(columnHeading);
   const colors = [
@@ -25,25 +25,25 @@ function Waffle(x, y, size, table, columnHeading) {
   // Boxes is an array of all boxes.
   const boxSize = size / boxesEachLine;
   const boxAmount = pow(boxesEachLine, 2); // The total amount of boxes is 100 in this case.
+  let categoryIndex = 0;
+  let boxesEachCategory = 0;
+
   // Make 100 empty boxes first.
   const boxes = Array.from(Array(boxAmount), () => new Box(0, 0, boxSize, {}));
+
   // Give value to each box.
   boxes.forEach((box, i) => {
     box.x = x + boxSize * (i % boxesEachLine);
     box.y = y + boxSize * floor(i / boxesEachLine);
   });
   for (i = 0; i < boxAmount; i++) {
-    let categoryIndex = 0;
-    let boxesInCategory = 0;
-    if (boxesInCategory == categories[categoryIndex].number) {
-      boxesInCategory = 0;
+    if (boxesEachCategory == categories[categoryIndex].number) {
+      boxesEachCategory = 0;
       categoryIndex++;
     }
     boxes[i].category = categories[categoryIndex];
-    boxesInCategory++;
+    boxesEachCategory++;
   }
-
-  console.log(boxes);
 
   // Draw the waffle chart
   this.draw = function () {};
