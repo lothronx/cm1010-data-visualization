@@ -77,7 +77,7 @@ function TechDiversityWaffle() {
     let company2 = this.select2.value();
 
     // Draw the waffle chart
-    this.waffle = new Waffle(0, 0, width * 0.4, this.data, company1);
-    // this.waffle.draw();
+    this.waffle = new Waffle(100, 100, 500, this.data, company1);
+    this.waffle.draw();
   };
 }
