@@ -68,7 +68,7 @@ function ClimateChange() {
     inputContainer.attribute("id", "input");
     inputContainer.parent("diagram-container");
 
-    this.startSliderText = createElement("h5", "Start year:");
+    this.startSliderText = createElement("h4", "Start year:");
     this.startSliderText.parent("input");
 
     this.startSlider = createSlider(
@@ -79,7 +79,7 @@ function ClimateChange() {
     );
     this.startSlider.parent("input");
 
-    this.endSliderText = createElement("h5", "End year:");
+    this.endSliderText = createElement("h4", "End year:");
     this.endSliderText.parent("input");
 
     this.endSlider = createSlider(

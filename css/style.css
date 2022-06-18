@@ -37,7 +37,11 @@ input {
   margin: 2rem 1rem;
 }
 
-h5 {
+select {
+  margin: 1.5rem 0.5rem;
+}
+
+h4 {
   margin: 2rem 0 2rem 2rem;
 }
 

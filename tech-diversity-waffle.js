@@ -25,39 +25,47 @@ function TechDiversityWaffle() {
       return;
     }
 
-    // Create a select DOM element.
+    this.colors = [
+      color(11, 50, 107), //blue
+      color(245, 189, 66), //yellow
+      color(176, 153, 119), //khaki
+      color(130, 119, 117), //brown
+      color(241, 199, 221), //pink
+      color(123, 203, 192), //cyan
+    ];
+
+    // Create the DOM element container
     var inputContainer = createElement("div");
     inputContainer.attribute("id", "input");
     inputContainer.parent("diagram-container");
 
+    // Create the text.
+    this.selectText = createElement("h4", "Employee diversity at");
+    this.selectText.parent("input");
+
+    // Create the select DOM element.
     this.select = createSelect();
     this.select.parent("input");
 
     // Fill the options with all company names.
-    var companies = this.data.columns;
-    // First entry is empty.
-    for (let i = 1; i < companies.length; i++) {
-      this.select.option(companies[i]);
-    }
+    var companyNames = this.data.columns.filter((value) => value != "");
+    companyNames.forEach((companyName) => this.select.option(companyName));
   };
 
-  /* Destroy ----------------------------------------------------------------------------------*/
+  /* Destroy ---------------------------------------------------------------------------------*/
   this.destroy = function () {
     this.select.remove();
+    this.selectText.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
-  // Create a new pie chart object.
-  this.pie = new PieChart(width / 2, height / 2, width * 0.4);
-
   this.draw = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");
       return;
     }
 
-    // Get the value of the company we're interested in from the
-    // select item.
+    // Get the value of the company we're interested in from the select item.
     var companyName = this.select.value();
 
     // Get the column of raw data for companyName.
@@ -68,14 +76,5 @@ function TechDiversityWaffle() {
 
     // Copy the row labels from the table (the first item of each row).
     var labels = this.data.getColumn(0);
-
-    // Colour to use for each category.
-    var colours = ["blue", "red", "green", "pink", "purple", "yellow"];
-
-    // Make a title.
-    var title = "Employee diversity at " + companyName;
-
-    // Draw the pie chart!
-    this.pie.draw(col, labels, colours, title);
   };
 }
