@@ -78,6 +78,6 @@ function TechDiversityWaffle() {
 
     // Draw the waffle chart
     this.waffle = new Waffle(0, 0, width * 0.4, this.data, company1);
-   // this.waffle.draw();
+    // this.waffle.draw();
   };
 }

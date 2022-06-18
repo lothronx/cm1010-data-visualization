@@ -63,6 +63,7 @@ function SexRatioAtBirth() {
       color(11, 50, 107), //blue
       color(183, 204, 148), //green
     ];
+    
     // Find start and end years.
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
