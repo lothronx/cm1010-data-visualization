@@ -30,7 +30,7 @@ function TechDiversityWaffle() {
     inputContainer.attribute("id", "input");
     inputContainer.parent("diagram-container");
 
-    // Create the text.
+    // Create some text.
     this.selectText1 = createElement(
       "h4",
       "Compare employee race diversity between"
@@ -41,7 +41,7 @@ function TechDiversityWaffle() {
     this.select1 = createSelect();
     this.select1.parent("input");
 
-    // Create the text.
+    // Create some text.
     this.selectText2 = createElement("h4", "&");
     this.selectText2.parent("input");
 
@@ -85,6 +85,7 @@ function TechDiversityWaffle() {
       company1
     );
     this.waffle1.draw();
+    this.waffle1.checkMouse(mouseX, mouseY);
 
     // Draw the second waffle chart.
     this.waffle2 = new Waffle(
@@ -95,7 +96,7 @@ function TechDiversityWaffle() {
       company2
     );
     this.waffle2.draw();
-
+    this.waffle2.checkMouse(mouseX, mouseY);
     // some text
     fill(50);
     textAlign(CENTER);

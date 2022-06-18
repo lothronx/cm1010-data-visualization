@@ -54,9 +54,27 @@ function Waffle(x, y, size, table, columnHeading) {
 
   /* Draw the waffle chart -------------------------------------------------------------------*/
   this.draw = function () {
-    for (let i = 0; i < boxesEachLine; i++) {
-      for (let j = 0; j < boxesEachLine; j++) {
-        boxes[i][j].draw();
+    boxes.forEach((boxes) => {
+      boxes.forEach((box) => box.draw());
+    });
+  };
+
+  this.checkMouse = function (mouseX, mouseY) {
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = 0; j < boxes[i].length; j++) {
+        let mouseOver = boxes[i][j].mouseOver(mouseX, mouseY);
+        if (mouseOver) {
+          push();
+          fill(120);
+          textSize(14);
+          textAlign(LEFT, TOP);
+          rect(mouseX, mouseY, textWidth(mouseOver.label) + 20, -40, 8);
+          fill(255);
+          text(mouseOver.label, mouseX + 10, mouseY - 35);
+          text(mouseOver.number + "%", mouseX + 10, mouseY - 19);
+          pop();
+          break;
+        }
       }
     }
   };
@@ -64,6 +82,15 @@ function Waffle(x, y, size, table, columnHeading) {
 
 /* Box Constructor Function ------------------------------------------------------------------*/
 function Box(x, y, size, category) {
+  this.category = category;
+
+  this.mouseOver = function (mouseX, mouseY) {
+    if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + size) {
+      return this.category;
+    }
+    return false;
+  };
+
   this.draw = function () {
     noStroke();
     fill(category.color);
