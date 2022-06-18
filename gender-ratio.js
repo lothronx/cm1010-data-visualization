@@ -1,6 +1,6 @@
 function GenderRatio() {
   /* Basic Information -------------------------------------------------------------------------*/
-  this.name = "Gender Ratio in China";
+  this.name = "Gender Ratio in China (Dumbbell Plot)";
   this.id = "gender-ratio";
   this.title =
     "Those Left Behind: Gender Ratio in Urban, Town, and Rural China 2020";

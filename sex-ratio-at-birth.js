@@ -1,6 +1,6 @@
 function SexRatioAtBirth() {
   /* Basic Information ----------------------------------------------------------------------*/
-  this.name = "Global Sex Ratio at Birth";
+  this.name = "Global Sex Ratio at Birth (Line Chart Series)";
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
   this.description =
@@ -52,16 +52,16 @@ function SexRatioAtBirth() {
     textSize(14);
     colors = [
       color(0, 0, 0),
-      color(227, 51, 126),
-      color(240, 81, 41),
-      color(241, 199, 221),
-      color(130, 119, 117),
-      color(245, 189, 66),
-      color(176, 153, 119),
-      color(150, 110, 172),
-      color(123, 203, 192),
-      color(11, 50, 107),
-      color(183, 204, 148),
+      color(227, 51, 126), //red
+      color(240, 81, 41), //orange
+      color(241, 199, 221), //pink
+      color(130, 119, 117), //brown
+      color(245, 189, 66), //yellow
+      color(176, 153, 119), //khaki
+      color(150, 110, 172), //purple
+      color(123, 203, 192), //cyan
+      color(11, 50, 107), //blue
+      color(183, 204, 148), //green
     ];
     // Find start and end years.
     this.startYear = Number(this.data.columns[1]);

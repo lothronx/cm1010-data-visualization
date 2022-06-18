@@ -1,6 +1,6 @@
 function GenderRatioByYear() {
   /* Basic Information -------------------------------------------------------------------------*/
-  this.name = "Gender Ratio in China: 1998-2020";
+  this.name = "Gender Ratio in China: 1998-2020 (Map)";
   this.id = "gender-ratio-by-year";
   this.title = "The Missing Girl: Gender Ratio in China (1998-2020)";
   this.description =
