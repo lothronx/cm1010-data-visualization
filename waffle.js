@@ -25,7 +25,7 @@ function Waffle(x, y, size, table, columnHeading) {
   /* Boxes is an array of all boxes. ---------------------------------------------------------*/
   const boxSize = size / boxesEachLine;
   const boxAmount = pow(boxesEachLine, 2); // The total amount of boxes is 100 in this case.
-  const boxes = Array.from(Array(boxAmount), () => new Box(0, 0, boxSize, {})); // Make 100 empty boxes first.
+  const boxes = Array.from(Array(boxAmount), () => new Box(x, y, boxSize, {})); // Make 100 empty boxes first.
   assignValueToBoxes();
 
   function assignValueToBoxes() {
@@ -36,7 +36,7 @@ function Waffle(x, y, size, table, columnHeading) {
 
     let categoryIndex = 0;
     let boxesEachCategory = 0;
-    for (i = 0; i < boxAmount; i++) {
+    for (let i = 0; i < boxAmount; i++) {
       if (boxesEachCategory == categories[categoryIndex].number) {
         boxesEachCategory = 0;
         categoryIndex++;
@@ -45,20 +45,19 @@ function Waffle(x, y, size, table, columnHeading) {
       boxesEachCategory++;
     }
   }
-  
+
   /* Draw the waffle chart -------------------------------------------------------------------*/
   this.draw = function () {
-    boxes.forEach((box) => box.draw());
+    for (let i = 0; i < boxAmount; i++) {
+      boxes[i].draw();
+    }
   };
 }
 
 function Box(x, y, size, category) {
-  this.x = x;
-  this.y = y;
-  this.category = category;
   this.draw = function () {
     noStroke();
-    fill(0);
+    fill(category.color);
     square(x, y, size, size / 4);
   };
 }
