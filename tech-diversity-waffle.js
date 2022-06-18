@@ -76,8 +76,32 @@ function TechDiversityWaffle() {
     let company1 = this.select1.value();
     let company2 = this.select2.value();
 
-    // Draw the waffle chart
-    this.waffle = new Waffle(100, 100, 500, this.data, company1);
-    this.waffle.draw();
+    // Draw the first waffle chart.
+    this.waffle1 = new Waffle(
+      width * 0.05,
+      50,
+      width * 0.4,
+      this.data,
+      company1
+    );
+    this.waffle1.draw();
+
+    // Draw the second waffle chart.
+    this.waffle2 = new Waffle(
+      width * 0.55,
+      50,
+      width * 0.4,
+      this.data,
+      company2
+    );
+    this.waffle2.draw();
+
+    // some text
+    fill(50);
+    textAlign(CENTER);
+    textSize(20);
+    text(company1, width * 0.25, 80 + width * 0.4);
+    text(company2, width * 0.75, 80 + width * 0.4);
+    text("VS", width * 0.5, 50 + width * 0.2);
   };
 }

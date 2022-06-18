@@ -24,6 +24,7 @@ function Waffle(x, y, size, table, columnHeading) {
 
   /* Boxes is a 2D array of all boxes. -------------------------------------------------------*/
   let boxes = [];
+
   function addBoxes() {
     let categoryIndex = 0;
     let boxesEachCategory = 0;
@@ -48,6 +49,7 @@ function Waffle(x, y, size, table, columnHeading) {
       }
     }
   }
+
   addBoxes();
 
   /* Draw the waffle chart -------------------------------------------------------------------*/
@@ -60,6 +62,7 @@ function Waffle(x, y, size, table, columnHeading) {
   };
 }
 
+/* Box Constructor Function ------------------------------------------------------------------*/
 function Box(x, y, size, category) {
   this.draw = function () {
     noStroke();
