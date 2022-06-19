@@ -36,7 +36,7 @@ function PayGapTimeSeries() {
   this.preload = function () {
     var self = this;
     this.data = loadTable(
-      "./data/pay-gap/all-employees-hourly-pay-by-gender-1997-2017.csv",
+      "/data/pay-gap/all-employees-hourly-pay-by-gender-1997-2017.csv",
       "csv",
       "header",
       function (table) {

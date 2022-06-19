@@ -11,7 +11,7 @@ function GenderRatio() {
   this.loaded = false;
   this.preload = function () {
     this.data = loadTable(
-      "./data/china-gender-ratio/china-gender-ratio-2020.csv",
+      "/data/china-gender-ratio/china-gender-ratio-2020.csv",
       "csv",
       "header",
       () => (this.loaded = true)

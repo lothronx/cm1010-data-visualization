@@ -35,7 +35,7 @@ function ClimateChange() {
   this.preload = function () {
     var self = this;
     this.data = loadTable(
-      "./data/surface-temperature/surface-temperature.csv",
+      "/data/surface-temperature/surface-temperature.csv",
       "csv",
       "header",
       function (table) {

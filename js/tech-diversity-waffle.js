@@ -8,7 +8,7 @@ function TechDiversityWaffle() {
   this.loaded = false;
   this.preload = function () {
     this.data = loadTable(
-      "./data/tech-diversity/race-2018.csv",
+      "/data/tech-diversity/race-2018.csv",
       "csv",
       "header",
       () => (this.loaded = true)

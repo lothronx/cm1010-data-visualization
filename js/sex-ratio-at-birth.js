@@ -12,7 +12,7 @@ function SexRatioAtBirth() {
   this.loaded = false;
   this.preload = function () {
     this.data = loadTable(
-      "./data/global-sex-ratio/global-sex-ratio-1962-2020.csv",
+      "/data/global-sex-ratio/global-sex-ratio-1962-2020.csv",
       "csv",
       "header",
       () => (this.loaded = true)

@@ -10,10 +10,16 @@ function GenderRatioByYear() {
   this.loaded = false;
   this.preload = function () {
     this.data = loadTable(
-      "./data/china-gender-ratio/china-gender-ratio-1998-2020.csv",
+      "/data/china-gender-ratio/china-gender-ratio-1998-2020.csv",
       "csv",
       "header",
       () => (this.loaded = true)
     );
+    this.map = loadImage("data/china-gender-ratio/chinaLow.svg");
+  };
+  this.setup = function () {};
+  this.destroy = function () {};
+  this.draw = function () {
+    image(this.map, 0, 0);
   };
 }
