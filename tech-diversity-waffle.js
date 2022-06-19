@@ -55,6 +55,8 @@ function TechDiversityWaffle() {
       this.select1.option(companyName);
       this.select2.option(companyName);
     });
+    this.select1.selected("Apple");
+    this.select2.selected("Google");
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -97,6 +99,7 @@ function TechDiversityWaffle() {
     );
     this.waffle2.draw();
     this.waffle2.checkMouse(mouseX, mouseY);
+
     // some text
     fill(50);
     textAlign(CENTER);

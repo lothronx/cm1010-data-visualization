@@ -59,6 +59,7 @@ function Waffle(x, y, size, table, columnHeading) {
     });
   };
 
+  /* Interactivity ---------------------------------------------------------------------------*/
   this.checkMouse = function (mouseX, mouseY) {
     for (let i = 0; i < boxes.length; i++) {
       for (let j = 0; j < boxes[i].length; j++) {
@@ -83,7 +84,6 @@ function Waffle(x, y, size, table, columnHeading) {
 /* Box Constructor Function ------------------------------------------------------------------*/
 function Box(x, y, size, category) {
   this.category = category;
-
   this.mouseOver = function (mouseX, mouseY) {
     if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + size) {
       return this.category;
