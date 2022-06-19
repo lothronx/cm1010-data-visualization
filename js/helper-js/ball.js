@@ -1,13 +1,15 @@
 // This file is build upon by p5.js example "Bouncy Bubbles". You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
 class Ball {
-  constructor(xin, yin, din, idin, oin) {
-    this.x = xin;
-    this.y = yin;
+  constructor(x, y, size, label, color, index, others) {
+    this.x = x;
+    this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.diameter = din;
-    this.id = idin;
-    this.others = oin;
+    this.size = size;
+    this.id = index;
+    this.others = others;
+    this.label = label;
+    this.color = color;
     this.spring = 0.05;
     this.gravity = 0.03;
     this.friction = -0.9;
@@ -20,7 +22,7 @@ class Ball {
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
       let distance = sqrt(dx * dx + dy * dy);
-      let minDist = this.others[i].diameter / 2 + this.diameter / 2;
+      let minDist = this.others[i].size / 2 + this.size / 2;
       //   console.log(distance);
       //console.log(minDist);
       if (distance < minDist) {
@@ -42,23 +44,27 @@ class Ball {
     this.vy += this.gravity;
     this.x += this.vx;
     this.y += this.vy;
-    if (this.x + this.diameter / 2 > width) {
-      this.x = width - this.diameter / 2;
+    if (this.x + this.size / 2 > width) {
+      this.x = width - this.size / 2;
       this.vx *= this.friction;
-    } else if (this.x - this.diameter / 2 < 0) {
-      this.x = this.diameter / 2;
+    } else if (this.x - this.size / 2 < 0) {
+      this.x = this.size / 2;
       this.vx *= this.friction;
     }
-    if (this.y + this.diameter / 2 > height) {
-      this.y = height - this.diameter / 2;
+    if (this.y + this.size / 2 > height) {
+      this.y = height - this.size / 2;
       this.vy *= this.friction;
-    } else if (this.y - this.diameter / 2 < 0) {
-      this.y = this.diameter / 2;
+    } else if (this.y - this.size / 2 < 0) {
+      this.y = this.size / 2;
       this.vy *= this.friction;
     }
   }
 
   display() {
-    ellipse(this.x, this.y, this.diameter, this.diameter);
+    noStroke();
+    fill(this.color);
+    circle(this.x, this.y, this.size);
   }
+
+  hover() {}
 }

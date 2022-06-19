@@ -2,7 +2,7 @@ class Waffle {
   constructor(x, y, size, table, columnHeading) {
     const boxesEachLine = 10;
 
-    /* Get necessary information from the table.------------------------------------------------*/
+    /* Get necessary data from the table.------------------------------------------------*/
     const labels = table.getColumn(0).filter((value) => value != "");
     let percentage = table.getColumn(columnHeading);
     const colors = [
