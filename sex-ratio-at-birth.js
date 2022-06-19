@@ -11,14 +11,11 @@ function SexRatioAtBirth() {
   /* Load Data ------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
-    const self = this;
     this.data = loadTable(
       "./data/global-sex-ratio/global-sex-ratio-1962-2020.csv",
       "csv",
       "header",
-      function () {
-        self.loaded = true;
-      }
+      () => (this.loaded = true)
     );
   };
 
@@ -63,7 +60,7 @@ function SexRatioAtBirth() {
       color(11, 50, 107), //blue
       color(183, 204, 148), //green
     ];
-    
+
     // Find start and end years.
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);

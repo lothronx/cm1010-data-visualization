@@ -7,14 +7,11 @@ function TechDiversityWaffle() {
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
-    const self = this;
     this.data = loadTable(
       "./data/tech-diversity/race-2018.csv",
       "csv",
       "header",
-      function (table) {
-        self.loaded = true;
-      }
+      () => (this.loaded = true)
     );
   };
 

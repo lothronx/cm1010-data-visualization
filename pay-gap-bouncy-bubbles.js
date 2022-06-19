@@ -12,14 +12,11 @@ function PayGapByBouncyBubbles() {
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
-    var self = this;
     this.data = loadTable(
       "./data/pay-gap/occupation-hourly-pay-by-gender-2017.csv",
       "csv",
       "header",
-      function (table) {
-        self.loaded = true;
-      }
+      () => (this.loaded = true)
     );
   };
 
