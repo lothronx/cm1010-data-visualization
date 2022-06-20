@@ -35,6 +35,8 @@ class Ball {
       mouseY < this.y + this.size / 2
     ) {
       push();
+      fill(245);
+      rect(0, height - 40, width, 40, 8);
       textAlign(CENTER, CENTER);
       textStyle(NORMAL);
       textSize(14);
