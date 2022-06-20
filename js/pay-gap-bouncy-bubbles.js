@@ -58,8 +58,7 @@ function PayGapByBouncyBubbles() {
     // Draw the balls.
     balls.forEach((ball) => {
       ball.display();
-      ball.collide();
-      ball.move();
+      ball.click();
     });
   };
 
