@@ -221,7 +221,7 @@ function ClimateChange() {
 
     // Stop animation when all years have been drawn.
     if (this.frameCount >= numYears) {
-      //noLoop();
+      noLoop();
     }
   };
 

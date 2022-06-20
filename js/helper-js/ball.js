@@ -13,10 +13,11 @@ class Ball {
     this.spring = 0.05;
     this.gravity = 0.03;
     this.friction = -0.9;
-    this.numBalls = 13;
+    this.visible = false;
   }
 
-  collide() {
+  click() {
+    // collide
     for (let i = this.id + 1; i < this.numBalls; i++) {
       // console.log(others[i]);
       let dx = this.others[i].x - this.x;
@@ -38,9 +39,8 @@ class Ball {
         this.others[i].vy += ay;
       }
     }
-  }
 
-  move() {
+    //move
     this.vy += this.gravity;
     this.x += this.vx;
     this.y += this.vy;
@@ -64,7 +64,19 @@ class Ball {
     noStroke();
     fill(this.color);
     circle(this.x, this.y, this.size);
+    this.visible = true;
   }
 
-  hover() {}
+  mouseOver(mouseX, mouseY) {
+    if (
+      mouseX > this.x - this.size / 2 &&
+      mouseX < this.x + this.size / 2 &&
+      mouseY > this.y - this.size / 2 &&
+      mouseY < this.y + this.size / 2
+    ) {
+      console.log(123);
+      return true;
+    }
+    return false;
+  }
 }

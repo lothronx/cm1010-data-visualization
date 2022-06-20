@@ -6,8 +6,8 @@ function PayGapByBouncyBubbles() {
 
   /* Layout ----------------------------------------------------------------------------------*/
   this.margin = 40;
-  this.ballSizeMin = 20;
-  this.ballSizeMax = 100;
+  this.ballSizeMin = width * 0.04;
+  this.ballSizeMax = width * 0.12;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -23,69 +23,18 @@ function PayGapByBouncyBubbles() {
   /* Setup ----------------------------------------------------------------------------------*/
   let balls = [];
   this.setup = function () {
-    // Get data from the table object.
-    const jobType = this.data.getColumn("job_subtype");
-    const percent = this.data.getColumn("proportion_female");
-    const payGap = this.data.getColumn("pay_gap");
-    const numJobs = this.data.getColumn("num_jobs");
+    // Map data to parameters of circles.
+    this.mapDatatoShape();
 
-    // Set ranges for axes.
-    // X axis: percentage of women. The minimum proportion of women is 0%. The maximum proportion of women is 100%. The higher the proportion, the more to the right.
-    const percentMin = 0;
-    const percentMax = 100;
-    let xCoordinates = [];
-    percent.forEach((value) =>
-      xCoordinates.push(
-        map(value, percentMin, percentMax, this.margin, width - this.margin)
-      )
-    );
-
-    // Y axis: pay gap. The larger the pay gap, the higher.
-    const payGapMin = -20;
-    const payGapMax = 20;
-    let yCoordinates = [];
-    payGap.forEach((value) =>
-      yCoordinates.push(
-        map(value, payGapMin, payGapMax, height - this.margin, this.margin)
-      )
-    );
-
-    // The larger the pay gap, also the redder.
-    let colors = [];
-    payGap.forEach((value) => {
-      colors.push(
-        value > 16
-          ? "#581845CC"
-          : value > 12
-          ? "#900C3FCC"
-          : value > 8
-          ? "#C70039CC"
-          : value > 4
-          ? "#FF5733CC"
-          : value > 0
-          ? "#FFC300CC"
-          : "#2A9D8FCC"
-      );
-    });
-
-    // Size of the ball: number of jobs. More job, larger ball.
-    const numJobsMin = min(numJobs);
-    const numJobsMax = max(numJobs);
-    let sizes = [];
-    numJobs.forEach((value) =>
-      sizes.push(
-        map(value, numJobsMin, numJobsMax, this.ballSizeMin, this.ballSizeMax)
-      )
-    );
-    // Balls is an array of objects. Each object contains the necessary information for an occupation.
-    jobType.forEach((jobType, i) =>
+    // Balls is an array of objects. Each object is a circle which represents an occupation.
+    this.jobType.forEach((jobType, i) =>
       balls.push(
         new Ball(
-          xCoordinates[i],
-          yCoordinates[i],
-          sizes[i],
+          this.xCoordinates[i],
+          this.yCoordinates[i],
+          this.sizes[i],
           jobType,
-          colors[i],
+          this.colors[i],
           i,
           balls
         )
@@ -106,22 +55,15 @@ function PayGapByBouncyBubbles() {
     // Draw the axes.
     this.drawAxes();
 
-    let checkClicked = this.mouseClicked(mouseX, mouseY);
-
+    // Draw the balls.
     balls.forEach((ball) => {
       ball.display();
-      ball.hover();
-      if (checkClicked) {
-        ball.collide();
-        ball.move();
-      }
+      ball.collide();
+      ball.move();
     });
   };
 
-  this.mouseClicked = function (mouseX, mouseY) {
-    return true;
-  };
-
+  /* Helper Functions -----------------------------------------------------------------------*/
   this.drawAxes = function () {
     stroke(150);
     fill(150);
@@ -153,5 +95,62 @@ function PayGapByBouncyBubbles() {
     textAlign(CENTER);
     text("Pay Gap", width / 2, this.margin * 0.8);
     text("% of Female", width - this.margin * 1.5, height / 2 + 20);
+  };
+
+  this.mapDatatoShape = function () {
+    // Get data from the table object.
+    this.jobType = this.data.getColumn("job_subtype");
+    const percent = this.data.getColumn("proportion_female");
+    const payGap = this.data.getColumn("pay_gap");
+    const numJobs = this.data.getColumn("num_jobs");
+
+    // Set ranges for axes.
+    // X axis: percentage of women. The minimum proportion of women is 0%. The maximum proportion of women is 100%. The higher the proportion, the more to the right.
+    const percentMin = 0;
+    const percentMax = 100;
+    this.xCoordinates = [];
+    percent.forEach((value) =>
+      this.xCoordinates.push(
+        map(value, percentMin, percentMax, this.margin, width - this.margin)
+      )
+    );
+
+    // Y axis: pay gap. The larger the pay gap, the higher.
+    const payGapMin = -20;
+    const payGapMax = 20;
+    this.yCoordinates = [];
+    payGap.forEach((value) =>
+      this.yCoordinates.push(
+        map(value, payGapMin, payGapMax, height - this.margin, this.margin)
+      )
+    );
+
+    // The larger the pay gap, also the redder.
+    this.colors = [];
+    payGap.forEach((value) => {
+      this.colors.push(
+        value > 16
+          ? "#581845CC"
+          : value > 12
+          ? "#900C3FCC"
+          : value > 8
+          ? "#C70039CC"
+          : value > 4
+          ? "#FF5733CC"
+          : value > 0
+          ? "#FFC300CC"
+          : "#2A9D8FCC"
+      );
+    });
+
+    // Size of the ball: number of jobs. More job, larger ball.
+    const numJobsMin = min(numJobs);
+    const numJobsMax = max(numJobs);
+    this.sizes = [];
+    numJobs.forEach((value) =>
+      this.sizes.push(
+        map(value, numJobsMin, numJobsMax, this.ballSizeMin, this.ballSizeMax)
+      )
+    );
   };
 }
