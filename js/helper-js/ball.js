@@ -36,16 +36,17 @@ class Ball {
     ) {
       push();
       fill(245);
-      rect(0, height - 40, width, 40, 8);
+      rect(0, height - 60, width, 60, 8);
       textAlign(CENTER, CENTER);
       textStyle(NORMAL);
       textSize(14);
       fill(50);
       text(
-        `In UK, ${this.label.num} thousand workers work as ${this.label.name}. ${round(this.label.ratio)}% of them are women.
+        `In UK, ${this.label.num} thousand workers work as ${this.label.name}. 
+${round(this.label.ratio)}% of them are women.
 On average, each woman earns ${this._payGap}% less than man.`,
         width / 2,
-        height - 20
+        height - 30
       );
       pop();
     }

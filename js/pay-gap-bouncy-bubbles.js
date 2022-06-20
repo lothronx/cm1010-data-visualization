@@ -3,6 +3,7 @@ function PayGapByBouncyBubbles() {
   this.name = "Pay Gap by Job (Bouncy Bubbles)";
   this.id = "pay-gap-bouncy-bubbles";
   this.title = "Gender Pay Gap by Occupations, UK";
+  this.description = "Hover over the canvas to stop the balls from moving around. Hover over each ball to see the detailed information."
 
   /* Layout ----------------------------------------------------------------------------------*/
   this.margin = 40;
