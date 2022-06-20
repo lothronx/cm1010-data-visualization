@@ -1,8 +1,8 @@
 function PayGapByBouncyBubbles() {
   /* Basic Information -------------------------------------------------------------------------*/
-  this.name = "Pay Gap by Job: 2017 (Bouncy Bubbles)";
+  this.name = "Pay Gap by Job (Bouncy Bubbles)";
   this.id = "pay-gap-bouncy-bubbles";
-  this.title = "Occupation Hourly Pay by Gender 2017";
+  this.title = "Gender Pay Gap by Occupations, UK";
 
   /* Layout ----------------------------------------------------------------------------------*/
   this.margin = 40;
@@ -35,7 +35,12 @@ function PayGapByBouncyBubbles() {
           this.yCoordinates[i],
           this.sizes[i],
           this.colors[i],
-          { name: jobType, payGap: this.payGap[i], ratio: this.percent[i] },
+          {
+            name: jobType,
+            num: this.numJobs[i],
+            payGap: this.payGap[i],
+            ratio: this.percent[i],
+          },
           i,
           balls
         )
@@ -53,51 +58,15 @@ function PayGapByBouncyBubbles() {
       return;
     }
 
-    // Draw the axes.
-    this.drawAxes();
-
     // Draw the balls.
     balls.forEach((ball) => {
       ball.display(); //draw the balls
-      ball.mouseOut(mouseX, mouseY); //If the mouse is not on canvas, the balls will fly around.
+      ball.mouseOut(mouseX, mouseY); //If the mouse is not on canvas, the balls will move around.
       ball.mouseOver(mouseX, mouseY); // hover on each ball to see detailed information.
     });
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
-  this.drawAxes = function () {
-    stroke(150);
-    fill(150);
-    // Add vertical axis.
-    line(width / 2, this.margin, width / 2, height - this.margin);
-    triangle(
-      width / 2,
-      this.margin,
-      width / 2 - 5,
-      this.margin + 10,
-      width / 2 + 5,
-      this.margin + 10
-    );
-    // Add horizontal axis.
-    line(this.margin, height / 2, width - this.margin, height / 2);
-    triangle(
-      width - this.margin,
-      height / 2,
-      width - this.margin - 10,
-      height / 2 - 5,
-      width - this.margin - 10,
-      height / 2 + 5
-    );
-    // Add some text.
-    noStroke();
-    fill(150);
-    textSize(18);
-    textStyle(BOLD);
-    textAlign(CENTER);
-    text("Pay Gap", width / 2, this.margin * 0.8);
-    text("% of Female", width - this.margin * 1.5, height / 2 + 20);
-  };
-
   this.mapDatatoShape = function () {
     this.jobType = this.data.getColumn("job_subtype");
 
@@ -143,11 +112,11 @@ function PayGapByBouncyBubbles() {
     });
 
     // Size of the ball: number of jobs. More job, larger ball.
-    const numJobs = this.data.getColumn("num_jobs");
-    const numJobsMin = min(numJobs);
-    const numJobsMax = max(numJobs);
+    this.numJobs = this.data.getColumn("num_jobs");
+    const numJobsMin = min(this.numJobs);
+    const numJobsMax = max(this.numJobs);
     this.sizes = [];
-    numJobs.forEach((value) =>
+    this.numJobs.forEach((value) =>
       this.sizes.push(
         map(value, numJobsMin, numJobsMax, this.ballSizeMin, this.ballSizeMax)
       )
