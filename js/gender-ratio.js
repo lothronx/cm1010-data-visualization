@@ -55,19 +55,16 @@ function GenderRatio() {
     this.inputContainer.parent("diagram-container");
 
     // Create some text.
-    const selectText1 = createElement(
-      "h4",
-      "Compare employee race diversity between"
+    createElement("h4", "Compare employee race diversity between").parent(
+      "input"
     );
-    selectText1.parent("input");
 
     // Create the select DOM element.
     this.select1 = createSelect();
     this.select1.parent("input");
 
     // Create some text.
-    const selectText2 = createElement("h4", "&");
-    selectText2.parent("input");
+    createElement("h4", "&").parent("input");
 
     // Create the select DOM element.
     this.select2 = createSelect();

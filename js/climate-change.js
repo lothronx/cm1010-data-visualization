@@ -68,8 +68,7 @@ function ClimateChange() {
     this.inputContainer.id("input");
     this.inputContainer.parent("diagram-container");
 
-    const startSliderText = createElement("h4", "Start year:");
-    startSliderText.parent("input");
+    createElement("h4", "Start year:").parent("input");
 
     this.startSlider = createSlider(
       this.minYear,
@@ -79,8 +78,7 @@ function ClimateChange() {
     );
     this.startSlider.parent("input");
 
-    const endSliderText = createElement("h4", "End year:");
-    endSliderText.parent("input");
+    createElement("h4", "End year:").parent("input");
 
     this.endSlider = createSlider(
       this.minYear + 1,
@@ -215,11 +213,6 @@ function ClimateChange() {
     // started. This is used in creating the animation effect and to
     // stop the main p5 draw loop when all years have been drawn.
     this.frameCount++;
-
-    // Stop animation when all years have been drawn.
-    if (this.frameCount >= numYears) {
-      noLoop();
-    }
   };
 
   this.mapYearToWidth = function (value) {
