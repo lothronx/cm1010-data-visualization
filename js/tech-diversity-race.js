@@ -26,9 +26,9 @@ function TechDiversityRace() {
     }
 
     // Create a select DOM element.
-    var inputContainer = createElement("div");
-    inputContainer.attribute("id", "input");
-    inputContainer.parent("diagram-container");
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("diagram-container");
 
     this.select = createSelect();
     this.select.parent("input");
@@ -43,7 +43,7 @@ function TechDiversityRace() {
 
   /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {
-    this.select.remove();
+    this.inputContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/

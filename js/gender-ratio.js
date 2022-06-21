@@ -50,24 +50,24 @@ function GenderRatio() {
     }
 
     // Create the DOM element container
-    const inputContainer = createElement("div");
-    inputContainer.id("input");
-    inputContainer.parent("diagram-container");
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("diagram-container");
 
     // Create some text.
-    this.selectText1 = createElement(
+    const selectText1 = createElement(
       "h4",
       "Compare employee race diversity between"
     );
-    this.selectText1.parent("input");
+    selectText1.parent("input");
 
     // Create the select DOM element.
     this.select1 = createSelect();
     this.select1.parent("input");
 
     // Create some text.
-    this.selectText2 = createElement("h4", "&");
-    this.selectText2.parent("input");
+    const selectText2 = createElement("h4", "&");
+    selectText2.parent("input");
 
     // Create the select DOM element.
     this.select2 = createSelect();
@@ -85,10 +85,7 @@ function GenderRatio() {
 
   /* Destroy ---------------------------------------------------------------------------------*/
   this.destroy = function () {
-    this.select1.remove();
-    this.select2.remove();
-    this.selectText1.remove();
-    this.selectText2.remove();
+    this.inputContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
@@ -97,6 +94,12 @@ function GenderRatio() {
       console.log("Data not yet loaded");
       return;
     }
+
+    noStroke();
+    noFill();
+    textSize(16);
+    textAlign(NORMAL);
+    textStyle(NORMAL);
 
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();

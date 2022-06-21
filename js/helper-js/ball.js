@@ -14,6 +14,7 @@ class Ball {
     this.speed = 0.03; //the default velocity of the ball
     this.bounce = -0.001; //how hard should the ball bounce back from the edges.
     this.spring = 0.05; // how hard should the balls bounce away from each other once they collide
+    this.margin = 30;
   }
 
   display() {
@@ -36,7 +37,7 @@ class Ball {
     ) {
       push();
       fill(245);
-      rect(0, height - 60, width, 60, 8);
+      rect(0, height - this.margin * 2, width, this.margin * 2, 8);
       textAlign(CENTER, CENTER);
       textStyle(NORMAL);
       textSize(14);
@@ -46,7 +47,7 @@ class Ball {
 ${round(this.label.ratio)}% of them are women.
 On average, each woman earns ${this._payGap}% less than man.`,
         width / 2,
-        height - 30
+        height - this.margin
       );
       pop();
     }
@@ -57,7 +58,9 @@ On average, each woman earns ${this._payGap}% less than man.`,
       // By default, every ball tends to move towards the center of the canvas.
       // Due to the collision check mechanism, they will keep moving for a very long time.
       this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
-      this.y > height / 2 ? (this.vy -= this.speed) : (this.vy += this.speed);
+      this.y > height / 2 - this.margin
+        ? (this.vy -= this.speed)
+        : (this.vy += this.speed);
       this.x += this.vx;
       this.y += this.vy;
 
@@ -69,8 +72,9 @@ On average, each woman earns ${this._payGap}% less than man.`,
         this.x = this.size / 2;
         this.vx *= this.bounce;
       }
-      if (this.y + this.size / 2 > height - 60) { // Leave some blank space on the bottom for text.
-        this.y = height - 60 - this.size / 2;
+      if (this.y + this.size / 2 > height - this.margin * 2) {
+        // Leave some blank space on the bottom for text.
+        this.y = height - this.margin * 2 - this.size / 2;
         this.vy *= this.bounce;
       } else if (this.y - this.size / 2 < 0) {
         this.y = this.size / 2;

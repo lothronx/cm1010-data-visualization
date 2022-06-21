@@ -3,12 +3,8 @@ function PayGapByBouncyBubbles() {
   this.name = "Pay Gap by Job (Bouncy Bubbles)";
   this.id = "pay-gap-bouncy-bubbles";
   this.title = "Gender Pay Gap by Occupations, UK";
-  this.description = "Hover over the canvas to stop the balls from moving around. Hover over each ball to see the detailed information."
-
-  /* Layout ----------------------------------------------------------------------------------*/
-  this.margin = 40;
-  this.ballSizeMin = width * 0.04;
-  this.ballSizeMax = width * 0.12;
+  this.description =
+    "Hover over the canvas to stop the balls from moving around. Hover over each ball to see the detailed information.";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -59,6 +55,12 @@ function PayGapByBouncyBubbles() {
       return;
     }
 
+    noStroke();
+    noFill();
+    textSize(16);
+    textAlign(NORMAL);
+    textStyle(NORMAL);
+
     // Draw the balls.
     balls.forEach((ball) => {
       ball.display(); //draw the balls
@@ -78,9 +80,7 @@ function PayGapByBouncyBubbles() {
     const percentMax = 100;
     this.xCoordinates = [];
     this.percent.forEach((value) =>
-      this.xCoordinates.push(
-        map(value, percentMin, percentMax, this.margin, width - this.margin)
-      )
+      this.xCoordinates.push(map(value, percentMin, percentMax, 0, width))
     );
 
     // Y axis: pay gap. The larger the pay gap, the higher.
@@ -89,9 +89,7 @@ function PayGapByBouncyBubbles() {
     const payGapMax = 20;
     this.yCoordinates = [];
     this.payGap.forEach((value) =>
-      this.yCoordinates.push(
-        map(value, payGapMin, payGapMax, height - this.margin, this.margin)
-      )
+      this.yCoordinates.push(map(value, payGapMin, payGapMax, height, 0))
     );
 
     // The larger the pay gap, also the redder.
@@ -116,10 +114,12 @@ function PayGapByBouncyBubbles() {
     this.numJobs = this.data.getColumn("num_jobs");
     const numJobsMin = min(this.numJobs);
     const numJobsMax = max(this.numJobs);
+    const ballSizeMin = width * 0.04;
+    const ballSizeMax = width * 0.12;
     this.sizes = [];
     this.numJobs.forEach((value) =>
       this.sizes.push(
-        map(value, numJobsMin, numJobsMax, this.ballSizeMin, this.ballSizeMax)
+        map(value, numJobsMin, numJobsMax, ballSizeMin, ballSizeMax)
       )
     );
   };

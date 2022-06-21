@@ -43,16 +43,16 @@ function Gallery() {
     visMenu.child(menuItem);
 
     // Create title and description.
-    var title = createElement("h1", vis.title);
-    title.addClass(vis.id);
+    let title = createElement("h1", vis.title);
+    title.id(vis.id);
     title.parent("title");
 
-    var description = createElement("p", vis.description);
-    description.addClass(vis.id);
+    let description = createP(vis.description);
+    description.id(vis.id);
     description.parent("title");
 
     // Hide title and description by default.
-    document.getElementsByTagName("header")[0].style.display = "none";
+    select("header").hide();
 
     // Preload data if necessary.
     if (vis.hasOwnProperty("preload")) {
@@ -92,19 +92,12 @@ function Gallery() {
       }
 
       // Only display the selected title and description.
-      document.getElementsByTagName("header")[0].style.display = "block";
-
-      for (let i = 0; i < document.getElementsByTagName("h1").length; i++) {
-        document.getElementsByTagName("h1")[i].style.display = "none";
-      }
-      for (let i = 0; i < document.getElementsByTagName("p").length; i++) {
-        document.getElementsByTagName("p")[i].style.display = "none";
-      }
-
-      document.getElementsByClassName(this.selectedVisual.id)[0].style.display =
-        "block";
-      document.getElementsByClassName(this.selectedVisual.id)[1].style.display =
-        "block";
+      select("header").show();
+      selectAll("h1", "header").forEach((a) => a.hide());
+      selectAll("p", "header").forEach((a) => a.hide());
+      selectAll("#" + this.selectedVisual.id, "header").forEach((a) =>
+        a.show()
+      );
 
       // Enable animation in case it has been paused by the current visualisation.
       loop();

@@ -1,9 +1,14 @@
-/* Layout ----------------------------------------------------------------------------------*/
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* General Layout ----------------------------------------------------------------------------------*/
 #app {
   display: grid;
-  grid-row-gap: 2rem;
+  grid-gap: 1rem;
   grid-template-areas:
-    "menu header"
+    "menu title"
     "menu body";
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
@@ -15,7 +20,7 @@ ul {
 }
 
 header {
-  grid-area: header;
+  grid-area: title;
 }
 
 #diagram-container {
@@ -33,6 +38,14 @@ header {
   justify-content: center;
 }
 
+/* Element Layout ----------------------------------------------------------------------------------*/
+h1 {
+  margin-bottom: 0%;
+  padding: 0 4rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
 input {
   margin: 2rem 1rem;
 }
@@ -45,35 +58,21 @@ h4 {
   margin: 2rem 0;
 }
 
-/* Typography ----------------------------------------------------------------------------------*/
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
-
-h1 {
-  margin-bottom: 0%;
-  padding: 0 4rem;
-  text-align: center;
-  font-size: 2rem;
-}
-
 p {
   text-indent: 2rem;
   padding: 0 4rem;
   line-height: 150%;
-  font-size: 0.8rem;
 }
 
 .menu-item {
-  font-size: 1rem;
-  width: 11rem;
+  width: auto;
+  max-width: 11rem;
   height: auto;
   border: 1px solid rgb(180, 180, 180);
   border-radius: 10px;
   box-shadow: -1px -1px 4px rgb(180, 180, 180);
-  list-style-type: none;
   padding: 0.6rem 1rem;
+  list-style-type: none;
 }
 
 li {

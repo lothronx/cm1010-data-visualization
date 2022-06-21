@@ -24,13 +24,12 @@ function setup() {
   gallery.addVisual(new GenderRatioByYear());
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
 function draw() {
   background(255);
   if (gallery.selectedVisual != null) {
     gallery.selectedVisual.draw();
   }
+}
+function windowResized() {
+  resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
 }

@@ -64,12 +64,12 @@ function ClimateChange() {
     this.frameCount = 0;
 
     // Create sliders to control start and end years. Default to visualise full range.
-    var inputContainer = createElement("div");
-    inputContainer.attribute("id", "input");
-    inputContainer.parent("diagram-container");
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("diagram-container");
 
-    this.startSliderText = createElement("h4", "Start year:");
-    this.startSliderText.parent("input");
+    const startSliderText = createElement("h4", "Start year:");
+    startSliderText.parent("input");
 
     this.startSlider = createSlider(
       this.minYear,
@@ -79,8 +79,8 @@ function ClimateChange() {
     );
     this.startSlider.parent("input");
 
-    this.endSliderText = createElement("h4", "End year:");
-    this.endSliderText.parent("input");
+    const endSliderText = createElement("h4", "End year:");
+    endSliderText.parent("input");
 
     this.endSlider = createSlider(
       this.minYear + 1,
@@ -93,10 +93,7 @@ function ClimateChange() {
 
   /* Destroy ----------------------------------------------------------------------------------*/
   this.destroy = function () {
-    this.startSliderText.remove();
-    this.endSliderText.remove();
-    this.startSlider.remove();
-    this.endSlider.remove();
+    this.inputContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
