@@ -8,6 +8,24 @@ function SexRatioAtBirth() {
   this.xAxisLabel = "Year";
   this.yAxisLabel = "Male births per 100 female births";
 
+  const margin = 60;
+  const numXTickLabels = 6;
+  const numYTickLabels = 7;
+  const colors = [
+    color(0, 0, 0),
+    color(227, 51, 126), //red
+    color(240, 81, 41), //orange
+    color(241, 199, 221), //pink
+    color(130, 119, 117), //brown
+    color(245, 189, 66), //yellow
+    color(176, 153, 119), //khaki
+    color(150, 110, 172), //purple
+    color(123, 203, 192), //cyan
+    color(11, 50, 107), //blue
+    color(183, 204, 148), //green
+  ];
+  let lines = [];
+
   /* Load Data ------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
@@ -19,53 +37,36 @@ function SexRatioAtBirth() {
     );
   };
 
-  /* Layout ---------------------------------------------------------------------------------*/
-  const margin = 30;
-  this.layout = {
-    marginSize: margin,
-    leftMargin: margin * 2,
-    rightMargin: width - margin * 2,
-    topMargin: margin,
-    bottomMargin: height - margin * 2,
-    pad: 5,
-
-    grid: true,
-
-    numXTickLabels: 6,
-    numYTickLabels: 7,
-  };
-
   /* Setup ----------------------------------------------------------------------------------*/
-  let colors = [];
-  this.setup = function () {
-    textSize(14);
-    colors = [
-      color(0, 0, 0),
-      color(227, 51, 126), //red
-      color(240, 81, 41), //orange
-      color(241, 199, 221), //pink
-      color(130, 119, 117), //brown
-      color(245, 189, 66), //yellow
-      color(176, 153, 119), //khaki
-      color(150, 110, 172), //purple
-      color(123, 203, 192), //cyan
-      color(11, 50, 107), //blue
-      color(183, 204, 148), //green
-    ];
 
-    // Find start and end years.
+  this.setup = function () {
+    // Get data from the table.
+    const countries = this.data.getRows();
+
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
 
-    // Find min and max Ratio by putting all data (filtering country names out) in an one dimensional array.
     const allData = this.data.getArray().reduce((a, c) => a.concat(c));
     const filteredData = allData.filter((data) => data >= 0);
     this.minRatio = floor(min(filteredData));
     this.maxRatio = ceil(max(filteredData)) + 1;
-  };
 
-  /* Destroy --------------------------------------------------------------------------------*/
-  this.destroy = function () {};
+    // Push all data to lines. Each line represents one country.
+    lines = [];
+    countries.forEach((country, i) => {
+      let name = country.arr[0];
+
+      let x = [];
+      let years = this.data.columns.filter((value) => value != "");
+      years.forEach((year) => x.push(this.mapYearToWidth(year)));
+
+      let y = [];
+      let ratios = country.arr.filter((value) => value > 0);
+      ratios.forEach((ratio) => y.push(this.mapRatioToHeight(ratio)));
+
+      lines.push(new Line(name, x, y, colors[i]));
+    });
+  };
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
@@ -74,84 +75,13 @@ function SexRatioAtBirth() {
       return;
     }
 
-    strokeWeight(1);
-    textAlign(CENTER);
-    textStyle(NORMAL);
+    this.drawAxis();
+    this.drawLabels();
+    this.drawXLabels();
+    this.drawYLabels();
 
-    // Draw x and y axis.
-    drawAxis(this.layout, 0);
-
-    // Draw x and y axis labels.
-    drawAxisLabels(this.xAxisLabel, this.yAxisLabel, this.layout);
-
-    // Draw all x-axis labels.
-    textSize(14);
-    const numYears = this.endYear - this.startYear;
-    const yearGap = ceil(numYears / this.layout.numXTickLabels);
-    const yearLabels = this.data.columns.filter(
-      (year) => (year - this.startYear) % yearGap == 0 || year == this.endYear
-    );
-    yearLabels.forEach((yearLabel) =>
-      drawXAxisTickLabel(yearLabel, this.layout, this.mapYearToWidth.bind(this))
-    );
-
-    // Draw all y-axis labels.
-    drawYAxisTickLabels(
-      this.minRatio,
-      this.maxRatio,
-      this.layout,
-      this.mapRatioToHeight.bind(this),
-      0
-    );
-
-    // Loop over all rows (countries). In each row (country) draw a line from the previous value to the current.
-    this.data.rows.forEach((country, i) => {
-      let previous = null;
-
-      const years = this.data.columns.filter((value) => value != "");
-      years.forEach((year, j) => {
-        // Create an object to store data for the current year.
-        let current = {
-          year: year,
-          Ratio: country.getNum(j + 1),
-        };
-
-        // Draw dots representing each data.
-        strokeWeight(4);
-        point(
-          this.mapYearToWidth(current.year),
-          this.mapRatioToHeight(current.Ratio)
-        );
-
-        // Draw line segment connecting previous year's data to current year's.
-        if (previous != null) {
-          stroke(colors[i]);
-          strokeWeight(1);
-          line(
-            this.mapYearToWidth(previous.year),
-            this.mapRatioToHeight(previous.Ratio),
-            this.mapYearToWidth(current.year),
-            this.mapRatioToHeight(current.Ratio)
-          );
-        }
-
-        // Draw country names.
-        let countryName = country.get(0);
-        if (current.year == this.endYear) {
-          noStroke();
-          fill(colors[i]);
-          textSize(16);
-          textAlign(LEFT);
-          text(
-            countryName,
-            this.mapYearToWidth(current.year) + 10,
-            this.mapRatioToHeight(current.Ratio)
-          );
-        }
-
-        previous = current;
-      });
-    });
+    // Loop over all lines (countries). In each line (country) draw a line from the previous value to the current.
+    lines.forEach((line) => line.display());
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
@@ -160,8 +90,8 @@ function SexRatioAtBirth() {
       value,
       this.startYear,
       this.endYear,
-      this.layout.leftMargin, // Draw left-to-right from margin.
-      this.layout.rightMargin - margin * 2
+      margin, // Draw left-to-right from margin.
+      width - margin * 2
     );
   };
 
@@ -170,94 +100,67 @@ function SexRatioAtBirth() {
       value,
       this.minRatio,
       this.maxRatio,
-      this.layout.bottomMargin, // Lower Ratio at bottom.
-      this.layout.topMargin // Higher Ratio at top.
+      height - margin, // Lower Ratio at bottom.
+      margin // Higher Ratio at top.
     );
   };
 
-  function drawAxis(layout) {
-    stroke(0);
+  // Draw x and y axis.
+  this.drawAxis = function () {
+    stroke(50);
+    strokeWeight(1);
+    line(margin, height - margin, width - margin, height - margin); // x-axis
+    line(margin, margin, margin, height - margin); // y-axis
+  };
 
-    // x-axis
-    line(
-      layout.leftMargin,
-      layout.bottomMargin,
-      layout.rightMargin,
-      layout.bottomMargin
-    );
-
-    // y-axis
-    line(
-      layout.leftMargin,
-      layout.topMargin,
-      layout.leftMargin,
-      layout.bottomMargin
-    );
-  }
-
-  function drawAxisLabels(xLabel, yLabel, layout) {
-    fill(0);
+  // Draw x and y axis labels.
+  this.drawLabels = function () {
     noStroke();
-    textAlign("center", "center");
-
-    // Draw x-axis label.
-    text(
-      xLabel,
-      (layout.rightMargin - layout.leftMargin) / 2 + layout.leftMargin,
-      layout.bottomMargin + layout.marginSize * 1.5
-    );
-
-    // Draw y-axis label.
+    fill(50);
+    textSize(16);
+    textAlign(CENTER, CENTER);
+    textStyle(NORMAL);
+    // x-axis label
+    text(this.xAxisLabel, width / 2, height - margin * 0.1);
+    // y-axis label
     push();
-    translate(
-      layout.leftMargin - layout.marginSize * 1.5,
-      layout.bottomMargin / 2
-    );
+    translate(margin * 0.1, height / 2);
     rotate(-PI / 2);
-    text(yLabel, 0, 0);
+    text(this.yAxisLabel, 0, 0);
     pop();
-  }
+  };
 
-  function drawYAxisTickLabels(min, max, layout, mapFunction, decimalPlaces) {
-    // Map function must be passed with .bind(this).
-    var range = max - min;
-    var yTickStep = range / layout.numYTickLabels;
+  // Draw all x-axis labels.
+  this.drawXLabels = function () {
+    textSize(14);
+    textAlign(CENTER, TOP);
+    const numYears = this.endYear - this.startYear;
+    const yearGap = ceil(numYears / numXTickLabels);
+    const yearLabels = this.data.columns.filter(
+      (year) => (year - this.startYear) % yearGap == 0 || year == this.endYear
+    );
+    yearLabels.forEach((yearLabel) => {
+      let x = this.mapYearToWidth(yearLabel);
+      noStroke();
+      text(yearLabel, x, height - margin * 0.9);
+      stroke(200);
+      line(x, margin, x, height - margin);
+    });
+  };
 
-    fill(0);
-    noStroke();
-    textAlign("right", "center");
-
-    // Draw all axis tick labels and grid lines.
-    for (i = 0; i <= layout.numYTickLabels; i++) {
-      var value = min + i * yTickStep;
-      var y = mapFunction(value);
-
-      // Add tick label.
-      text(value.toFixed(decimalPlaces), layout.leftMargin - layout.pad, y);
-
-      if (layout.grid) {
-        // Add grid line.
-        stroke(200);
-        line(layout.leftMargin, y, layout.rightMargin, y);
-      }
+  // Draw all y-axis labels.
+  this.drawYLabels = function () {
+    textSize(14);
+    textAlign(RIGHT, BOTTOM);
+    const ratioRange = this.maxRatio - this.minRatio;
+    const ratioCommonDifference = round(ratioRange / numYTickLabels);
+    for (let i = 0; i < numYTickLabels; i++) {
+      let ratioLabel = this.minRatio + ratioCommonDifference * i;
+      let y = this.mapRatioToHeight(ratioLabel);
+      noStroke();
+      text(ratioLabel, margin * 0.9, y);
+      stroke(200);
+      line(margin, y, width - margin, y);
     }
-  }
-
-  function drawXAxisTickLabel(value, layout, mapFunction) {
-    // Map function must be passed with .bind(this).
-    var x = mapFunction(value);
-
-    fill(0);
-    noStroke();
-    textAlign("center", "center");
-
-    // Add tick label.
-    text(value, x, layout.bottomMargin + layout.marginSize / 2);
-
-    if (layout.grid) {
-      // Add grid line.
-      stroke(220);
-      line(x, layout.topMargin, x, layout.bottomMargin);
-    }
-  }
+  };
 }
