@@ -20,22 +20,14 @@ function SexRatioAtBirth() {
   };
 
   /* Layout ---------------------------------------------------------------------------------*/
-  const marginSize = 30;
+  const margin = 30;
   this.layout = {
-    marginSize: marginSize,
-    leftMargin: marginSize * 2,
-    rightMargin: width - marginSize * 2,
-    topMargin: marginSize,
-    bottomMargin: height - marginSize * 2,
+    marginSize: margin,
+    leftMargin: margin * 2,
+    rightMargin: width - margin * 2,
+    topMargin: margin,
+    bottomMargin: height - margin * 2,
     pad: 5,
-
-    plotWidth: function () {
-      return this.rightMargin - this.leftMargin;
-    },
-
-    plotHeight: function () {
-      return this.bottomMargin - this.topMargin;
-    },
 
     grid: true,
 
@@ -83,7 +75,6 @@ function SexRatioAtBirth() {
     }
 
     strokeWeight(1);
-    textSize(16);
     textAlign(CENTER);
     textStyle(NORMAL);
 
@@ -135,7 +126,7 @@ function SexRatioAtBirth() {
         // Draw line segment connecting previous year's data to current year's.
         if (previous != null) {
           stroke(colors[i]);
-          strokeWeight(2);
+          strokeWeight(1);
           line(
             this.mapYearToWidth(previous.year),
             this.mapRatioToHeight(previous.Ratio),
@@ -149,9 +140,8 @@ function SexRatioAtBirth() {
         if (current.year == this.endYear) {
           noStroke();
           fill(colors[i]);
-          textSize(18);
+          textSize(16);
           textAlign(LEFT);
-          textStyle(BOLD);
           text(
             countryName,
             this.mapYearToWidth(current.year) + 10,
@@ -171,7 +161,7 @@ function SexRatioAtBirth() {
       this.startYear,
       this.endYear,
       this.layout.leftMargin, // Draw left-to-right from margin.
-      this.layout.rightMargin - marginSize * 2
+      this.layout.rightMargin - margin * 2
     );
   };
 
