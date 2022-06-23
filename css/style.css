@@ -46,8 +46,12 @@ h1 {
   font-size: 2rem;
 }
 
-input {
+label {
   margin: 2rem 1rem;
+}
+
+input {
+  margin: 2rem 0.5rem;
 }
 
 select {

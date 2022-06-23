@@ -72,8 +72,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
         this.x = this.size / 2;
         this.vx *= this.bounce;
       }
-      if (this.y + this.size / 2 > height - this.margin * 2) {
-        // Leave some blank space on the bottom for text.
+      if (this.y + this.size / 2 > height - this.margin * 2) { // Leave some blank space on the bottom for text.
         this.y = height - this.margin * 2 - this.size / 2;
         this.vy *= this.bounce;
       } else if (this.y - this.size / 2 < 0) {

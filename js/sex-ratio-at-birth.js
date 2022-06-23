@@ -46,6 +46,7 @@ function SexRatioAtBirth() {
   /* Setup ----------------------------------------------------------------------------------*/
   let colors = [];
   this.setup = function () {
+    
     textSize(14);
     colors = [
       color(0, 0, 0),

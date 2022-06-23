@@ -4,7 +4,7 @@ class Waffle {
 
     /* Get necessary data from the table.------------------------------------------------*/
     const labels = table.getColumn(0).filter((value) => value != "");
-    let percentage = table.getColumn(columnHeading);
+    let percentages = table.getColumn(columnHeading);
     const colors = [
       color(150, 110, 172), //purple
       color(245, 189, 66), //yellow
@@ -18,7 +18,7 @@ class Waffle {
     let categories = labels.map((label, i) => {
       return {
         label: label,
-        number: round(percentage[i]),
+        number: round(percentages[i]),
         color: colors[i],
       };
     });

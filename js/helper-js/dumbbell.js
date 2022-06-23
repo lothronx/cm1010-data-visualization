@@ -1,37 +1,32 @@
 class Dumbbell {
-  constructor(province, numUrban, numTown, numRUral) {
-
+  constructor(tag, xUrban, xTown, xRural, xTotal, y) {
+    this.tag = tag;
+    this.xUrban = xUrban;
+    this.xTown = xTown;
+    this.xRural = xRural;
+    this.xTotal = xTotal;
+    this.y = y;
   }
 
   display() {
+    const xMin = min(this.xUrban, this.xTown, this.xRural, this.xTotal);
+    const xMax = max(this.xUrban, this.xTown, this.xRural, this.xTotal);
+    fill(50);
+    textSize(14);
+    textAlign(RIGHT, CENTER);
+    textStyle(NORMAL);
+    text(this.tag, xMin - 15, this.y);
+    stroke(130, 119, 117);
+    strokeWeight(1);
+    line(xMin, this.y, xMax, this.y);
     noStroke();
-    fill(this.color);
-    circle(this.x, this.y, this.size);
-  }
-
-  mouseOver(mouseX, mouseY) {
-    if (
-      mouseX > this.x - this.size / 2 &&
-      mouseX < this.x + this.size / 2 &&
-      mouseY > this.y - this.size / 2 &&
-      mouseY < this.y + this.size / 2
-    ) {
-      push();
-      fill(245);
-      rect(0, height - 40, width, 40, 8);
-      textAlign(CENTER, CENTER);
-      textStyle(NORMAL);
-      textSize(14);
-      fill(50);
-      text(
-        `In UK, ${this.label.num} thousand workers work as ${
-          this.label.name
-        }. ${round(this.label.ratio)}% of them are women.
-On average, each woman earns ${this._payGap}% less than man.`,
-        width / 2,
-        height - 20
-      );
-      pop();
-    }
+    fill(11, 50, 107);
+    square(this.xTotal - 4, this.y - 4, 8);
+    fill(123, 203, 192);
+    circle(this.xUrban, this.y, 8);
+    fill(245, 189, 66);
+    circle(this.xTown, this.y, 8);
+    fill(240, 81, 41);
+    circle(this.xRural, this.y, 8);
   }
 }

@@ -5,7 +5,7 @@ function GenderRatio() {
   this.title =
     "Those Left Behind: Gender Ratio in Urban, Town, and Rural China 2020";
   this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus.";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -18,66 +18,67 @@ function GenderRatio() {
     );
   };
 
-  /* Layout ----------------------------------------------------------------------------------*/
-  const marginSize = 30;
-  this.layout = {
-    marginSize: marginSize,
-    leftMargin: marginSize * 2,
-    rightMargin: width - marginSize,
-    topMargin: marginSize,
-    bottomMargin: height - marginSize,
-    pad: 5,
-
-    plotWidth: function () {
-      return this.rightMargin - this.leftMargin;
-    },
-
-    plotHeight: function () {
-      return this.bottomMargin - this.topMargin;
-    },
-
-    grid: true,
-
-    numXTickLabels: 10,
-    numYTickLabels: 9,
-  };
-
   /* Setup ----------------------------------------------------------------------------------*/
+  const margin = 40;
+  let dumbbells = [];
+
   this.setup = function () {
     if (!this.loaded) {
       console.log("Data not yet loaded");
       return;
     }
 
+    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.8, 700));
+
+    // Get data from the table.
+    const provinces = this.data.getRows();
+
+    // Find the number of provinces.
+    const numProvinces = this.data.getRowCount();
+    const verticalSpacing = (height - margin * 2) / (numProvinces - 1);
+
+    // Find min and max Ratio by putting all data (filtering province names out) in an one dimensional array.
+    const allData = this.data.getArray().reduce((a, c) => a.concat(c));
+    const filteredData = allData.filter((data) => data >= 0);
+    this.minRatio = floor(min(filteredData)) - 10;
+    this.maxRatio = ceil(max(filteredData)) + 10;
+
+    // Push all data to dumbbells. Each dumbbell represents one province.
+    dumbbells = [];
+    provinces.forEach((province, i) =>
+      dumbbells.push(
+        new Dumbbell(
+          province.obj.Province,
+          this.mapRatioToWidth(province.obj.Urban),
+          this.mapRatioToWidth(province.obj.Town),
+          this.mapRatioToWidth(province.obj.Rural),
+          this.mapRatioToWidth(province.obj.Total),
+          margin + verticalSpacing * i
+        )
+      )
+    );
+
     // Create the DOM element container
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
     this.inputContainer.parent("diagram-container");
 
-    // Create some text.
-    createElement("h4", "Compare employee race diversity between").parent(
-      "input"
-    );
+    // Create the checkbox DOM element.
+    this.checkbox1 = createCheckbox("Urban Area", true);
+    this.checkbox1.parent("input");
+    this.checkbox1.changed(this.display);
 
-    // Create the select DOM element.
-    this.select1 = createSelect();
-    this.select1.parent("input");
+    this.checkbox2 = createCheckbox("Town", true);
+    this.checkbox2.parent("input");
+    this.checkbox2.changed(this.display);
 
-    // Create some text.
-    createElement("h4", "&").parent("input");
+    this.checkbox3 = createCheckbox("Rural Area", true);
+    this.checkbox3.parent("input");
+    this.checkbox3.changed(this.display);
 
-    // Create the select DOM element.
-    this.select2 = createSelect();
-    this.select2.parent("input");
-
-    // Fill the options with all company names.
-    const companyNames = this.data.columns.filter((value) => value != "");
-    companyNames.forEach((companyName) => {
-      this.select1.option(companyName);
-      this.select2.option(companyName);
-    });
-    this.select1.selected("Apple");
-    this.select2.selected("Google");
+    this.checkbox4 = createCheckbox("Total", true);
+    this.checkbox4.parent("input");
+    this.checkbox4.changed(this.display);
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -92,44 +93,20 @@ function GenderRatio() {
       return;
     }
 
-    noStroke();
-    noFill();
-    textSize(16);
-    textAlign(NORMAL);
-    textStyle(NORMAL);
+    dumbbells.forEach((dumbbell) => dumbbell.display());
+  };
 
-    // Get the 2 companies we selected by their names.
-    let company1 = this.select1.value();
-    let company2 = this.select2.value();
+  /* Helper Functions -----------------------------------------------------------------------*/
+  this.display = function () {
+    if (this.checked()) {
+      print("checked");
+      fill(100);
+    } else {
+      fill(200);
+    }
+  };
 
-    // Draw the first waffle chart.
-    this.waffle1 = new Waffle(
-      width * 0.05,
-      50,
-      width * 0.4,
-      this.data,
-      company1
-    );
-    this.waffle1.draw();
-    this.waffle1.checkMouse(mouseX, mouseY);
-
-    // Draw the second waffle chart.
-    this.waffle2 = new Waffle(
-      width * 0.55,
-      50,
-      width * 0.4,
-      this.data,
-      company2
-    );
-    this.waffle2.draw();
-    this.waffle2.checkMouse(mouseX, mouseY);
-
-    // some text
-    fill(50);
-    textAlign(CENTER);
-    textSize(20);
-    text(company1, width * 0.25, 80 + width * 0.4);
-    text(company2, width * 0.75, 80 + width * 0.4);
-    text("VS", width * 0.5, 50 + width * 0.2);
+  this.mapRatioToWidth = function (value) {
+    return map(value, this.minRatio, this.maxRatio, 0, width);
   };
 }
