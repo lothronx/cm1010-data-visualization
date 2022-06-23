@@ -3,9 +3,8 @@ function GenderRatio() {
   this.name = "Gender Ratio in China (Dumbbell Plot)";
   this.id = "gender-ratio";
   this.title =
-    "Those Left Behind: Gender Ratio in Urban, Town, and Rural China 2020";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus.";
+    "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
+  this.description = `The overall gender ratio in China is 104.8 men per 100 women. Studies show that the reasons behind this ratio include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and female labour migration from countryside to cities. In rural China, the issue of "missing women" is more burning, yet their story is less covered.`;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -19,7 +18,7 @@ function GenderRatio() {
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
-  const margin = 40;
+  const margin = 80;
   let dumbbells = [];
 
   this.setup = function () {
@@ -28,20 +27,22 @@ function GenderRatio() {
       return;
     }
 
+    // This diagram needs minimum 700px height.
     resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.8, 700));
 
     // Get data from the table.
     const provinces = this.data.getRows();
 
-    // Find the number of provinces.
+    // Find the vertical layout.
     const numProvinces = this.data.getRowCount();
     const verticalSpacing = (height - margin * 2) / (numProvinces - 1);
 
     // Find min and max Ratio by putting all data (filtering province names out) in an one dimensional array.
+    // This is to prepare for horizontal layout.
     const allData = this.data.getArray().reduce((a, c) => a.concat(c));
     const filteredData = allData.filter((data) => data >= 0);
     this.minRatio = floor(min(filteredData)) - 10;
-    this.maxRatio = ceil(max(filteredData)) + 10;
+    this.maxRatio = ceil(max(filteredData)) + 5;
 
     // Push all data to dumbbells. Each dumbbell represents one province.
     dumbbells = [];
@@ -62,23 +63,28 @@ function GenderRatio() {
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
     this.inputContainer.parent("diagram-container");
+    this.inputContainer.style("font-weight", "700");
 
     // Create the checkbox DOM element.
-    this.checkbox1 = createCheckbox("Urban Area", true);
-    this.checkbox1.parent("input");
-    this.checkbox1.changed(this.display);
+    const checkbox1 = createCheckbox("Urban");
+    checkbox1.style("color", "rgb(123, 203, 192)");
+    checkbox1.parent("input");
+    checkbox1.changed(this.displayUrban);
 
-    this.checkbox2 = createCheckbox("Town", true);
-    this.checkbox2.parent("input");
-    this.checkbox2.changed(this.display);
+    const checkbox2 = createCheckbox("Town");
+    checkbox2.style("color", "rgb(245, 189, 66)");
+    checkbox2.parent("input");
+    checkbox2.changed(this.displayTown);
 
-    this.checkbox3 = createCheckbox("Rural Area", true);
-    this.checkbox3.parent("input");
-    this.checkbox3.changed(this.display);
+    const checkbox3 = createCheckbox("Rural");
+    checkbox3.style("color", "rgb(240, 81, 41)");
+    checkbox3.parent("input");
+    checkbox3.changed(this.displayRural);
 
-    this.checkbox4 = createCheckbox("Total", true);
-    this.checkbox4.parent("input");
-    this.checkbox4.changed(this.display);
+    const checkbox4 = createCheckbox("Total");
+    checkbox4.style("color", "rgb(11, 50, 107)");
+    checkbox4.parent("input");
+    checkbox4.changed(this.displayTotal);
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -93,16 +99,45 @@ function GenderRatio() {
       return;
     }
 
+    //Draw the reference lines where gender ratio = 90, 100, 110, 120, and 130.
+    textSize(14);
+    textAlign(CENTER);
+    const referenceLines = [90, 100, 110, 120, 130];
+    referenceLines.forEach((value) => {
+      let x = this.mapRatioToWidth(value);
+      noStroke();
+      fill(230);
+      text(value, x, margin - 30);
+      stroke(230);
+      line(x, margin - 20, x, height - margin + 20);
+    });
+
+    // Draw the dumbbells
     dumbbells.forEach((dumbbell) => dumbbell.display());
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
-  this.display = function () {
+  this.displayUrban = function () {
     if (this.checked()) {
-      print("checked");
-      fill(100);
-    } else {
-      fill(200);
+      print("urban checked");
+    }
+  };
+
+  this.displayTown = function () {
+    if (this.checked()) {
+      print("town checked");
+    }
+  };
+
+  this.displayRural = function () {
+    if (this.checked()) {
+      print("rural checked");
+    }
+  };
+
+  this.displayTotal = function () {
+    if (this.checked()) {
+      print("total checked");
     }
   };
 
