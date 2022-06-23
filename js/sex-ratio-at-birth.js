@@ -46,7 +46,6 @@ function SexRatioAtBirth() {
   /* Setup ----------------------------------------------------------------------------------*/
   let colors = [];
   this.setup = function () {
-    
     textSize(14);
     colors = [
       color(0, 0, 0),
@@ -172,7 +171,7 @@ function SexRatioAtBirth() {
       this.startYear,
       this.endYear,
       this.layout.leftMargin, // Draw left-to-right from margin.
-      this.layout.rightMargin - marginSize * 4
+      this.layout.rightMargin - marginSize * 2
     );
   };
 
