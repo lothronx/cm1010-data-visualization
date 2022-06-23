@@ -12,14 +12,9 @@ function setup() {
   gallery = new Gallery();
 
   // Add the visualisation objects here.
-  gallery.addVisual(new TechDiversityRace());
-  gallery.addVisual(new TechDiversityGender());
-  gallery.addVisual(new PayGapByJob2017());
-  gallery.addVisual(new PayGapTimeSeries());
-  gallery.addVisual(new ClimateChange());
+  gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new TechDiversityWaffle());
   gallery.addVisual(new PayGapByBouncyBubbles());
-  gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new GenderRatio());
   gallery.addVisual(new GenderRatioByYear());
 }
