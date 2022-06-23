@@ -67,11 +67,6 @@ function TechDiversityWaffle() {
       console.log("Data not yet loaded");
       return;
     }
-    noStroke();
-    noFill();
-    textSize(16);
-    textAlign(NORMAL);
-    textStyle(NORMAL);
 
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();
@@ -100,9 +95,12 @@ function TechDiversityWaffle() {
     this.waffle2.checkMouse(mouseX, mouseY);
 
     // some text
+    noStroke();
     fill(50);
-    textAlign(CENTER);
     textSize(20);
+    textAlign(CENTER);
+    textStyle(NORMAL);
+
     text(company1, width * 0.25, 80 + width * 0.4);
     text(company2, width * 0.75, 80 + width * 0.4);
     text("VS", width * 0.5, 50 + width * 0.2);

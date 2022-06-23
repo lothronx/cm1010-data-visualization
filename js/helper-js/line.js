@@ -13,7 +13,7 @@ class Line {
       // Create an object to store data for the current year.
       let current = {
         x: x,
-        x: this.y[i],
+        y: this.y[i],
       };
 
       // Draw dots representing each data.
@@ -27,16 +27,15 @@ class Line {
         line(previous.x, previous.y, current.x, current.y);
       }
 
-      //   // Draw country names.
-      //   if (current.x == this.endYear) {
-      //     noStroke();
-      //     fill(this.color);
-      //     textSize(16);
-      //     textAlign(LEFT);
-      //     text(this.name, current.x + 10, current.y);
-      //   }
-
       previous = current;
     });
+
+    // Draw the country name.
+    noStroke();
+    fill(this.color);
+    textSize(16);
+    textStyle(BOLD);
+    textAlign(LEFT, CENTER);
+    text(this.name, this.x[this.x.length - 1] + 10, this.y[this.y.length - 1]);
   }
 }

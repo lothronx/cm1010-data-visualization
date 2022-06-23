@@ -3,14 +3,12 @@ function SexRatioAtBirth() {
   this.name = "Global Sex Ratio at Birth (Line Chart Series)";
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
+  this.description = "";
   this.xAxisLabel = "Year";
   this.yAxisLabel = "Male births per 100 female births";
-
-  const margin = 60;
   const numXTickLabels = 6;
   const numYTickLabels = 7;
+  const margin = 60;
   const colors = [
     color(0, 0, 0),
     color(227, 51, 126), //red
@@ -24,6 +22,7 @@ function SexRatioAtBirth() {
     color(11, 50, 107), //blue
     color(183, 204, 148), //green
   ];
+
   let lines = [];
 
   /* Load Data ------------------------------------------------------------------------------*/
@@ -79,8 +78,6 @@ function SexRatioAtBirth() {
     this.drawLabels();
     this.drawXLabels();
     this.drawYLabels();
-
-    // Loop over all lines (countries). In each line (country) draw a line from the previous value to the current.
     lines.forEach((line) => line.display());
   };
 
@@ -101,7 +98,7 @@ function SexRatioAtBirth() {
       this.minRatio,
       this.maxRatio,
       height - margin, // Lower Ratio at bottom.
-      margin // Higher Ratio at top.
+      margin / 2 // Higher Ratio at top.
     );
   };
 
@@ -110,7 +107,7 @@ function SexRatioAtBirth() {
     stroke(50);
     strokeWeight(1);
     line(margin, height - margin, width - margin, height - margin); // x-axis
-    line(margin, margin, margin, height - margin); // y-axis
+    line(margin, margin / 2, margin, height - margin); // y-axis
   };
 
   // Draw x and y axis labels.
@@ -142,9 +139,9 @@ function SexRatioAtBirth() {
     yearLabels.forEach((yearLabel) => {
       let x = this.mapYearToWidth(yearLabel);
       noStroke();
-      text(yearLabel, x, height - margin * 0.9);
+      text(yearLabel, x, height - margin * 0.8);
       stroke(200);
-      line(x, margin, x, height - margin);
+      line(x, margin / 2, x, height - margin);
     });
   };
 
@@ -158,7 +155,7 @@ function SexRatioAtBirth() {
       let ratioLabel = this.minRatio + ratioCommonDifference * i;
       let y = this.mapRatioToHeight(ratioLabel);
       noStroke();
-      text(ratioLabel, margin * 0.9, y);
+      text(ratioLabel, margin * 0.8, y);
       stroke(200);
       line(margin, y, width - margin, y);
     }
