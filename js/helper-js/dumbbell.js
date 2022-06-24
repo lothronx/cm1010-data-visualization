@@ -37,5 +37,5 @@ class Dumbbell {
     circle(this.xRural, this.y, 8);
   }
 
-  hover() {}
+  hover(mouseX, mouseY) {}
 }
