@@ -1,5 +1,5 @@
-// This extension is a redesign of the "Tech Diversity: Race" data visualization template. 
-// This extension is built based on Week 11 course materials. 
+// This extension is a redesign of the "Tech Diversity: Race" data visualization template.
+// This extension is built based on Week 11 course materials.
 // Changed are made.
 
 function TechDiversityWaffle() {
@@ -7,6 +7,7 @@ function TechDiversityWaffle() {
   this.name = "Tech Diversity (Waffle Chart)";
   this.id = "tech-diversity-waffle";
   this.title = "Race Diversity in Major Tech Companies";
+  this.description = "(Tip: Hover over the waffle to see detailed information.)";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -26,7 +27,7 @@ function TechDiversityWaffle() {
     // Create the DOM element container
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
-    this.inputContainer.parent("diagram-container");
+    this.inputContainer.parent("app");
 
     // Create some text.
     const selectText1 = createElement(
@@ -71,7 +72,7 @@ function TechDiversityWaffle() {
     // Draw the first waffle chart.
     this.waffle1 = new Waffle(
       width * 0.05,
-      50,
+      20,
       width * 0.4,
       this.data,
       company1
@@ -82,7 +83,7 @@ function TechDiversityWaffle() {
     // Draw the second waffle chart.
     this.waffle2 = new Waffle(
       width * 0.55,
-      50,
+      20,
       width * 0.4,
       this.data,
       company2
@@ -97,8 +98,8 @@ function TechDiversityWaffle() {
     textAlign(CENTER);
     textStyle(NORMAL);
 
-    text(company1, width * 0.25, 80 + width * 0.4);
-    text(company2, width * 0.75, 80 + width * 0.4);
-    text("VS", width * 0.5, 50 + width * 0.2);
+    text(company1, width * 0.25, 50 + width * 0.4);
+    text(company2, width * 0.75, 50 + width * 0.4);
+    text("VS", width * 0.5, 20 + width * 0.2);
   };
 }

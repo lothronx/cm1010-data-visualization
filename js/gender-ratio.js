@@ -6,7 +6,7 @@ function GenderRatio() {
   this.id = "gender-ratio";
   this.title =
     "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
-  this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural story needs to be told.`;
+  this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural story needs to be told. (Tip: Hover over each dumbbell to enlarge it slightly.)`;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -20,7 +20,7 @@ function GenderRatio() {
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
-  const margin = 80;
+  const margin = 60;
   let dumbbells = [];
 
   this.setup = function () {
@@ -58,7 +58,7 @@ function GenderRatio() {
     // Create the DOM element container
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
-    this.inputContainer.parent("diagram-container");
+    this.inputContainer.parent("app");
     this.inputContainer.style("font-weight", "700");
 
     // Create some text.
@@ -89,6 +89,9 @@ function GenderRatio() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    //this figure needs at least 800px height to prevent shapes from overlapping.
+    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
+
     //Draw the reference lines where gender ratio = 90, 100, 110, 120, and 130.
     textSize(14);
     textAlign(CENTER);

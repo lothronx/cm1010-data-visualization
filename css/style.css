@@ -9,8 +9,9 @@ body {
   grid-gap: 0.5rem;
   grid-template-areas:
     "menu title"
-    "menu body";
-  grid-template-rows: auto 1fr;
+    "menu controlPanel"
+    "menu canvas";
+  grid-template-rows: auto auto 1fr;
   grid-template-columns: auto 1fr;
   justify-items: center;
 }
@@ -23,17 +24,12 @@ header {
   grid-area: title;
 }
 
-#diagram-container {
-  grid-area: body;
-  position: relative;
+canvas {
+  grid-area: canvas;
 }
 
 #input {
-  position: absolute;
-  left: 50%;
-  top: 0%;
-  transform: translate(-50%, -50%);
-  width: fit-content;
+  grid-area: controlPanel;
   display: flex;
   justify-content: center;
 }
@@ -46,27 +42,28 @@ h1 {
   font-size: 2rem;
 }
 
-label {
-  margin: 2rem 1rem;
-}
-
-input {
-  margin: 2rem 0.5rem;
-}
-
-select {
-  margin: 1.5rem 0.5rem;
-}
-
-h4 {
-  margin: 2rem 0;
-}
-
 p {
   text-indent: 2rem;
   padding: 0 4rem;
   line-height: 150%;
   font-size: 0.9rem;
+}
+
+#input {
+  margin: 0;
+}
+
+select {
+  margin: 0 0.5rem;
+}
+
+input {
+  margin-left: 0.5rem;
+}
+
+h4 {
+  font-weight: 400;
+  margin: 0 0.5rem;
 }
 
 .menu-item {
