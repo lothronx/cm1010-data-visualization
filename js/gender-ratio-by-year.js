@@ -1,10 +1,11 @@
+// Data collected from National Bureau of Statistics http://www.stats.gov.cn/tjsj/ndsj/
+
 function GenderRatioByYear() {
   /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Gender Ratio in China: 1998-2020 (Map)";
   this.id = "gender-ratio-by-year";
-  this.title = "The Missing Girl: Gender Ratio in China (1998-2020)";
-  this.description =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis nisi tenetur atque blanditiis ad voluptatibus ipsam enim incidunt odio modi assumenda error officia dignissimos cum deserunt optio commodi distinctio quod veniam itaque, cumque delectus! Eveniet architecto officia provident aut minima dolores qui omnis fuga? Voluptatem alias dicta qui voluptatum sunt?";
+  this.title = "The Missing Women: Gender Ratio in China (1998-2020)";
+  this.description = `Where did our missing sisters go? Statistics show that the gender ratio in China has grown particularly skewed in the past three decades, as a result of decommunization, agricultural decollectivization, the rise of cultural conservatism, and the development of gender selective technologies. We cannot go back in time, but what kind of future are we looking into?`;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;

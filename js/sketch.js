@@ -1,5 +1,4 @@
-// Global variable to store the gallery object. The gallery object is
-// a container for all the visualisations.
+// Global variable to store the gallery object. The gallery object is a container for all the visualizations.
 var gallery;
 
 function setup() {
@@ -11,10 +10,10 @@ function setup() {
   // Create a new gallery object.
   gallery = new Gallery();
 
-  // Add the visualisation objects here.
-  gallery.addVisual(new SexRatioAtBirth());
-  gallery.addVisual(new TechDiversityWaffle());
+  // Add the visualization objects here.
   gallery.addVisual(new PayGapByBouncyBubbles());
+  gallery.addVisual(new TechDiversityWaffle());
+  gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new GenderRatio());
   gallery.addVisual(new GenderRatioByYear());
 }
@@ -24,4 +23,8 @@ function draw() {
   if (gallery.selectedVisual != null) {
     gallery.selectedVisual.draw();
   }
+}
+
+function mouseClicked() {
+  gallery.selectedVisual.mouseClicked(mouseX, mouseY);
 }

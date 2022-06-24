@@ -7,14 +7,12 @@ class Gallery {
   // Add a new visualization to the navigation bar.
   addVisual(vis) {
     // Check that the vis object has an id and name.
-    if (!vis.hasOwnProperty("id") && !vis.hasOwnProperty("name")) {
-      alert("Make sure your visualization has an id and name!");
-    }
+    if (!vis.hasOwnProperty("id") && !vis.hasOwnProperty("name"))
+      throw new Error("Make sure your visualization has an id and name!");
 
     // Check that the vis object has a unique id.
-    if (this.findVisIndex(vis.id) != null) {
-      alert(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
-    }
+    if (this.findVisIndex(vis.id) != null)
+      throw new Error(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
 
     // If there is no error, push the new visualization to the visuals array.
     this.visuals.push(vis);
@@ -52,9 +50,7 @@ class Gallery {
     select("header").hide();
 
     // Preload data if necessary.
-    if (vis.hasOwnProperty("preload")) {
-      vis.preload();
-    }
+    if (vis.hasOwnProperty("preload")) vis.preload();
   }
 
   findVisIndex(visId) {

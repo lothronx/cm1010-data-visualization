@@ -17,10 +17,7 @@ function TechDiversityWaffle() {
 
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
-    if (!this.loaded) {
-      console.log("Data not yet loaded");
-      return;
-    }
+    if (!this.loaded) throw new Error("Data not yet loaded");
 
     // Create the DOM element container
     this.inputContainer = createDiv();

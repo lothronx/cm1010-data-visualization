@@ -1,9 +1,11 @@
+// Data collected from The World Bank - Global sex ratio at birth (male births per female births) https://data.worldbank.org/indicator/SP.POP.BRTH.MF?view=map
+
 function SexRatioAtBirth() {
   /* Basic Information ----------------------------------------------------------------------*/
   this.name = "Global Sex Ratio at Birth (Line Chart Series)";
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
-  this.description = "";
+  this.description = `Without human interference, the natural sex ratio at birth should be around 105 boys per 100 girls. Skewed sex ratio at birth is clear evidence of gender selection through prenatal sex determination and gender selective abortion. It's time to end sexism.`;
   this.xAxisLabel = "Year";
   this.yAxisLabel = "Male births per 100 female births";
   const numXTickLabels = 6;
@@ -39,11 +41,9 @@ function SexRatioAtBirth() {
   /* Setup ----------------------------------------------------------------------------------*/
 
   this.setup = function () {
-    if (!this.loaded) {
-      console.log("Data not yet loaded");
-      return;
-    }
+    if (!this.loaded) throw new Error("Data not yet loaded");
 
+    //Resize the canvas each setup.
     resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
 
     // Get data from the table.

@@ -26,29 +26,23 @@ class Ball {
     // Draw the pay gap % on the center of the ball.
     fill(255);
     textAlign(CENTER, CENTER);
-    textSize(this.size * 0.25);
+    textSize(this.size * 0.3);
     this._payGap = Number(this.label.payGap).toFixed(1);
     text(this._payGap + "%", this.x, this.y);
   }
 
   // When the mouse hovers over the ball, show the ball's detailed information on the bottom of the canvas.
-  mouseOver(mouseX, mouseY) {
-    if (
-      mouseX > this.x - this.size / 2 &&
-      mouseX < this.x + this.size / 2 &&
-      mouseY > this.y - this.size / 2 &&
-      mouseY < this.y + this.size / 2
-    ) {
+  hover(mouseX, mouseY) {
+    if (dist(this.x, this.y, mouseX, mouseY) <= this.size / 2) {
       push();
-      fill(245);
-      rect(0, height - this.margin * 2, width, this.margin * 2, 8);
       textAlign(CENTER, CENTER);
       textStyle(NORMAL);
-      textSize(14);
+      textSize(13);
       fill(50);
       text(
-        `In UK, ${this.label.num} thousand workers work as ${this.label.name}. 
-${round(this.label.ratio)}% of them are women.
+        `In UK, ${this.label.num} thousand workers work as ${
+          this.label.name
+        }. ${round(this.label.ratio)}% of them are women.
 On average, each woman earns ${this._payGap}% less than man.`,
         width / 2,
         height - this.margin
@@ -57,52 +51,49 @@ On average, each woman earns ${this._payGap}% less than man.`,
     }
   }
 
-  // When the mouse is not on canvas, move the balls around.
-  mouseOut(mouseX, mouseY) {
-    if (mouseX < 1 || mouseX > width || mouseY < 1 || mouseY > height) {
-      // By default, every ball tends to move towards the center of the canvas.
-      // Due to the collision check mechanism, they will keep moving for a very long time.
-      this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
-      this.y > height / 2 - this.margin
-        ? (this.vy -= this.speed)
-        : (this.vy += this.speed);
-      this.x += this.vx;
-      this.y += this.vy;
+  // When the canvas is clicked, call this function.
+  move() {
+    // By default, every ball tends to move towards the center of the canvas.
+    // Due to the collision check mechanism, they can keep moving for a very long time.
+    this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
+    this.y > height / 2 - this.margin
+      ? (this.vy -= this.speed)
+      : (this.vy += this.speed);
+    this.x += this.vx;
+    this.y += this.vy;
 
-      // If the ball reaches the edge of the canvas, it bounces back.
-      if (this.x + this.size / 2 > width) {
-        this.x = width - this.size / 2;
-        this.vx *= this.bounce;
-      } else if (this.x - this.size / 2 < 0) {
-        this.x = this.size / 2;
-        this.vx *= this.bounce;
-      }
-      if (this.y + this.size / 2 > height - this.margin * 2) {
-        // Leave some blank space on the bottom for text.
-        this.y = height - this.margin * 2 - this.size / 2;
-        this.vy *= this.bounce;
-      } else if (this.y - this.size / 2 < 0) {
-        this.y = this.size / 2;
-        this.vy *= this.bounce;
-      }
+    // If the ball reaches the edge of the canvas, it bounces back.
+    if (this.x + this.size / 2 > width) {
+      this.x = width - this.size / 2;
+      this.vx *= this.bounce;
+    } else if (this.x - this.size / 2 < 0) {
+      this.x = this.size / 2;
+      this.vx *= this.bounce;
+    }
+    if (this.y + this.size / 2 > height - this.margin * 2) {
+      this.y = height - this.margin * 2 - this.size / 2;
+      this.vy *= this.bounce;
+    } else if (this.y - this.size / 2 < this.margin * 2) {
+      this.y = this.size / 2 + this.margin * 2;
+      this.vy *= this.bounce;
+    }
 
-      // If two balls collide, they will spring against each other.
-      for (let i = this.id + 1; i < this.others.length; i++) {
-        let dx = this.others[i].x - this.x;
-        let dy = this.others[i].y - this.y;
-        let distance = sqrt(dx * dx + dy * dy);
-        let minDist = this.others[i].size / 2 + this.size / 2;
-        if (distance < minDist) {
-          let angle = atan2(dy, dx);
-          let targetX = this.x + cos(angle) * minDist;
-          let targetY = this.y + sin(angle) * minDist;
-          let ax = (targetX - this.others[i].x) * this.spring;
-          let ay = (targetY - this.others[i].y) * this.spring;
-          this.vx -= ax;
-          this.vy -= ay;
-          this.others[i].vx += ax;
-          this.others[i].vy += ay;
-        }
+    // If two balls collide, they will spring against each other.
+    for (let i = this.id + 1; i < this.others.length; i++) {
+      let dx = this.others[i].x - this.x;
+      let dy = this.others[i].y - this.y;
+      let distance = sqrt(dx * dx + dy * dy);
+      let minDist = this.others[i].size / 2 + this.size / 2;
+      if (distance < minDist) {
+        let angle = atan2(dy, dx);
+        let targetX = this.x + cos(angle) * minDist;
+        let targetY = this.y + sin(angle) * minDist;
+        let ax = (targetX - this.others[i].x) * this.spring;
+        let ay = (targetY - this.others[i].y) * this.spring;
+        this.vx -= ax;
+        this.vy -= ay;
+        this.others[i].vx += ax;
+        this.others[i].vy += ay;
       }
     }
   }
