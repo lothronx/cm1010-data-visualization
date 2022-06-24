@@ -70,6 +70,11 @@ function PayGapByBouncyBubbles() {
       clickSwitch ? (clickSwitch = false) : (clickSwitch = true);
   };
 
+  /* Resize Canvas ----------------------------------------------------------------------------*/
+  this.windowResized = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+  };
+
   /* Helper Functions -----------------------------------------------------------------------*/
   this.mapDataToShape = function () {
     this.jobType = this.data.getColumn("job_subtype");

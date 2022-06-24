@@ -7,7 +7,8 @@ function TechDiversityWaffle() {
   this.name = "Tech Diversity (Waffle Chart)";
   this.id = "tech-diversity-waffle";
   this.title = "Race Diversity in Major Tech Companies";
-  this.description = "(Tip: Hover over the waffle chart to see the percentage of employees of each race.)";
+  this.description =
+    "(Tip: Hover over the waffle chart to see the percentage of employees of each race.)";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -101,5 +102,10 @@ function TechDiversityWaffle() {
     text(company1, width * 0.25, 50 + width * 0.4);
     text(company2, width * 0.75, 50 + width * 0.4);
     text("VS", width * 0.5, 20 + width * 0.2);
+  };
+
+  /* Resize Canvas ----------------------------------------------------------------------------*/
+  this.windowResized = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
   };
 }

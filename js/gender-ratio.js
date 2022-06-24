@@ -68,10 +68,10 @@ function GenderRatio() {
     // Create the radio DOM element.
     this.radio = createRadio();
     this.radio.parent("input");
-    // Fill the options with table header.
     this.options = this.data.columns.filter((value) => value != "Province");
     this.options.forEach((value) => {
-      this.radio.option(value);
+      let x = this.radio.option(value);
+      x.id = value;
     });
 
     // Create some more text.
@@ -89,21 +89,7 @@ function GenderRatio() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    //this figure needs at least 800px height to prevent shapes from overlapping.
-    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
-
-    //Draw the reference lines where gender ratio = 90, 100, 110, 120, and 130.
-    textSize(14);
-    textAlign(CENTER);
-    const referenceLines = [90, 100, 110, 120, 130];
-    referenceLines.forEach((value) => {
-      let x = this.mapRatioToWidth(value);
-      noStroke();
-      fill(230);
-      text(value, x, margin - 30);
-      stroke(230);
-      line(x, margin - 20, x, height - margin + 20);
-    });
+    this.drawReferenceLines();
 
     // When radio option is selected, sort dumbbells accordingly.
     let val = this.radio.value();
@@ -130,8 +116,29 @@ function GenderRatio() {
     });
   };
 
+  /* Resize Canvas ----------------------------------------------------------------------------*/
+  this.windowResized = function () {
+    //this figure needs at least 800px height to prevent shapes from overlapping.
+    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
+  };
+
   /* Helper Functions -----------------------------------------------------------------------*/
   this.mapRatioToWidth = function (value) {
     return map(value, this.minRatio, this.maxRatio, 0, width);
+  };
+
+  this.drawReferenceLines = function () {
+    //Draw the reference lines where gender ratio = 90, 100, 110, 120, and 130.
+    textSize(14);
+    textAlign(CENTER);
+    const referenceLines = [90, 100, 110, 120, 130];
+    referenceLines.forEach((value) => {
+      let x = this.mapRatioToWidth(value);
+      noStroke();
+      fill(230);
+      text(value, x, margin - 30);
+      stroke(230);
+      line(x, margin - 20, x, height - margin + 20);
+    });
   };
 }

@@ -58,12 +58,28 @@ select {
 }
 
 input {
-  margin-left: 0.5rem;
+  margin-left: 0.8rem;
 }
 
 h4 {
   font-weight: 400;
   margin: 0 0.5rem;
+}
+
+#Total + span {
+  color: rgb(11, 50, 107);
+}
+
+#Urban + span {
+  color: rgb(123, 203, 192);
+}
+
+#Town + span {
+  color: rgb(245, 189, 66);
+}
+
+#Rural + span {
+  color: rgb(240, 81, 41);
 }
 
 .menu-item {
