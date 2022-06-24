@@ -25,6 +25,3 @@ function draw() {
     gallery.selectedVisual.draw();
   }
 }
-function windowResized() {
-  resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-}

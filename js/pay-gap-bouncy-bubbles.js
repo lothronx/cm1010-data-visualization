@@ -20,6 +20,13 @@ function PayGapByBouncyBubbles() {
   /* Setup ----------------------------------------------------------------------------------*/
   let balls = [];
   this.setup = function () {
+    if (!this.loaded) {
+      console.log("Data not yet loaded");
+      return;
+    }
+
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+
     // Map data to parameters of circles. Check the help function for more details.
     this.mapDatatoShape();
 
@@ -50,11 +57,6 @@ function PayGapByBouncyBubbles() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    if (!this.loaded) {
-      console.log("Data not yet loaded");
-      return;
-    }
-
     noStroke();
     noFill();
     textSize(16);

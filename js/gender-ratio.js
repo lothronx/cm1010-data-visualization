@@ -4,7 +4,7 @@ function GenderRatio() {
   this.id = "gender-ratio";
   this.title =
     "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
-  this.description = `The overall gender ratio in China is 104.8 men per 100 women. Studies show that the reasons behind this ratio include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and female labour migration from countryside to cities. In rural China, the issue of "missing women" is more burning, yet their story is less covered.`;
+  this.description = `The overall gender ratio in China is 104.8 men per 100 women. In rural areas, the issue of "missing women" is even more burning, yet their story is less covered. Studies suggest that the reasons include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, agricultural decollectivization, and rural to urban migration.`;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -94,11 +94,6 @@ function GenderRatio() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    if (!this.loaded) {
-      console.log("Data not yet loaded");
-      return;
-    }
-
     //Draw the reference lines where gender ratio = 90, 100, 110, 120, and 130.
     textSize(14);
     textAlign(CENTER);

@@ -63,11 +63,6 @@ function TechDiversityWaffle() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    if (!this.loaded) {
-      console.log("Data not yet loaded");
-      return;
-    }
-
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();
     let company2 = this.select2.value();

@@ -17,8 +17,11 @@ function GenderRatioByYear() {
     );
     this.map = loadImage("data/china-gender-ratio/chinaLow.svg");
   };
+  
   this.setup = function () {};
+
   this.destroy = function () {};
+
   this.draw = function () {
     image(this.map, 0, 0);
   };
