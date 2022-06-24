@@ -1,13 +1,14 @@
-function Gallery() {
-  this.visuals = [];
-  this.selectedVisual = null;
-  var self = this;
+class Gallery {
+  constructor() {
+    this.visuals = [];
+    this.selectedVisual = null;
+  }
 
-  // Add a new visualisation to the navigation bar.
-  this.addVisual = function (vis) {
+  // Add a new visualization to the navigation bar.
+  addVisual(vis) {
     // Check that the vis object has an id and name.
     if (!vis.hasOwnProperty("id") && !vis.hasOwnProperty("name")) {
-      alert("Make sure your visualisation has an id and name!");
+      alert("Make sure your visualization has an id and name!");
     }
 
     // Check that the vis object has a unique id.
@@ -15,39 +16,35 @@ function Gallery() {
       alert(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
     }
 
+    // If there is no error, push the new visualization to the visuals array.
     this.visuals.push(vis);
 
     // Create menu item.
-    var menuItem = createElement("li", vis.name);
+    const menuItem = createElement("li", vis.name);
     menuItem.addClass("menu-item");
     menuItem.id(vis.id);
+    menuItem.parent(select("#visuals-menu"));
 
-    menuItem.mouseOver((e) => {
-      select("#" + e.srcElement.id).addClass("hover");
-    });
-
-    menuItem.mouseOut((e) => {
-      select("#" + e.srcElement.id).removeClass("hover");
-    });
+    // Menu item interactivity
+    menuItem.mouseOver((e) => select("#" + e.srcElement.id).addClass("hover"));
+    menuItem.mouseOut((e) =>
+      select("#" + e.srcElement.id).removeClass("hover")
+    );
 
     menuItem.mouseClicked((e) => {
-      //remove selected class from any other menu-items
       selectAll(".menu-item").forEach((menuItem) =>
         menuItem.removeClass("selected")
       );
       select("#" + e.srcElement.id).addClass("selected");
-      self.selectVisual(e.srcElement.id);
+      this.selectVisual(e.srcElement.id);
     });
 
-    var visMenu = select("#visuals-menu");
-    visMenu.child(menuItem);
-
     // Create title and description.
-    let title = createElement("h1", vis.title);
+    const title = createElement("h1", vis.title);
     title.id(vis.id);
     title.parent("title");
 
-    let description = createP(vis.description);
+    const description = createP(vis.description);
     description.id(vis.id);
     description.parent("title");
 
@@ -58,38 +55,35 @@ function Gallery() {
     if (vis.hasOwnProperty("preload")) {
       vis.preload();
     }
-  };
+  }
 
-  this.findVisIndex = function (visId) {
-    // Search through the visualisations looking for one with the id matching visId.
-    for (var i = 0; i < this.visuals.length; i++) {
-      if (this.visuals[i].id == visId) {
-        return i;
-      }
+  findVisIndex(visId) {
+    // Search through the visualizations looking for one with the id matching visId.
+    for (let i = 0; i < this.visuals.length; i++) {
+      if (this.visuals[i].id == visId) return i;
     }
 
-    // Visualisation not found.
+    // Visualization not found.
     return null;
-  };
+  }
 
-  this.selectVisual = function (visId) {
-    var visIndex = this.findVisIndex(visId);
+  selectVisual(visId) {
+    const visIndex = this.findVisIndex(visId);
 
     if (visIndex != null) {
-      // If the current visualisation has a deselect method run it.
+      // If the current visualization has a deselect method run it.
       if (
         this.selectedVisual != null &&
         this.selectedVisual.hasOwnProperty("destroy")
-      ) {
+      )
         this.selectedVisual.destroy();
-      }
-      // Select the visualisation in the gallery.
+
+      // Select the visualization in the gallery.
       this.selectedVisual = this.visuals[visIndex];
 
-      // Initialise visualisation if necessary.
-      if (this.selectedVisual.hasOwnProperty("setup")) {
+      // Initialize visualization if necessary.
+      if (this.selectedVisual.hasOwnProperty("setup"))
         this.selectedVisual.setup();
-      }
 
       // Only display the selected title and description.
       select("header").show();
@@ -99,8 +93,8 @@ function Gallery() {
         a.show()
       );
 
-      // Enable animation in case it has been paused by the current visualisation.
+      // Enable animation in case it has been paused by the current visualization.
       loop();
     }
-  };
+  }
 }

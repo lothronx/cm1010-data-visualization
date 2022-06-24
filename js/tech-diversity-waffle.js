@@ -75,7 +75,7 @@ function TechDiversityWaffle() {
       this.data,
       company1
     );
-    this.waffle1.draw();
+    this.waffle1.display();
     this.waffle1.checkMouse(mouseX, mouseY);
 
     // Draw the second waffle chart.
@@ -86,7 +86,7 @@ function TechDiversityWaffle() {
       this.data,
       company2
     );
-    this.waffle2.draw();
+    this.waffle2.display();
     this.waffle2.checkMouse(mouseX, mouseY);
 
     // some text

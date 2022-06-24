@@ -1,10 +1,14 @@
 class Waffle {
   constructor(x, y, size, table, columnHeading) {
-    const boxesEachLine = 10;
+    // Each waffle has 5 properties: x, y, size, categories, and boxes.
+    this.x = x;
+    this.y = y;
+    this.size = size;
 
-    /* Get necessary data from the table.------------------------------------------------*/
+    // "Categories" is an array of encapsulated table data.
+    this.categories = [];
     const labels = table.getColumn(0).filter((value) => value != "");
-    let percentages = table.getColumn(columnHeading);
+    const percentages = table.getColumn(columnHeading);
     const colors = [
       color(150, 110, 172), //purple
       color(245, 189, 66), //yellow
@@ -13,59 +17,58 @@ class Waffle {
       color(241, 199, 221), //pink
       color(230, 230, 230), //gray
     ];
-
-    /* Categories is an array of objects made from the information above. ----------------------*/
-    let categories = labels.map((label, i) => {
-      return {
+    labels.forEach((label, i) => {
+      this.categories.push({
         label: label,
         number: round(percentages[i]),
         color: colors[i],
-      };
+      });
     });
 
-    /* Boxes is a 2D array of all boxes. -------------------------------------------------------*/
+    // "Boxes" is an array of the little boxes that makes up the waffle chart.
     this.boxes = [];
-    const self = this;
-    function addBoxes() {
-      let categoryIndex = 0;
-      let boxesEachCategory = 0;
-      const boxSize = size / boxesEachLine;
+    this.boxGenerator();
+  }
 
-      for (let i = 0; i < boxesEachLine; i++) {
-        self.boxes.push([]);
-        for (let j = 0; j < boxesEachLine; j++) {
-          if (boxesEachCategory == categories[categoryIndex].number) {
-            boxesEachCategory = 0;
-            categoryIndex++;
-          }
-          self.boxes[i].push(
-            new Box(
-              x + j * boxSize,
-              y + i * boxSize,
-              boxSize,
-              categories[categoryIndex]
-            )
-          );
-          boxesEachCategory++;
+  /* Helper function -------------------------------------------------------------------*/
+  boxGenerator() {
+    const boxesEachLine = 10;
+    const boxSize = this.size / boxesEachLine;
+    let categoryIndex = 0;
+    let boxesEachCategory = 0;
+
+    for (let i = 0; i < boxesEachLine; i++) {
+      this.boxes.push([]);
+      for (let j = 0; j < boxesEachLine; j++) {
+        if (boxesEachCategory == this.categories[categoryIndex].number) {
+          boxesEachCategory = 0;
+          categoryIndex++;
         }
+        this.boxes[i].push(
+          new Box(
+            this.x + j * boxSize,
+            this.y + i * boxSize,
+            boxSize,
+            this.categories[categoryIndex]
+          )
+        );
+        boxesEachCategory++;
       }
     }
-
-    addBoxes();
   }
 
-  /* Draw the waffle chart -------------------------------------------------------------------*/
-  draw() {
+  // Draw the waffle chart 
+  display() {
     this.boxes.forEach((boxes) => {
-      boxes.forEach((box) => box.draw());
+      boxes.forEach((box) => box.display());
     });
   }
 
-  /* Interactivity ---------------------------------------------------------------------------*/
+  // Interactivity
   checkMouse(mouseX, mouseY) {
-    for (let i = 0; i < this.boxes.length; i++) {
-      for (let j = 0; j < this.boxes[i].length; j++) {
-        let mouseOver = this.boxes[i][j].mouseOver(mouseX, mouseY);
+    this.boxes.forEach((boxes) => {
+      boxes.forEach((box) => {
+        let mouseOver = box.mouseOver(mouseX, mouseY);
         if (mouseOver) {
           push();
           fill(120);
@@ -76,10 +79,9 @@ class Waffle {
           text(mouseOver.label, mouseX + 10, mouseY - 35);
           text(mouseOver.number + "%", mouseX + 10, mouseY - 19);
           pop();
-          break;
         }
-      }
-    }
+      });
+    });
   }
 }
 
@@ -92,6 +94,12 @@ class Box {
     this.category = category;
   }
 
+  display() {
+    noStroke();
+    fill(this.category.color);
+    square(this.x, this.y, this.size, this.size / 2.5);
+  }
+
   mouseOver(mouseX, mouseY) {
     if (
       mouseX > this.x &&
@@ -102,11 +110,5 @@ class Box {
       return this.category;
     }
     return false;
-  }
-
-  draw() {
-    noStroke();
-    fill(this.category.color);
-    square(this.x, this.y, this.size, this.size / 2.5);
   }
 }
