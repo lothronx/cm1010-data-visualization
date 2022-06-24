@@ -49,23 +49,27 @@ function SexRatioAtBirth() {
     // Get data from the table.
     const countries = this.data.getRows();
 
+    // Find the beginning and the end year. This will be used for x-axis coordinates.
     this.startYear = Number(this.data.columns[1]);
     this.endYear = Number(this.data.columns[this.data.columns.length - 1]);
 
+    // Find the biggest and the smallest ratio number by putting all data from the table in an one-dimensional array and filtering the country names (which are not numbers) out. This will be used for y-axis coordinates.
     const allData = this.data.getArray().reduce((a, c) => a.concat(c));
     const filteredData = allData.filter((data) => data >= 0);
     this.minRatio = floor(min(filteredData));
     this.maxRatio = ceil(max(filteredData)) + 1;
 
-    // Push all data to lines. Each line represents one country.
+    // Push data to lines. Each line represents one country.
     lines = [];
     countries.forEach((country, i) => {
       let name = country.arr[0];
 
+      // Map years to x coordinates
       let x = [];
       let years = this.data.columns.filter((value) => value != "");
       years.forEach((year) => x.push(this.mapYearToWidth(year)));
 
+      // Map ratios to y coordinates
       let y = [];
       let ratios = country.arr.filter((value) => value > 0);
       ratios.forEach((ratio) => y.push(this.mapRatioToHeight(ratio)));

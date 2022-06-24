@@ -66,7 +66,7 @@ function PayGapByBouncyBubbles() {
     });
   };
 
-  /* Mouse Interaction ----------------------------------------------------------------------------------*/
+  /* Click the mouse to switch between move and stop--------------------------------------------*/
   let clickSwitch = false;
   this.mouseClicked = function (mouseX, mouseY) {
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height)

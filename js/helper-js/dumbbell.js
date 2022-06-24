@@ -36,4 +36,6 @@ class Dumbbell {
     fill(240, 81, 41);
     circle(this.xRural, this.y, 8);
   }
+
+  hover() {}
 }

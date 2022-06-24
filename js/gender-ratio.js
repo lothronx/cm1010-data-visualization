@@ -107,7 +107,10 @@ function GenderRatio() {
     });
 
     // Draw the dumbbells
-    dumbbells.forEach((dumbbell) => dumbbell.display());
+    dumbbells.forEach((dumbbell) => {
+      dumbbell.display();
+      dumbbell.hover();
+    });
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
