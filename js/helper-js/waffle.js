@@ -68,7 +68,7 @@ class Waffle {
   checkMouse(mouseX, mouseY) {
     this.boxes.forEach((boxes) => {
       boxes.forEach((box) => {
-        let mouseOver = box.mouseOver(mouseX, mouseY);
+        let mouseOver = box.hover(mouseX, mouseY);
         if (mouseOver) {
           push();
           fill(120);
@@ -100,7 +100,7 @@ class Box {
     square(this.x, this.y, this.size, this.size / 2.5);
   }
 
-  mouseOver(mouseX, mouseY) {
+  hover(mouseX, mouseY) {
     if (
       mouseX > this.x &&
       mouseX < this.x + this.size &&
