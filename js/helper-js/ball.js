@@ -1,5 +1,6 @@
-// This file is build upon by p5.js example "Bouncy Bubbles". Changes are made.
-// You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
+// This constructor function is built based on the p5.js example "Bouncy Bubbles". You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
+// Changes are made.
+
 class Ball {
   constructor(x, y, size, color, label, index, others) {
     this.x = x;

@@ -1,3 +1,5 @@
+// This extension is a redesign of the ""Pay Gap by Job: 2017"" data visualization template.
+
 function PayGapByBouncyBubbles() {
   /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Pay Gap by Job (Bouncy Bubbles)";

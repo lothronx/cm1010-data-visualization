@@ -1,3 +1,7 @@
+// This extension is a redesign of the "Tech Diversity: Race" data visualization template. 
+// This extension is built based on Week 11 course materials. 
+// Changed are made.
+
 function TechDiversityWaffle() {
   /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Tech Diversity (Waffle Chart)";
