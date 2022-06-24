@@ -89,6 +89,9 @@ function GenderRatio() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    //this figure needs at least 800px height to prevent shapes from overlapping.
+    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
+
     this.drawReferenceLines();
 
     // When radio option is selected, sort dumbbells accordingly.

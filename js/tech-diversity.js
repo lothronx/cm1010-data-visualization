@@ -66,6 +66,7 @@ function TechDiversityWaffle() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();
     let company2 = this.select2.value();

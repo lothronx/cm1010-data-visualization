@@ -51,6 +51,7 @@ function PayGapByBouncyBubbles() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
     noStroke();
     noFill();
     textSize(16);
