@@ -7,28 +7,19 @@ class Line {
   }
 
   display() {
-    let previous = null;
+    // Draw the dots representing the ratio of each year.
+    noFill();
+    stroke(this.color);
+    strokeWeight(3);
+    this.x.forEach((x, i) => point(x, this.y[i]));
 
-    this.x.forEach((x, i) => {
-      // Create an object to store data for the current year.
-      let current = {
-        x: x,
-        y: this.y[i],
-      };
-
-      // Draw dots representing each data.
-      stroke(this.color);
-      strokeWeight(4);
-      point(current.x, current.y);
-
-      // Draw line segment connecting previous year's data to current year's.
-      if (previous != null) {
-        strokeWeight(1);
-        line(previous.x, previous.y, current.x, current.y);
-      }
-
-      previous = current;
-    });
+    // Draw the curve connecting all dots.
+    strokeWeight(1);
+    beginShape();
+    curveVertex(this.x[0], this.y[0]);
+    this.x.forEach((x, i) => curveVertex(x, this.y[i]));
+    curveVertex(this.x[this.x.length - 1], this.y[this.y.length - 1]);
+    endShape();
 
     // Draw the country name.
     noStroke();

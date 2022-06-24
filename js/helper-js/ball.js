@@ -18,9 +18,12 @@ class Ball {
   }
 
   display() {
+    // Draw the ball.
     noStroke();
     fill(this.color);
     circle(this.x, this.y, this.size);
+
+    // Draw the pay gap % on the center of the ball.
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(this.size * 0.25);
@@ -28,6 +31,7 @@ class Ball {
     text(this._payGap + "%", this.x, this.y);
   }
 
+  // When the mouse hovers over the ball, show the ball's detailed information on the bottom of the canvas.
   mouseOver(mouseX, mouseY) {
     if (
       mouseX > this.x - this.size / 2 &&
@@ -53,6 +57,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
     }
   }
 
+  // When the mouse is not on canvas, move the balls around.
   mouseOut(mouseX, mouseY) {
     if (mouseX < 1 || mouseX > width || mouseY < 1 || mouseY > height) {
       // By default, every ball tends to move towards the center of the canvas.
@@ -72,7 +77,8 @@ On average, each woman earns ${this._payGap}% less than man.`,
         this.x = this.size / 2;
         this.vx *= this.bounce;
       }
-      if (this.y + this.size / 2 > height - this.margin * 2) { // Leave some blank space on the bottom for text.
+      if (this.y + this.size / 2 > height - this.margin * 2) {
+        // Leave some blank space on the bottom for text.
         this.y = height - this.margin * 2 - this.size / 2;
         this.vy *= this.bounce;
       } else if (this.y - this.size / 2 < 0) {
