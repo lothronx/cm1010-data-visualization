@@ -80,7 +80,10 @@ function SexRatioAtBirth() {
     this.drawLabels();
     this.drawXLabels();
     this.drawYLabels();
-    lines.forEach((line) => line.display());
+    lines.forEach((line) => {
+      line.display();
+      line.hover(mouseX, mouseY);
+    });
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
