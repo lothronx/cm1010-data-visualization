@@ -27,7 +27,7 @@ class Line {
     // Draw the country name tag.
     noStroke();
     fill(this.color);
-    textSize(14);
+    textSize(16);
     textStyle(BOLD);
     textAlign(LEFT, CENTER);
     text(this.name, this.x[this.x.length - 1] + 10, this.y[this.y.length - 1]);

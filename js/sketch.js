@@ -28,3 +28,7 @@ function draw() {
 function mouseClicked() {
   gallery.selectedVisual.mouseClicked(mouseX, mouseY);
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+}

@@ -1,18 +1,18 @@
 class Dumbbell {
-  constructor(tag, xUrban, xTown, xRural, xTotal, y) {
+  constructor(tag, Urban, Town, Rural, Total, y) {
     this.tag = tag;
-    this.xUrban = xUrban;
-    this.xTown = xTown;
-    this.xRural = xRural;
-    this.xTotal = xTotal;
+    this.Urban = Urban;
+    this.Town = Town;
+    this.Rural = Rural;
+    this.Total = Total;
     this.y = y;
     this.textStyle = NORMAL;
     this.dotSize = 8;
   }
 
   display() {
-    this.xMin = min(this.xUrban, this.xTown, this.xRural, this.xTotal);
-    this.xMax = max(this.xUrban, this.xTown, this.xRural, this.xTotal);
+    this.xMin = min(this.Urban, this.Town, this.Rural, this.Total);
+    this.xMax = max(this.Urban, this.Town, this.Rural, this.Total);
 
     // Draw the province name
     noStroke();
@@ -30,13 +30,13 @@ class Dumbbell {
     // Draw the dots representing total, urban, town, and rural gender ratio respectively.
     noStroke();
     fill(11, 50, 107);
-    square(this.xTotal - 4, this.y - 4, this.dotSize);
+    square(this.Total - 4, this.y - 4, this.dotSize);
     fill(123, 203, 192);
-    circle(this.xUrban, this.y, this.dotSize);
+    circle(this.Urban, this.y, this.dotSize);
     fill(245, 189, 66);
-    circle(this.xTown, this.y, this.dotSize);
+    circle(this.Town, this.y, this.dotSize);
     fill(240, 81, 41);
-    circle(this.xRural, this.y, this.dotSize);
+    circle(this.Rural, this.y, this.dotSize);
   }
 
   hover(mouseX, mouseY) {

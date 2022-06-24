@@ -24,9 +24,6 @@ function PayGapByBouncyBubbles() {
   this.setup = function () {
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    //Resize the canvas each setup.
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-
     // Map data to parameters of circles. Check the help function for more details.
     this.mapDataToShape();
 

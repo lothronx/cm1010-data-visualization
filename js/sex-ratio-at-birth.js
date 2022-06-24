@@ -43,9 +43,6 @@ function SexRatioAtBirth() {
   this.setup = function () {
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    //Resize the canvas each setup.
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-
     // Get data from the table.
     const countries = this.data.getRows();
 
