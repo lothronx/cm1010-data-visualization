@@ -30,7 +30,6 @@ class Waffle {
     this.boxGenerator();
   }
 
-  /* Helper function -------------------------------------------------------------------*/
   boxGenerator() {
     const boxesEachLine = 10;
     const boxSize = this.size / boxesEachLine;
