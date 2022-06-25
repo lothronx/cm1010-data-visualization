@@ -1,5 +1,5 @@
 // Global variable to store the gallery object. The gallery object is a container for all the visualizations.
-var gallery;
+let gallery;
 
 function setup() {
   // Create a canvas to fill the content div from index.html.
@@ -26,9 +26,4 @@ function draw() {
 function mouseClicked() {
   if (gallery.selectedVisual.hasOwnProperty("mouseClicked"))
     gallery.selectedVisual.mouseClicked(mouseX, mouseY);
-}
-
-function windowResized() {
-  if (gallery.selectedVisual.hasOwnProperty("windowResized"))
-    gallery.selectedVisual.windowResized();
 }
