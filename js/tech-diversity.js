@@ -25,6 +25,63 @@ function TechDiversityWaffle() {
   this.setup = function () {
     if (!this.loaded) throw new Error("Data not yet loaded");
 
+    this.addDOMElements();
+  };
+
+  /* Destroy ---------------------------------------------------------------------------------*/
+  this.destroy = function () {
+    this.inputContainer.remove();
+  };
+
+  /* Draw ----------------------------------------------------------------------------------*/
+  this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+
+    // Get the 2 companies we selected by their names.
+    let company1 = this.select1.value();
+    let company2 = this.select2.value();
+
+    // Draw the first waffle chart.
+    const waffle1 = new Waffle(
+      width * 0.05,
+      20,
+      width * 0.4,
+      this.data,
+      company1
+    );
+    waffle1.display();
+    waffle1.checkMouse(mouseX, mouseY);
+
+    // Draw the second waffle chart.
+    const waffle2 = new Waffle(
+      width * 0.55,
+      20,
+      width * 0.4,
+      this.data,
+      company2
+    );
+    waffle2.display();
+    waffle2.checkMouse(mouseX, mouseY);
+
+    // some text
+    noStroke();
+    fill(50);
+    textSize(20);
+    textAlign(CENTER);
+    textStyle(NORMAL);
+
+    text(company1, width * 0.25, 50 + width * 0.4);
+    text(company2, width * 0.75, 50 + width * 0.4);
+    text("VS", width * 0.5, 20 + width * 0.2);
+  };
+
+  /* Resize Canvas ---------------------------------------------------------------------------*/
+  this.windowResized = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+  };
+
+  /* Add DOM Elements ------------------------------------------------------------------------*/
+  this.addDOMElements = function () {
     // Create the DOM element container
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
@@ -57,56 +114,5 @@ function TechDiversityWaffle() {
     });
     this.select1.selected("Apple");
     this.select2.selected("Google");
-  };
-
-  /* Destroy ---------------------------------------------------------------------------------*/
-  this.destroy = function () {
-    this.inputContainer.remove();
-  };
-
-  /* Draw ----------------------------------------------------------------------------------*/
-  this.draw = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-    // Get the 2 companies we selected by their names.
-    let company1 = this.select1.value();
-    let company2 = this.select2.value();
-
-    // Draw the first waffle chart.
-    this.waffle1 = new Waffle(
-      width * 0.05,
-      20,
-      width * 0.4,
-      this.data,
-      company1
-    );
-    this.waffle1.display();
-    this.waffle1.checkMouse(mouseX, mouseY);
-
-    // Draw the second waffle chart.
-    this.waffle2 = new Waffle(
-      width * 0.55,
-      20,
-      width * 0.4,
-      this.data,
-      company2
-    );
-    this.waffle2.display();
-    this.waffle2.checkMouse(mouseX, mouseY);
-
-    // some text
-    noStroke();
-    fill(50);
-    textSize(20);
-    textAlign(CENTER);
-    textStyle(NORMAL);
-
-    text(company1, width * 0.25, 50 + width * 0.4);
-    text(company2, width * 0.75, 50 + width * 0.4);
-    text("VS", width * 0.5, 20 + width * 0.2);
-  };
-
-  /* Resize Canvas ----------------------------------------------------------------------------*/
-  this.windowResized = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
   };
 }

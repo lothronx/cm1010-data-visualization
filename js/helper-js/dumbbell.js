@@ -39,6 +39,7 @@ class Dumbbell {
     circle(this.Rural, this.y, this.dotSize);
   }
 
+  // When the mouse hovers over the dumbbell, make the text bold and the dots larger.
   hover(mouseX, mouseY) {
     if (
       mouseX > this.xMin &&

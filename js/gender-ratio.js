@@ -7,6 +7,8 @@ function GenderRatio() {
   this.title =
     "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
   this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural voice needs to be heard. (Unit: men per 100 women) *Tip: Hover over each dumbbell to enlarge it slightly.`;
+  const margin = 60;
+  let dumbbells = [];
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -20,9 +22,6 @@ function GenderRatio() {
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
-  const margin = 60;
-  let dumbbells = [];
-
   this.setup = function () {
     if (!this.loaded) throw new Error("Data not yet loaded");
 
@@ -55,31 +54,7 @@ function GenderRatio() {
       )
     );
 
-    // Create the DOM element container
-    this.inputContainer = createDiv();
-    this.inputContainer.id("input");
-    this.inputContainer.parent("app");
-    this.inputContainer.style("font-weight", "700");
-
-    // Create some text.
-    const text1 = createElement("h4", "Sort by:");
-    text1.parent("input");
-
-    // Create the radio DOM element.
-    this.radio = createRadio();
-    this.radio.parent("input");
-    this.options = this.data.columns.filter((value) => value != "Province");
-    this.options.forEach((value) => {
-      let x = this.radio.option(value);
-      x.id = value;
-    });
-
-    // Create some more text.
-    const text2 = createElement(
-      "h4",
-      "gender ratio"
-    );
-    text2.parent("input");
+    this.addDOMElements();
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -119,10 +94,36 @@ function GenderRatio() {
     });
   };
 
-  /* Resize Canvas ----------------------------------------------------------------------------*/
+  /* Resize Canvas ---------------------------------------------------------------------------*/
   this.windowResized = function () {
     //this figure needs at least 800px height to prevent shapes from overlapping.
     resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
+  };
+
+  /* Add DOM Elements ------------------------------------------------------------------------*/
+  this.addDOMElements = function () {
+    // Create the DOM element container
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("app");
+    this.inputContainer.style("font-weight", "700");
+
+    // Create some text.
+    const text1 = createElement("h4", "Sort by");
+    text1.parent("input");
+
+    // Create the radio DOM element.
+    this.radio = createRadio();
+    this.radio.parent("input");
+    this.options = this.data.columns.filter((value) => value != "Province");
+    this.options.forEach((value) => {
+      let x = this.radio.option(value);
+      x.id = value;
+    });
+
+    // Create some more text.
+    const text2 = createElement("h4", "gender ratio");
+    text2.parent("input");
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/

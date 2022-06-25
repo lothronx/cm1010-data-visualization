@@ -20,9 +20,7 @@ function setup() {
 
 function draw() {
   background(255);
-  if (gallery.selectedVisual != null) {
-    gallery.selectedVisual.draw();
-  }
+  if (gallery.selectedVisual != null) gallery.selectedVisual.draw();
 }
 
 function mouseClicked() {
