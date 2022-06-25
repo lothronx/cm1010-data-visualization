@@ -11,7 +11,7 @@ function setup() {
   gallery = new Gallery();
 
   // Add the visualization objects here.
-  gallery.addVisual(new PayGapByBouncyBubbles());
+  gallery.addVisual(new PayGap());
   gallery.addVisual(new TechDiversityWaffle());
   gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new GenderRatio());

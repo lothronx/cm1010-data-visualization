@@ -1,9 +1,9 @@
 // This extension is a redesign of the ""Pay Gap by Job: 2017"" data visualization template.
 
-function PayGapByBouncyBubbles() {
+function PayGap() {
   /* Basic Information -------------------------------------------------------------------------*/
-  this.name = "Pay Gap by Job (Bouncy Bubbles)";
-  this.id = "pay-gap-bouncy-bubbles";
+  this.name = "Pay Gap by Job (Bubble Chart)";
+  this.id = "pay-gap";
   this.title = "Gender Pay Gap by Occupations, UK";
   this.description =
     "*Tips: Click the canvas to make balls moving around. Click the canvas again to stop. Hover over each ball to see its detailed information.";
