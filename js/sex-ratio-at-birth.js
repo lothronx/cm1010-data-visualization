@@ -5,7 +5,7 @@ function SexRatioAtBirth() {
   this.name = "Global Sex Ratio at Birth (Line Chart Series)";
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
-  this.description = `Without human interference, the natural sex ratio at birth should be around 105 boys per 100 girls. Skewed sex ratio at birth is clear evidence of gender selection through prenatal sex determination and gender selective abortion. It's time to end sexism. *Tip: Hover over the country name to highlight the curve.`;
+  this.description = `Without human interference, the natural sex ratio at birth should be around 105 boys per 100 girls. Skewed sex ratio at birth is clear evidence of gender selection through prenatal sex determination and gender selective abortion. It's time to end sexism. *Tip: Hover over the country name to show that country only.`;
   this.xAxisLabel = "Year";
   this.yAxisLabel = "Male births per 100 female births";
   const numXTickLabels = 6;

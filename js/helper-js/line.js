@@ -41,7 +41,7 @@ class Line {
       mouseY > this.y[this.y.length - 1] - 7 &&
       mouseY < this.y[this.y.length - 1] + 7
     ) {
-      this.others.forEach((line) => (line.color = color(176, 153, 119, 10)));
+      this.others.forEach((line) => (line.color = color(0, 0, 0, 0)));
       this.color = this.colorBackup;
       this.lineWeight = 3;
     } else {
