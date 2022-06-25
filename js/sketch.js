@@ -24,9 +24,11 @@ function draw() {
 }
 
 function mouseClicked() {
-  gallery.selectedVisual.mouseClicked(mouseX, mouseY);
+  if (gallery.selectedVisual.hasOwnProperty("mouseClicked"))
+    gallery.selectedVisual.mouseClicked(mouseX, mouseY);
 }
 
 function windowResized() {
-  gallery.selectedVisual.windowResized();
+  if (gallery.selectedVisual.hasOwnProperty("windowResized"))
+    gallery.selectedVisual.windowResized();
 }
