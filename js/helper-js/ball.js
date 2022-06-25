@@ -79,7 +79,8 @@ On average, each woman earns ${this._payGap}% less than man.`,
       this.vy *= this.bounce;
     }
 
-    // Collision mechanism: If two balls collide, they will spring against each other. This part of the code is directly copied from the code source.
+    // Collision mechanism: If two balls collide, they will spring against each other.
+    // This part of the code is directly copied from the code source without modification.
     for (let i = this.id + 1; i < this.others.length; i++) {
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
