@@ -97,6 +97,11 @@ li {
   margin: 1rem 0;
 }
 
+#note{
+  color: crimson;
+  font-size: small;
+}
+
 /* Interaction ----------------------------------------------------------------------------------*/
 
 .hover {
