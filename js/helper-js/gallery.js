@@ -81,9 +81,6 @@ class Gallery {
       if (this.selectedVisual.hasOwnProperty("setup"))
         this.selectedVisual.setup();
 
-      if (this.selectedVisual.hasOwnProperty("windowResized"))
-        this.selectedVisual.windowResized();
-
       // Only display the selected title and description.
       select("header").show();
       selectAll("h1", "header").forEach((a) => a.hide());

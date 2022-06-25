@@ -51,6 +51,8 @@ function PayGapByBouncyBubbles() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+
     noStroke();
     noFill();
     textSize(16);
@@ -68,11 +70,6 @@ function PayGapByBouncyBubbles() {
   this.mouseClicked = function (mouseX, mouseY) {
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height)
       clickSwitch ? (clickSwitch = false) : (clickSwitch = true);
-  };
-
-  /* Resize Canvas ----------------------------------------------------------------------------*/
-  this.windowResized = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/

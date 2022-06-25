@@ -35,6 +35,8 @@ function TechDiversityWaffle() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();
     let company2 = this.select2.value();
@@ -71,11 +73,6 @@ function TechDiversityWaffle() {
     text(company1, width * 0.25, 50 + width * 0.4);
     text(company2, width * 0.75, 50 + width * 0.4);
     text("VS", width * 0.5, 20 + width * 0.2);
-  };
-
-  /* Resize Canvas ---------------------------------------------------------------------------*/
-  this.windowResized = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
   };
 
   /* Add DOM Elements ------------------------------------------------------------------------*/

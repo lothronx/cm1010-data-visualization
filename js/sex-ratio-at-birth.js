@@ -77,6 +77,8 @@ function SexRatioAtBirth() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
+
     this.drawAxis();
     this.drawLabels();
     this.drawXLabels();
@@ -85,11 +87,6 @@ function SexRatioAtBirth() {
       line.display();
       line.hover(mouseX, mouseY);
     });
-  };
-
-  /* Resize Canvas ----------------------------------------------------------------------------*/
-  this.windowResized = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
