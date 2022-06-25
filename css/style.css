@@ -8,7 +8,7 @@ body {
   display: grid;
   grid-gap: 0.5rem;
   grid-template-areas:
-    "menu title"
+    "menu header"
     "menu controlPanel"
     "menu canvas";
   grid-template-rows: auto auto 1fr;
@@ -21,17 +21,17 @@ ul {
 }
 
 header {
-  grid-area: title;
-}
-
-canvas {
-  grid-area: canvas;
+  grid-area: header;
 }
 
 #input {
   grid-area: controlPanel;
   display: flex;
   justify-content: center;
+}
+
+canvas {
+  grid-area: canvas;
 }
 
 /* Element Layout ----------------------------------------------------------------------------------*/
@@ -97,7 +97,7 @@ li {
   margin: 1rem 0;
 }
 
-#note{
+#note {
   color: crimson;
   font-size: small;
 }
