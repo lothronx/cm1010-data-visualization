@@ -1,5 +1,5 @@
-// This constructor function is built upon the base of the p5.js example "Bouncy Bubbles". You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
-// Changes are made.
+// This constructor function is built on the base of the p5.js example "Bouncy Bubbles". You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
+// Most code is newly added, adapted, or modified, except for the collision mechanism. The full credit of the collision mechanism belongs to the original code.
 
 class Ball {
   constructor(x, y, size, color, label, index, others) {
@@ -12,8 +12,8 @@ class Ball {
     this.label = label;
     this.id = index;
     this.others = others;
-    this.speed = 0.03; //the default velocity of the ball
-    this.bounce = -0.001; //how hard should the ball bounce back from the edges.
+    this.speed = 0.04; //the default velocity of the ball
+    this.bounce = -1; //how hard should the ball bounce back from the edges. -1 means bouncing back at original speed.
     this.spring = 0.05; // how hard should the balls bounce away from each other once they collide
     this.margin = 30;
   }
@@ -55,7 +55,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
   // When the canvas is clicked, call this function.
   move() {
     // By default, every ball tends to move towards the center of the canvas.
-    // Due to the collision check mechanism, they can keep moving for a very long time.
+    // Due to the collision mechanism, they can keep moving for a very long time.
     this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
     this.y > height / 2 - this.margin
       ? (this.vy -= this.speed)
@@ -63,12 +63,12 @@ On average, each woman earns ${this._payGap}% less than man.`,
     this.x += this.vx;
     this.y += this.vy;
 
-    // If the ball reaches the edge of the canvas, it bounces back.
-    if (this.x + this.size / 2 > width) {
-      this.x = width - this.size / 2;
+    // If the ball reaches the edge of the canvas (margin considered), it bounces back.
+    if (this.x + this.size / 2 > width - this.margin) {
+      this.x = width - this.margin - this.size / 2;
       this.vx *= this.bounce;
-    } else if (this.x - this.size / 2 < 0) {
-      this.x = this.size / 2;
+    } else if (this.x - this.size / 2 < this.margin) {
+      this.x = this.size / 2 + this.margin;
       this.vx *= this.bounce;
     }
     if (this.y + this.size / 2 > height - this.margin * 2) {
@@ -79,7 +79,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
       this.vy *= this.bounce;
     }
 
-    // If two balls collide, they will spring against each other.
+    // Collision mechanism: If two balls collide, they will spring against each other. This part of the code is directly copied from the code source.
     for (let i = this.id + 1; i < this.others.length; i++) {
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
