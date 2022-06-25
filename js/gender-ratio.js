@@ -6,7 +6,7 @@ function GenderRatio() {
   this.id = "gender-ratio";
   this.title =
     "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
-  this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural story needs to be told. (Tip: Hover over each dumbbell to enlarge it *slightly*.)`;
+  this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural voice needs to be heard. (Unit: men per 100 women) *Tip: Hover over each dumbbell to enlarge it slightly.`;
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -77,7 +77,7 @@ function GenderRatio() {
     // Create some more text.
     const text2 = createElement(
       "h4",
-      "gender ratio  (Unit: men per 100 women)"
+      "gender ratio"
     );
     text2.parent("input");
   };
@@ -127,7 +127,7 @@ function GenderRatio() {
 
   /* Helper Functions -----------------------------------------------------------------------*/
   this.mapRatioToWidth = function (value) {
-    return map(value, this.minRatio, this.maxRatio, 0, width);
+    return map(value, this.minRatio, this.maxRatio, margin, width - margin);
   };
 
   this.drawReferenceLines = function () {

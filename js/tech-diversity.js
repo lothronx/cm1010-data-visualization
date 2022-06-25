@@ -8,7 +8,7 @@ function TechDiversityWaffle() {
   this.id = "tech-diversity-waffle";
   this.title = "Race Diversity in Major Tech Companies";
   this.description =
-    "(Tip: Hover over the waffle chart to see the percentage of employees of each race.)";
+    "*Tip: Hover over the waffle chart to see the percentage of employees of each race.";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
