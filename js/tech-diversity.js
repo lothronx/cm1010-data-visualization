@@ -2,7 +2,7 @@
 // This extension is built based on Week 11 course materials.
 // Changed are made.
 
-function TechDiversityWaffle() {
+function TechDiversity() {
   /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Tech Diversity (Waffle Chart)";
   this.id = "tech-diversity-waffle";

@@ -1,7 +1,7 @@
 // This constructor function is built on the base of the p5.js example "Bouncy Bubbles". You can find the original code here: https://p5js.org/examples/motion-bouncy-bubbles.html
 // Most code is newly added, adapted, or modified, except for the collision mechanism. The full credit of the collision mechanism belongs to the original code.
 
-class Ball {
+class Bubble {
   constructor(x, y, size, color, label, index, others) {
     this.x = x;
     this.y = y;
@@ -12,19 +12,19 @@ class Ball {
     this.label = label;
     this.id = index;
     this.others = others;
-    this.speed = 0.04; //the default velocity of the ball
-    this.bounce = -1; //how hard should the ball bounce back from the edges. -1 means bouncing back at original speed.
-    this.spring = 0.05; // how hard should the balls bounce away from each other once they collide
+    this.speed = 0.04; //the default velocity of the bubble
+    this.bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
+    this.spring = 0.05; // how hard should the bubbles bounce away from each other once they collide
     this.margin = 30;
   }
 
   display() {
-    // Draw the ball.
+    // Draw the bubble.
     noStroke();
     fill(this.color);
     circle(this.x, this.y, this.size);
 
-    // Draw the pay gap % on the center of the ball.
+    // Draw the pay gap % on the center of the bubble.
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(this.size * 0.3);
@@ -32,7 +32,7 @@ class Ball {
     text(this._payGap + "%", this.x, this.y);
   }
 
-  // When the mouse hovers over the ball, show the ball's detailed information on the bottom of the canvas.
+  // When the mouse hovers over the bubble, show the bubble's detailed information on the bottom of the canvas.
   hover(mouseX, mouseY) {
     if (dist(this.x, this.y, mouseX, mouseY) <= this.size / 2) {
       push();
@@ -54,7 +54,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
 
   // When the canvas is clicked, call this function.
   move() {
-    // By default, every ball tends to move towards the center of the canvas.
+    // By default, every bubble tends to move towards the center of the canvas.
     // Due to the collision mechanism, they can keep moving for a very long time.
     this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
     this.y > height / 2 - this.margin
@@ -63,7 +63,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
     this.x += this.vx;
     this.y += this.vy;
 
-    // If the ball reaches the edge of the canvas (margin considered), it bounces back.
+    // If the bubble reaches the edge of the canvas (margin considered), it bounces back.
     if (this.x + this.size / 2 > width - this.margin) {
       this.x = width - this.margin - this.size / 2;
       this.vx *= this.bounce;
@@ -79,7 +79,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
       this.vy *= this.bounce;
     }
 
-    // Collision mechanism: If two balls collide, they will spring against each other.
+    // Collision mechanism: If two bubbles collide, they will spring against each other.
     // This part of the code is directly copied from the code source without modification.
     for (let i = this.id + 1; i < this.others.length; i++) {
       let dx = this.others[i].x - this.x;

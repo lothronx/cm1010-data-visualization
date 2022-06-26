@@ -6,7 +6,7 @@ function PayGap() {
   this.id = "pay-gap";
   this.title = "Gender Pay Gap by Occupations, UK";
   this.description =
-    "*Tips: Click the canvas to make balls moving around. Click the canvas again to stop. Hover over each ball to see its detailed information.";
+    "*Tips: Click the canvas to make bubbles moving around. Click the canvas again to stop. Hover over each bubble to see its detailed information.";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
@@ -20,18 +20,18 @@ function PayGap() {
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
-  let balls = [];
+  let bubbles = [];
   this.setup = function () {
     if (!this.loaded) throw new Error("Data not yet loaded");
 
     // Map data to parameters of circles. Check the help function for more details.
     this.mapDataToShape();
 
-    // Balls is an array of objects. Each object is a circle which represents an occupation.
-    balls = [];
+    // bubbles is an array of objects. Each object is a circle which represents an occupation.
+    bubbles = [];
     this.jobType.forEach((jobType, i) =>
-      balls.push(
-        new Ball(
+      bubbles.push(
+        new Bubble(
           this.xCoordinates[i],
           this.yCoordinates[i],
           this.sizes[i],
@@ -43,7 +43,7 @@ function PayGap() {
             ratio: this.percent[i],
           },
           i,
-          balls
+          bubbles
         )
       )
     );
@@ -58,10 +58,10 @@ function PayGap() {
     textSize(16);
     textAlign(NORMAL);
     textStyle(NORMAL);
-    balls.forEach((ball) => {
-      ball.display(); //Draw the balls
-      ball.hover(mouseX, mouseY); // Hover over each ball to see detailed information.
-      if (clickSwitch) ball.move(); // Click the canvas to make balls move around. Click the canvas again to stop.
+    bubbles.forEach((bubble) => {
+      bubble.display(); //Draw the bubbles
+      bubble.hover(mouseX, mouseY); // Hover over each bubble to see detailed information.
+      if (clickSwitch) bubble.move(); // Click the canvas to make bubbles move around. Click the canvas again to stop.
     });
   };
 
@@ -119,16 +119,16 @@ function PayGap() {
       );
     });
 
-    // Size of the ball: number of jobs. More job, larger ball.
+    // Size of the bubble: number of jobs. More job, larger bubble.
     this.numJobs = this.data.getColumn("num_jobs");
     const numJobsMin = min(this.numJobs);
     const numJobsMax = max(this.numJobs);
-    const ballSizeMin = min(width * 0.04, height * 0.06);
-    const ballSizeMax = min(width * 0.12, height * 0.18);
+    const bubbleSizeMin = min(width * 0.04, height * 0.06);
+    const bubbleSizeMax = min(width * 0.12, height * 0.18);
     this.sizes = [];
     this.numJobs.forEach((value) =>
       this.sizes.push(
-        map(value, numJobsMin, numJobsMax, ballSizeMin, ballSizeMax)
+        map(value, numJobsMin, numJobsMax, bubbleSizeMin, bubbleSizeMax)
       )
     );
   };

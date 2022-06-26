@@ -12,7 +12,7 @@ function setup() {
 
   // Add the visualization objects here.
   gallery.addVisual(new PayGap());
-  gallery.addVisual(new TechDiversityWaffle());
+  gallery.addVisual(new TechDiversity());
   gallery.addVisual(new SexRatioAtBirth());
   gallery.addVisual(new GenderRatio());
   gallery.addVisual(new GenderRatioByYear());
