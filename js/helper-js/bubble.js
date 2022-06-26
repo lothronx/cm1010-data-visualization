@@ -12,9 +12,9 @@ class Bubble {
     this.label = label;
     this.id = index;
     this.others = others;
-    this.speed = 0.04; //the default velocity of the bubble
+    this.speed = 0.02; //the default velocity of the bubble
     this.bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
-    this.spring = 0.05; // how hard should the bubbles bounce away from each other once they collide
+    this.spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
     this.margin = 30;
   }
 
@@ -74,8 +74,8 @@ On average, each woman earns ${this._payGap}% less than man.`,
     if (this.y + this.size / 2 > height - this.margin * 2) {
       this.y = height - this.margin * 2 - this.size / 2;
       this.vy *= this.bounce;
-    } else if (this.y - this.size / 2 < this.margin * 2) {
-      this.y = this.size / 2 + this.margin * 2;
+    } else if (this.y - this.size / 2 < this.margin) {
+      this.y = this.size / 2 + this.margin;
       this.vy *= this.bounce;
     }
 

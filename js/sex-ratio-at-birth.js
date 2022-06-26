@@ -6,8 +6,8 @@ function SexRatioAtBirth() {
   this.id = "sex-ratio-at-birth";
   this.title = "Sex Ratio At Birth in Top 10 Most Populated Countries";
   this.description = `Without human interference, the natural sex ratio at birth should be around 105 boys per 100 girls. Skewed sex ratio at birth is clear evidence of gender selection through prenatal sex determination and gender selective abortion. It's time to end sexism. *Tip: Hover over the country name to show that country only.`;
-  this.xAxisLabel = "Year";
-  this.yAxisLabel = "Male births per 100 female births";
+  const xAxisLabel = "Year";
+  const yAxisLabel = "Male births per 100 female births";
   const numXTickLabels = 6;
   const numYTickLabels = 7;
   const margin = 60;
@@ -79,8 +79,8 @@ function SexRatioAtBirth() {
   this.draw = function () {
     resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
 
-    this.drawAxis();
-    this.drawLabels();
+    drawAxis();
+    drawLabels();
     this.drawXLabels();
     this.drawYLabels();
     lines.forEach((line) => {
@@ -111,7 +111,7 @@ function SexRatioAtBirth() {
   };
 
   // Draw x and y axis.
-  this.drawAxis = function () {
+  let drawAxis = function () {
     stroke(50);
     strokeWeight(1);
     line(margin, height - margin, width - margin, height - margin); // x-axis
@@ -119,19 +119,19 @@ function SexRatioAtBirth() {
   };
 
   // Draw x and y axis labels.
-  this.drawLabels = function () {
+  let drawLabels = function () {
     noStroke();
     fill(50);
     textSize(16);
     textAlign(CENTER, CENTER);
     textStyle(NORMAL);
     // x-axis label
-    text(this.xAxisLabel, width / 2, height - margin * 0.1);
+    text(xAxisLabel, width / 2, height - margin * 0.1);
     // y-axis label
     push();
     translate(margin * 0.1, height / 2);
     rotate(-PI / 2);
-    text(this.yAxisLabel, 0, 0);
+    text(yAxisLabel, 0, 0);
     pop();
   };
 
