@@ -20,15 +20,52 @@ function GenderRatioByYear() {
   };
 
   this.setup = function () {
+    // remove the canvas
     noCanvas();
+    // import the map as an HTML <object>
     this.map = document.createElement("object");
+    this.map.setAttribute("type", "image/svg+xml");
     this.map.setAttribute("data", "data/china-gender-ratio/chinaLow.svg");
     document.querySelector("#app").appendChild(this.map);
+
+    // Make sure data is loaded
+    if (!this.loaded) throw new Error("Data not yet loaded");
+
+    // Create the DOM element container
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("app");
+
+    // Create some text, content defined later in draw()
+    createElement("h4", "").parent("input");
+
+    // Create the slider DOM element.
+    this.slider = createSlider(1998, 2020, 2020, 1);
+    this.slider.parent("input");
+
+    // Find min and max gender ratio by putting all data (filtering province names out) in an one dimensional array.
+    const allData = this.data.getArray().reduce((a, c) => a.concat(c));
+    const filteredData = allData.filter((data) => data >= 0);
+    this.minRatio = floor(min(filteredData));
+    this.maxRatio = ceil(max(filteredData));
   };
 
   this.destroy = function () {
     this.map.remove();
+    this.inputContainer.remove();
   };
 
-  this.draw = function () {};
+  this.draw = function () {
+    const mapSVG = document.querySelector("object").contentDocument;
+    if (mapSVG.getElementById("Beijing")) {
+      // by default, the whole map is gray
+      const lands = mapSVG.querySelectorAll(".land");
+      lands.forEach((land) => land.setAttribute("fill", "#cccccc"));
+    }
+
+    // find the current year
+    this.year = this.slider.value();
+    // show the control panel text
+    document.querySelector("h4").innerHTML = `Gender ratio in year ${this.year}`;
+  };
 }

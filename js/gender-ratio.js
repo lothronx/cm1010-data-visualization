@@ -100,8 +100,7 @@ function GenderRatio() {
     this.inputContainer.style("font-weight", "700");
 
     // Create some text.
-    const text1 = createElement("h4", "Sort by");
-    text1.parent("input");
+    createElement("h4", "Sort by").parent("input");
 
     // Create the radio DOM element.
     this.radio = createRadio();
@@ -113,8 +112,7 @@ function GenderRatio() {
     });
 
     // Create some more text.
-    const text2 = createElement("h4", "gender ratio");
-    text2.parent("input");
+    createElement("h4", "gender ratio").parent("input");
   };
 
   /* Helper Functions -----------------------------------------------------------------------*/
