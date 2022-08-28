@@ -17,14 +17,20 @@ function GenderRatioByYear() {
       "header",
       () => (this.loaded = true)
     );
-    this.map = loadImage("data/china-gender-ratio/chinaLow.svg");
   };
-  
-  this.setup = function () {};
 
-  this.destroy = function () {};
-
-  this.draw = function () {
-    image(this.map, 0, 0);
+  this.setup = function () {
+    noCanvas();
+    this.map = document.createElement("object");
+    this.map.setAttribute("data", "data/china-gender-ratio/chinaLow.svg");
+    document.querySelector("#app").appendChild(this.map);
   };
+
+  this.destroy = function () {
+    this.map.remove();
+    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
+    c.parent("app");
+  };
+
+  this.draw = function () {};
 }
