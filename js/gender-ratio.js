@@ -4,8 +4,7 @@ function GenderRatio() {
   /* Basic Information -------------------------------------------------------------------------*/
   this.name = "Gender Ratio in China (Dumbbell Plot)";
   this.id = "gender-ratio";
-  this.title =
-    "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
+  this.title = "The Missing Women: Gender Ratio in Urban, Town, and Rural China 2020";
   this.description = `In China, there are 104.8 men for every 100 women. The phenomenon of "missing women" is especially acute in rural regions. Studies suggest that the reasons behind include gender-selective abortion, female infanticide, inadequate healthcare and nutrition for female children, and rural to urban migration. While most news and media focus themselves on metropolitan trends, the rural voice needs to be heard. (Unit: men per 100 women) *Tip: Hover over each dumbbell to enlarge it slightly.`;
   const margin = 60;
   let dumbbells = [];
@@ -23,6 +22,10 @@ function GenderRatio() {
 
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
+    //this figure needs at least 800px height to prevent shapes from overlapping.
+    const c = createCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
+    c.parent("app");
+
     if (!this.loaded) throw new Error("Data not yet loaded");
 
     // Get data from the table.
@@ -64,9 +67,6 @@ function GenderRatio() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    //this figure needs at least 800px height to prevent shapes from overlapping.
-    resizeCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
-    
     this.drawReferenceLines();
 
     // When radio option is selected, sort dumbbells accordingly.
@@ -75,17 +75,14 @@ function GenderRatio() {
       if (val == option) {
         dumbbells.sort(function (a, b) {
           //National dumbbell should always be on top above provincial dumbbells.
-          if ((a.tag === "National") != (b.tag === "National"))
-            return a.tag === "National" ? -1 : 1;
+          if ((a.tag === "National") != (b.tag === "National")) return a.tag === "National" ? -1 : 1;
           return a[option] > b[option] ? 1 : a[option] < b[option] ? -1 : 0;
         });
       }
     });
 
     // Reassign y coordinate to each dumbbell.
-    dumbbells.forEach(
-      (dumbbell, i) => (dumbbell.y = margin + this.verticalSpacing * i)
-    );
+    dumbbells.forEach((dumbbell, i) => (dumbbell.y = margin + this.verticalSpacing * i));
 
     // Draw the dumbbells
     dumbbells.forEach((dumbbell) => {

@@ -28,8 +28,6 @@ function GenderRatioByYear() {
 
   this.destroy = function () {
     this.map.remove();
-    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
-    c.parent("app");
   };
 
   this.draw = function () {};

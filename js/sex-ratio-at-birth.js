@@ -41,6 +41,10 @@ function SexRatioAtBirth() {
   /* Setup ----------------------------------------------------------------------------------*/
 
   this.setup = function () {
+    // create canvas
+    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
+    c.parent("app");
+
     if (!this.loaded) throw new Error("Data not yet loaded");
 
     // Get data from the table.
@@ -77,8 +81,6 @@ function SexRatioAtBirth() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-
     drawAxis();
     drawLabels();
     this.drawXLabels();

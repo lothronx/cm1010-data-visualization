@@ -22,6 +22,10 @@ function PayGap() {
   /* Setup ----------------------------------------------------------------------------------*/
   let bubbles = [];
   this.setup = function () {
+    // create canvas
+    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
+    c.parent("app");
+
     if (!this.loaded) throw new Error("Data not yet loaded");
 
     // Map data to parameters of circles. Check the help function for more details.
@@ -51,8 +55,6 @@ function PayGap() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-
     noStroke();
     noFill();
     textSize(16);

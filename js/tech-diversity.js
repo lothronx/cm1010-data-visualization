@@ -23,6 +23,10 @@ function TechDiversity() {
 
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
+    // create canvas
+    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
+    c.parent("app");
+
     if (!this.loaded) throw new Error("Data not yet loaded");
 
     this.addDOMElements();
@@ -35,8 +39,6 @@ function TechDiversity() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.7);
-
     // Get the 2 companies we selected by their names.
     let company1 = this.select1.value();
     let company2 = this.select2.value();
