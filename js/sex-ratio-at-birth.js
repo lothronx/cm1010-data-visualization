@@ -39,10 +39,9 @@ function SexRatioAtBirth() {
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
-
   this.setup = function () {
     // create canvas
-    const c = createCanvas(windowWidth * 0.7, windowWidth * 0.5);
+    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
     c.parent("app");
 
     if (!this.loaded) throw new Error("Data not yet loaded");
@@ -107,7 +106,7 @@ function SexRatioAtBirth() {
       value,
       this.minRatio,
       this.maxRatio,
-      windowWidth * 0.5 - margin, // Lower Ratio at bottom.
+      windowHeight * 0.7 - margin, // Lower Ratio at bottom.
       margin / 2 // Higher Ratio at top.
     );
   };
