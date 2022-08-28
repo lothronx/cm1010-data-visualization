@@ -43,10 +43,9 @@ function GenderRatioByYear() {
     this.slider = createSlider(1998, 2020, 2020, 1);
     this.slider.parent("input");
 
-    // Find min and max gender ratio by putting all data (filtering province names out) in an one dimensional array.
+    // Find the max gender ratio by putting all data (filtering province names out) in an one dimensional array.
     const allData = this.data.getArray().reduce((a, c) => a.concat(c));
     const filteredData = allData.filter((data) => data >= 0);
-    this.minRatio = floor(min(filteredData));
     this.maxRatio = ceil(max(filteredData));
   };
 
@@ -56,16 +55,54 @@ function GenderRatioByYear() {
   };
 
   this.draw = function () {
+    // mapSVG is the svg HTML DOM element. Each province is a path.
     const mapSVG = document.querySelector("object").contentDocument;
+
+    // make sure mapSVG is fully loaded before doing anything
+    // check whether mapSVG is fully loaded by check whether it contains an element named "Beijing"
     if (mapSVG.getElementById("Beijing")) {
       // by default, the whole map is gray
       const lands = mapSVG.querySelectorAll(".land");
       lands.forEach((land) => land.setAttribute("fill", "#cccccc"));
-    }
 
-    // find the current year
-    this.year = this.slider.value();
-    // show the control panel text
-    document.querySelector("h4").innerHTML = `Gender ratio in year ${this.year}`;
+      // find the current year
+      this.year = this.slider.value();
+
+      // show the control panel text
+      document.querySelector("h4").innerHTML = `Gender ratio in year ${this.year}`;
+
+      // find the data of current year.
+      // the data of current year is an array of objects with two properties: name and ratio.
+      const provinces = this.data.getColumn("Province");
+      let ratios = null;
+      this.data.columns.forEach((column) => {
+        if (column == this.year) {
+          ratios = this.data.getColumn(column);
+        }
+      });
+      const dataOfCurrentYear = provinces.map((province, i) => {
+        return {
+          name: province,
+          ratio: ratios[i],
+        };
+      });
+
+      dataOfCurrentYear.forEach((data) => {
+        // divide the gender ratio into 6 classes: 5 over 100, represented by yellow and red; 1 below 100, represented by green.
+        const ratioGap = (this.maxRatio - 100) / 5;
+
+        data.ratio > this.maxRatio - ratioGap
+          ? mapSVG.getElementById(data.name).setAttribute("fill", "#581845")
+          : data.ratio > this.maxRatio - ratioGap * 2
+          ? mapSVG.getElementById(data.name).setAttribute("fill", "#900C3F")
+          : data.ratio > this.maxRatio - ratioGap * 3
+          ? mapSVG.getElementById(data.name).setAttribute("fill", "#C70039")
+          : data.ratio > this.maxRatio - ratioGap * 4
+          ? mapSVG.getElementById(data.name).setAttribute("fill", "#FF5733")
+          : data.ratio > 100
+          ? mapSVG.getElementById(data.name).setAttribute("fill", "#FFC300")
+          : mapSVG.getElementById(data.name).setAttribute("fill", "#2A9D8F");
+      });
+    }
   };
 }
