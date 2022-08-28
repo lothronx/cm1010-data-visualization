@@ -105,7 +105,7 @@ function SexRatioAtBirth() {
       value,
       this.minRatio,
       this.maxRatio,
-      height - margin, // Lower Ratio at bottom.
+      windowHeight * 0.7 - margin, // Lower Ratio at bottom.
       margin / 2 // Higher Ratio at top.
     );
   };

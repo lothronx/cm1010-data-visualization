@@ -16,7 +16,7 @@ body {
   justify-items: center;
 }
 
-#visuals-menu {
+#menu {
   grid-area: menu;
 }
 

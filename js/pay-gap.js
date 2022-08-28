@@ -96,9 +96,7 @@ function PayGap() {
     const payGapMax = 20;
     this.yCoordinates = [];
     this.payGap.forEach((value) =>
-      this.yCoordinates.push(
-        map(value, payGapMin, payGapMax, height - margin, margin)
-      )
+      this.yCoordinates.push(map(value, payGapMin, payGapMax, windowHeight * 0.7 - margin, margin))
     );
 
     // The larger the pay gap, also the redder.
@@ -123,8 +121,8 @@ function PayGap() {
     this.numJobs = this.data.getColumn("num_jobs");
     const numJobsMin = min(this.numJobs);
     const numJobsMax = max(this.numJobs);
-    const bubbleSizeMin = min(width * 0.04, height * 0.06);
-    const bubbleSizeMax = min(width * 0.12, height * 0.18);
+    const bubbleSizeMin = min(width * 0.04, windowHeight * 0.7 * 0.06);
+    const bubbleSizeMax = min(width * 0.12, windowHeight * 0.7 * 0.18);
     this.sizes = [];
     this.numJobs.forEach((value) =>
       this.sizes.push(

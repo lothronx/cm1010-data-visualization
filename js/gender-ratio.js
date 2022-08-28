@@ -30,7 +30,7 @@ function GenderRatio() {
 
     // Find the vertical layout.
     const numProvinces = this.data.getRowCount();
-    this.verticalSpacing = (height - margin * 2) / (numProvinces - 1);
+    this.verticalSpacing = (max(windowHeight * 0.7, 800) - margin * 2) / (numProvinces - 1);
 
     // Find min and max Ratio by putting all data (filtering province names out) in an one dimensional array.
     // This is to prepare for horizontal layout.

@@ -21,7 +21,7 @@ class Gallery {
     const menuItem = createElement("li", vis.name);
     menuItem.addClass("menu-item");
     menuItem.id(vis.id);
-    menuItem.parent(select("#visuals-menu"));
+    menuItem.parent("menu");
 
     // Menu item interactivity
     menuItem.mouseOver((e) => select("#" + e.srcElement.id).addClass("hover"));
