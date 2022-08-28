@@ -16,11 +16,11 @@ body {
   justify-items: center;
 }
 
-ul {
+#visuals-menu {
   grid-area: menu;
 }
 
-header {
+#title {
   grid-area: header;
 }
 

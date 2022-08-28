@@ -4,34 +4,34 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Case study 2: Data Visualization</title>
+    <title>Data Visualization</title>
 
-    <!-- Libraries -->
+    <!-- Library: p5.js -->
     <script src="lib/p5.min.js"></script>
-    <link rel="stylesheet" href="css/style.css" />
 
     <!-- Main sketch file -->
     <script src="js/sketch.js"></script>
 
-    <!-- Main visualisation files -->
+    <!-- Helper files -->
+    <script src="js/helper-js/gallery.js"></script>
+    <script src="js/helper-js/line.js"></script>
+    <script src="js/helper-js/waffle.js"></script>
+    <script src="js/helper-js/bubble.js"></script>
+    <script src="js/helper-js/dumbbell.js"></script>
+
+    <!-- Main visualization files -->
     <script src="js/tech-diversity.js"></script>
     <script src="js/pay-gap.js"></script>
     <script src="js/sex-ratio-at-birth.js"></script>
     <script src="js/gender-ratio.js"></script>
     <script src="js/gender-ratio-by-year.js"></script>
 
-    <!-- Add extra scripts below -->
-    <script src="js/helper-js/gallery.js"></script>
-    <script src="js/helper-js/line.js"></script>
-    <script src="js/helper-js/waffle.js"></script>
-    <script src="js/helper-js/bubble.js"></script>
-    <script src="js/helper-js/dumbbell.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div id="app">
-      <ul id="visuals-menu">
-        <span id="note">↓ buggy now, double click plz ↓</span>
-      </ul>
+      <ul id="visuals-menu"></ul>
       <header id="title"></header>
     </div>
   </body>
