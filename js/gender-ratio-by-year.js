@@ -1,5 +1,5 @@
 // Data collected from National Bureau of Statistics http://www.stats.gov.cn/tjsj/ndsj/
-// Work in progress...
+// Map downloaded from amcharts - SVG map of China https://www.amcharts.com/svg-maps/?map=china
 
 function GenderRatioByYear() {
   /* Basic Information -------------------------------------------------------------------------*/
@@ -41,7 +41,6 @@ function GenderRatioByYear() {
   this.destroy = function () {
     this.mapContainer.remove();
     this.inputContainer.remove();
-    this.legendContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
@@ -63,9 +62,9 @@ function GenderRatioByYear() {
       // prepare the date of the current year
       this.findCurrentYear();
 
-      // color each province according to its gender ratio. the more skewed ratio, the redder.
       this.dataOfCurrentYear.forEach((data) => {
         let province = mapSVG.getElementById(data.name);
+        // color each province according to its gender ratio. the more skewed ratio, the redder.
         data.ratio > 120
           ? province.setAttribute("fill", "#581845")
           : data.ratio > 115
@@ -77,6 +76,20 @@ function GenderRatioByYear() {
           : data.ratio > 100
           ? province.setAttribute("fill", "#FFC300")
           : province.setAttribute("fill", "#2A9D8F");
+
+        // when the mouse hovers over the province, highlight the province and show detail
+        province.addEventListener("mouseover", () => {
+          province.setAttribute("filter", "opacity(80%) drop-shadow(0 0 4px black)");
+          document.querySelector(
+            "#detail"
+          ).innerHTML = `Gender ratio in ${data.name} ${this.currentYear} is ${data.ratio} men per 100 women.`;
+        });
+
+        // when the mouse is out, hide detail
+        province.addEventListener("mouseout", () => {
+          province.setAttribute("filter", "none");
+          document.querySelector("#detail").innerHTML = "";
+        });
       });
     }
   };
@@ -103,6 +116,7 @@ function GenderRatioByYear() {
     this.inputContainer = createDiv();
     this.inputContainer.id("input");
     this.inputContainer.parent("app");
+    this.inputContainer.style("padding-bottom", "1.5rem");
 
     // Create some text, content defined later in draw()
     createElement("h4", "").parent("input");
@@ -110,14 +124,15 @@ function GenderRatioByYear() {
     // Create the slider DOM element.
     this.slider = createSlider(1998, 2020, 2020, 1);
     this.slider.parent("input");
+
+    // Create some more text, content defined later in draw()
+    createDiv().id("detail").parent("input");
   };
 
   /* Add legend ------------------------------------------------------------------------*/
   this.addLegend = function () {
     // Create the legend container
-    this.legendContainer = createDiv();
-    this.legendContainer.id("legend");
-    this.legendContainer.parent("canvas");
+    createDiv().id("legend").parent("canvas");
 
     // Create some text
     createElement("h5", "■ > 120").style("color", "#581845").parent("legend");
@@ -131,17 +146,17 @@ function GenderRatioByYear() {
   /* prepare the data of current year -----------------------------------------------------------------------*/
   this.findCurrentYear = function () {
     // the current year is the selected year
-    const currentYear = this.slider.value();
+    this.currentYear = this.slider.value();
 
     // show the current year in the control panel text
-    document.querySelector("h4").innerHTML = `Gender ratio in year ${currentYear}`;
+    document.querySelector("h4").innerHTML = `Gender ratio in year ${this.currentYear}`;
 
     // prepare the data of current year.
     // the data of current year is an array of objects with two properties: name and ratio.
     const provinces = this.data.getColumn("Province");
     let ratios = null;
     this.data.columns.forEach((column) => {
-      if (column == currentYear) {
+      if (column == this.currentYear) {
         ratios = this.data.getColumn(column);
       }
     });
