@@ -21,38 +21,36 @@ function GenderRatioByYear() {
 
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
-    // remove the canvas
-    noCanvas();
-    // import the map as an HTML <object>
-    this.map = document.createElement("object");
-    this.map.setAttribute("type", "image/svg+xml");
-    this.map.setAttribute("data", "data/china-gender-ratio/chinaLow.svg");
-    document.querySelector("#app").appendChild(this.map);
-
     // Make sure data is loaded
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    // Find the max gender ratio by putting all data (filtering province names out) in an one dimensional array.
-    const allData = this.data.getArray().reduce((a, c) => a.concat(c));
-    const filteredData = allData.filter((data) => data >= 0);
-    this.maxRatio = ceil(max(filteredData));
+    // Remove the canvas
+    noCanvas();
 
+    // Import the map
+    this.addMap();
+
+    // Add the control panel
     this.addDOMElements();
+
+    // Add the legend
+    this.addLegend();
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
   this.destroy = function () {
-    this.map.remove();
+    this.mapContainer.remove();
     this.inputContainer.remove();
+    this.legendContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    // mapSVG is the svg HTML DOM element. Each province is a path.
+    // mapSVG is the svg HTML DOM element. Each province on the map is a path.
     const mapSVG = document.querySelector("object").contentDocument;
 
     // make sure mapSVG is fully loaded before doing anything
-    // check whether mapSVG is fully loaded by check whether it contains an element named "Beijing"
+    // check whether mapSVG is fully loaded by checking whether it contains an element named "Beijing"
     if (mapSVG.getElementById("Beijing")) {
       // by default, the whole map is gray with white outline.
       const lands = mapSVG.querySelectorAll(".land");
@@ -65,25 +63,38 @@ function GenderRatioByYear() {
       // prepare the date of the current year
       this.findCurrentYear();
 
+      // color each province according to its gender ratio. the more skewed ratio, the redder.
       this.dataOfCurrentYear.forEach((data) => {
-        // divide the gender ratio into 6 classes: 5 over 100, represented by warm colors; 1 below 100, represented by green.
-        const ratioGap = (this.maxRatio - 100) / 5;
-
-        // color each province according to its gender ratio class.
         let province = mapSVG.getElementById(data.name);
-        data.ratio > this.maxRatio - ratioGap
+        data.ratio > 120
           ? province.setAttribute("fill", "#581845")
-          : data.ratio > this.maxRatio - ratioGap * 2
+          : data.ratio > 115
           ? province.setAttribute("fill", "#900C3F")
-          : data.ratio > this.maxRatio - ratioGap * 3
+          : data.ratio > 110
           ? province.setAttribute("fill", "#C70039")
-          : data.ratio > this.maxRatio - ratioGap * 4
+          : data.ratio > 105
           ? province.setAttribute("fill", "#FF5733")
           : data.ratio > 100
           ? province.setAttribute("fill", "#FFC300")
           : province.setAttribute("fill", "#2A9D8F");
       });
     }
+  };
+
+  /* Import the map ------------------------------------------------------------------------*/
+  this.addMap = function () {
+    // Create the map container
+    this.mapContainer = createDiv();
+    this.mapContainer.id("canvas");
+    this.mapContainer.parent("app");
+
+    // import the map as an HTML <object>, <object> is 70% windowWidth * 70% windowHeight
+    const map = document.createElement("object");
+    map.setAttribute("type", "image/svg+xml");
+    map.setAttribute("data", "data/china-gender-ratio/chinaLow.svg");
+    map.style.width = "70vw";
+    map.style.height = "70vh";
+    document.querySelector("#canvas").appendChild(map);
   };
 
   /* Add DOM Elements ------------------------------------------------------------------------*/
@@ -99,6 +110,22 @@ function GenderRatioByYear() {
     // Create the slider DOM element.
     this.slider = createSlider(1998, 2020, 2020, 1);
     this.slider.parent("input");
+  };
+
+  /* Add legend ------------------------------------------------------------------------*/
+  this.addLegend = function () {
+    // Create the legend container
+    this.legendContainer = createDiv();
+    this.legendContainer.id("legend");
+    this.legendContainer.parent("canvas");
+
+    // Create some text
+    createElement("h5", "■ > 120").style("color", "#581845").parent("legend");
+    createElement("h5", "■ 115 - 120").style("color", "#900C3F").parent("legend");
+    createElement("h5", "■ 110 - 115").style("color", "#C70039").parent("legend");
+    createElement("h5", "■ 105 - 110").style("color", "#FF5733").parent("legend");
+    createElement("h5", "■ 100 - 105").style("color", "#FFC300").parent("legend");
+    createElement("h5", "■ <= 100").style("color", "#2A9D8F").parent("legend");
   };
 
   /* prepare the data of current year -----------------------------------------------------------------------*/

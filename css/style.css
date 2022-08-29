@@ -32,7 +32,7 @@ body {
 }
 
 canvas,
-object {
+#canvas {
   grid-area: canvas;
 }
 
@@ -112,7 +112,20 @@ h4 {
 }
 
 /* Map layout ---------------------------------------------------------------------*/
-object {
-  width: 789px;
-  height: 585px;
+#canvas {
+  position: relative;
+}
+
+#legend {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem;
+  border: #cccccc dashed 1px;
+  border-radius: 1rem;
+}
+
+h5 {
+  padding: 0;
+  margin: 0;
 }
