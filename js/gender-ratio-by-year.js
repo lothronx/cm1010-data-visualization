@@ -56,7 +56,6 @@ function GenderRatioByYear() {
       lands.forEach((land) => {
         land.setAttribute("fill", "#cccccc");
         land.setAttribute("stroke", "#ffffff");
-        land.setAttribute("stroke-width", "0.5");
       });
 
       // prepare the date of the current year
