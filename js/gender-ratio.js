@@ -23,8 +23,7 @@ function GenderRatio() {
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
     //this figure needs at least 800px height to prevent shapes from overlapping.
-    const c = createCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800));
-    c.parent("app");
+    createCanvas(windowWidth * 0.7, max(windowHeight * 0.7, 800)).parent("app");
 
     if (!this.loaded) throw new Error("Data not yet loaded");
 
@@ -33,7 +32,7 @@ function GenderRatio() {
 
     // Find the vertical layout.
     const numProvinces = this.data.getRowCount();
-    this.verticalSpacing = (max(windowHeight * 0.7, 800) - margin * 2) / (numProvinces - 1);
+    this.verticalSpacing = round((max(windowHeight * 0.7, 800) - margin * 2) / (numProvinces - 1));
 
     // Find min and max Ratio by putting all data (filtering province names out) in an one dimensional array.
     // This is to prepare for horizontal layout.
@@ -75,14 +74,22 @@ function GenderRatio() {
       if (val == option) {
         dumbbells.sort(function (a, b) {
           //National dumbbell should always be on top above provincial dumbbells.
+          //The two lines below copied from https://stackoverflow.com/questions/17254537/javascript-sorting-with-exception
           if ((a.tag === "National") != (b.tag === "National")) return a.tag === "National" ? -1 : 1;
           return a[option] > b[option] ? 1 : a[option] < b[option] ? -1 : 0;
         });
       }
     });
 
-    // Reassign y coordinate to each dumbbell.
-    dumbbells.forEach((dumbbell, i) => (dumbbell.y = margin + this.verticalSpacing * i));
+    // Let each dumbbell move to its newly sorted position by changing its y coordinate, with some animation effect.
+    dumbbells.forEach((dumbbell, i) => {
+      dumbbell.yNew = margin + this.verticalSpacing * i;
+      if (dumbbell.y > dumbbell.yNew) {
+        dumbbell.y -= this.verticalSpacing / 4;
+      } else if (dumbbell.y < dumbbell.yNew) {
+        dumbbell.y += this.verticalSpacing / 4;
+      }
+    });
 
     // Draw the dumbbells
     dumbbells.forEach((dumbbell) => {

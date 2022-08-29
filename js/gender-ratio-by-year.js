@@ -78,7 +78,7 @@ function GenderRatioByYear() {
 
         // when the mouse hovers over the province, highlight the province and show detail
         province.addEventListener("mouseover", () => {
-          province.setAttribute("filter", "opacity(80%) drop-shadow(0 0 4px black)");
+          province.setAttribute("filter", "opacity(80%) drop-shadow(0 0 4px gray)");
           document.querySelector(
             "#detail"
           ).innerHTML = `Gender ratio in ${data.name} ${this.currentYear} is ${data.ratio} men per 100 women.`;
