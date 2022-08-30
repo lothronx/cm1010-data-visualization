@@ -44,19 +44,14 @@ class Waffle {
           categoryIndex++;
         }
         this.boxes[i].push(
-          new Box(
-            this.x + j * boxSize,
-            this.y + i * boxSize,
-            boxSize,
-            this.categories[categoryIndex]
-          )
+          new Box(this.x + j * boxSize, this.y + i * boxSize, boxSize, this.categories[categoryIndex])
         );
         boxesEachCategory++;
       }
     }
   }
 
-  // Draw the waffle chart 
+  // Draw the waffle chart
   display() {
     this.boxes.forEach((boxes) => {
       boxes.forEach((box) => box.display());
@@ -66,18 +61,25 @@ class Waffle {
   // Interactivity
   checkMouse(mouseX, mouseY) {
     this.boxes.forEach((boxes) => {
+      let currentCategory = null;
       boxes.forEach((box) => {
-        let mouseOver = box.hover(mouseX, mouseY);
-        if (mouseOver) {
+        currentCategory = box.hover(mouseX, mouseY);
+        if (currentCategory) {
           push();
           fill(120);
           textSize(14);
           textAlign(LEFT, TOP);
-          rect(mouseX, mouseY, textWidth(mouseOver.label) + 20, -40, 8);
+          rect(mouseX, mouseY, textWidth(box.category.label) + 20, -40, 8);
           fill(255);
-          text(mouseOver.label, mouseX + 10, mouseY - 35);
-          text(mouseOver.number + "%", mouseX + 10, mouseY - 19);
+          text(box.category.label, mouseX + 10, mouseY - 35);
+          text(box.category.number + "%", mouseX + 10, mouseY - 19);
           pop();
+        }
+      });
+      boxes.forEach((box) => {
+        if (currentCategory == box.category) {
+          console.log(box.category);
+          box.displayAlt();
         }
       });
     });
@@ -99,13 +101,14 @@ class Box {
     square(this.x, this.y, this.size, this.size / 2.5);
   }
 
+  displayAlt() {
+    noStroke();
+    fill(this.category.color);
+    square(this.x, this.y, this.size);
+  }
+
   hover(mouseX, mouseY) {
-    if (
-      mouseX > this.x &&
-      mouseX < this.x + this.size &&
-      mouseY > this.y &&
-      mouseY < this.y + this.size
-    ) {
+    if (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size) {
       return this.category;
     }
     return false;

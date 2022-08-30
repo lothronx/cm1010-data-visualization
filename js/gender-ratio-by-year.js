@@ -46,44 +46,36 @@ function GenderRatioByYear() {
     this.findCurrentYear();
 
     // make sure map <svg> is loaded before all else
-    if (document.querySelector("svg")) {
+    if (select("svg")) {
       this.dataOfCurrentYear.forEach((data) => {
-        let province = document.getElementById(data.name);
+        let province = select("#" + data.name);
 
         // color each province according to its gender ratio. the more skewed ratio, the redder.
         data.ratio > 120
-          ? province.setAttribute("fill", "#581845")
+          ? province.style("fill", "#581845")
           : data.ratio > 115
-          ? province.setAttribute("fill", "#900C3F")
+          ? province.style("fill", "#900C3F")
           : data.ratio > 110
-          ? province.setAttribute("fill", "#C70039")
+          ? province.style("fill", "#C70039")
           : data.ratio > 105
-          ? province.setAttribute("fill", "#FF5733")
+          ? province.style("fill", "#FF5733")
           : data.ratio > 100
-          ? province.setAttribute("fill", "#FFC300")
-          : province.setAttribute("fill", "#2A9D8F");
+          ? province.style("fill", "#FFC300")
+          : province.style("fill", "#2A9D8F");
 
         // when the mouse hovers over the province, highlight the province and show detail
-        province.addEventListener(
-          "mouseover",
-          () => {
-            province.setAttribute("filter", "opacity(80%) drop-shadow(0 0 4px gray)");
-            document.querySelector(
-              "#detail"
-            ).innerHTML = `Gender ratio in ${data.name} ${this.currentYear} is ${data.ratio} men per 100 women.`;
-          },
-          { passive: true }
-        );
+        province.mouseOver(() => {
+          province.style("stroke-width", "4");
+          select("#detail").html(
+            `Gender ratio in ${data.name} ${this.currentYear} is ${data.ratio} men per 100 women.`
+          );
+        });
 
         // when the mouse is out, hide detail
-        province.addEventListener(
-          "mouseout",
-          () => {
-            province.setAttribute("filter", "none");
-            document.querySelector("#detail").innerHTML = "";
-          },
-          { passive: true }
-        );
+        province.mouseOut(() => {
+          province.style("stroke-width", "1");
+          select("#detail").html("");
+        });
       });
     }
   };
@@ -97,27 +89,27 @@ function GenderRatioByYear() {
 
     // load the map
     // JS Promise object code adapted from https://www.w3schools.com/js/js_promise.asp
-    new Promise(function (myResolve) {
+    new Promise(function (resolve) {
       let map = new XMLHttpRequest();
       map.open("GET", "data/china-gender-ratio/chinaLow.svg");
       map.onload = function () {
         if (map.status == 200) {
-          myResolve(map.response);
+          resolve(map.response);
         }
       };
       map.send();
     }).then((svg) => {
       // after the map is loaded, import the map to html
-      document.getElementById("canvas").innerHTML = svg;
+      select("#canvas").html(svg);
 
       // set the map height and width
-      document.querySelector("svg").style.width = "60vw";
-      document.querySelector("svg").style.height = "42vw";
+      select("svg").style("width", "60vw");
+      select("svg").style("height", "42vw");
 
       // by default, the whole map is gray with white outline.
-      document.querySelectorAll(".land").forEach((land) => {
-        land.setAttribute("fill", "#cccccc");
-        land.setAttribute("stroke", "#ffffff");
+      selectAll(".land").forEach((land) => {
+        land.style("fill", "#cccccc");
+        land.style("stroke", "#ffffff");
       });
 
       // Create the legend container
@@ -158,7 +150,7 @@ function GenderRatioByYear() {
     this.currentYear = this.slider.value();
 
     // show the current year in the control panel text
-    document.querySelector("h4").innerHTML = `Gender ratio in year ${this.currentYear}`;
+    select("h4").html(`Gender ratio in year ${this.currentYear}`);
 
     // prepare the data of current year.
     // the data of current year is an array of objects with two properties: name and ratio.
