@@ -13,7 +13,7 @@ body {
     "menu controlPanel"
     "menu canvas";
   grid-template-rows: auto auto 1fr;
-  grid-template-columns: 16rem 1fr;
+  grid-template-columns: auto 1fr;
   justify-items: center;
 }
 
@@ -130,8 +130,8 @@ h4 {
 
 #legend {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1rem;
+  right: 0;
   padding: 1rem;
   border: #cccccc dashed 1px;
   border-radius: 1rem;
