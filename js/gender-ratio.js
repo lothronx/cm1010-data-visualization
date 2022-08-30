@@ -85,7 +85,7 @@ function GenderRatio() {
     dumbbells.forEach((dumbbell, i) => {
       dumbbell.yNew = margin + this.verticalSpacing * i;
       if (dumbbell.y > dumbbell.yNew) {
-        dumbbell.y -= this.verticalSpacing / 4;
+        dumbbell.y -= this.verticalSpacing / 4; 
       } else if (dumbbell.y < dumbbell.yNew) {
         dumbbell.y += this.verticalSpacing / 4;
       }

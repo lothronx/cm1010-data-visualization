@@ -45,15 +45,14 @@ function GenderRatioByYear() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    // mapSVG is the svg HTML DOM element. Each province on the map is a path.
+    // mapSVG is the svg HTML DOM element. Each province on the map is a <path>.
     const mapSVG = document.querySelector("object").contentDocument;
 
     // make sure mapSVG is fully loaded before doing anything
     // check whether mapSVG is fully loaded by checking whether it contains an element named "Beijing"
     if (mapSVG.getElementById("Beijing")) {
       // by default, the whole map is gray with white outline.
-      const lands = mapSVG.querySelectorAll(".land");
-      lands.forEach((land) => {
+      mapSVG.querySelectorAll(".land").forEach((land) => {
         land.setAttribute("fill", "#cccccc");
         land.setAttribute("stroke", "#ffffff");
       });
@@ -91,6 +90,7 @@ function GenderRatioByYear() {
         });
       });
     }
+
   };
 
   /* Import the map ------------------------------------------------------------------------*/
