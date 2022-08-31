@@ -24,14 +24,14 @@ function GenderRatioByYear() {
     // Make sure data is loaded
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    // Remove the canvas
-    noCanvas();
-
     // Import the map
     this.addMap();
 
     // Add the control panel
     this.addDOMElements();
+
+    // prepare the first round of data of the current year
+    this.findCurrentYear();
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -42,7 +42,7 @@ function GenderRatioByYear() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    // prepare the data of the current year
+    // identify the current year and then prepare the data of the current year
     this.findCurrentYear();
 
     // make sure map <svg> is loaded before all else
@@ -62,26 +62,15 @@ function GenderRatioByYear() {
           : data.ratio > 100
           ? province.style("fill", "#FFC300")
           : province.style("fill", "#2A9D8F");
-
-        // when the mouse hovers over the province, highlight the province and show detail
-        province.mouseOver(() => {
-          province.style("stroke-width", "4");
-          select("#detail").html(
-            `Gender ratio in ${data.name} ${this.currentYear} is ${data.ratio} men per 100 women.`
-          );
-        });
-
-        // when the mouse is out, hide detail
-        province.mouseOut(() => {
-          province.style("stroke-width", "1");
-          select("#detail").html("");
-        });
       });
     }
   };
 
   /* Import the map ------------------------------------------------------------------------*/
   this.addMap = function () {
+    // Remove the canvas
+    if (select("canvas")) noCanvas();
+
     // Create the map container
     this.mapContainer = createDiv();
     this.mapContainer.id("canvas");
@@ -112,20 +101,49 @@ function GenderRatioByYear() {
         land.style("stroke", "#ffffff");
       });
 
-      // Create the legend container
-      createDiv().id("legend").parent("canvas");
+      // add some legend
+      this.addLegend();
 
-      // Create some legend text
-      createElement("h5", "■ > 120").style("color", "#581845").parent("legend");
-      createElement("h5", "■ 115 - 120").style("color", "#900C3F").parent("legend");
-      createElement("h5", "■ 110 - 115").style("color", "#C70039").parent("legend");
-      createElement("h5", "■ 105 - 110").style("color", "#FF5733").parent("legend");
-      createElement("h5", "■ 100 - 105").style("color", "#FFC300").parent("legend");
-      createElement("h5", "■ <= 100").style("color", "#2A9D8F").parent("legend");
+      // and then add mouse interactivity
+      this.showDetails();
     });
   };
 
-  /* Add DOM Elements ------------------------------------------------------------------------*/
+  /* Add legend to the map ----------------------------------------------------------------------------------*/
+  this.addLegend = function () {
+    // Create the legend container
+    createDiv().id("legend").parent("canvas");
+
+    // Create some legend text
+    createElement("h5", "■ > 120").style("color", "#581845").parent("legend");
+    createElement("h5", "■ 115 - 120").style("color", "#900C3F").parent("legend");
+    createElement("h5", "■ 110 - 115").style("color", "#C70039").parent("legend");
+    createElement("h5", "■ 105 - 110").style("color", "#FF5733").parent("legend");
+    createElement("h5", "■ 100 - 105").style("color", "#FFC300").parent("legend");
+    createElement("h5", "■ <= 100").style("color", "#2A9D8F").parent("legend");
+  };
+
+  /* when the mouse is hovered over a province, show details --------------------------------------------*/
+  this.showDetails = function () {
+    this.dataOfCurrentYear.forEach((data, i) => {
+      let province = select("#" + data.name);
+      // when the mouse hovers over the province, highlight the province and show detail
+      province.mouseOver(() => {
+        province.style("filter", "opacity(80%) drop-shadow(0 0 3px black)");
+        select("#detail").html(
+          `Gender ratio in ${data.name} ${this.currentYear} is ${this.dataOfCurrentYear[i].ratio} men per 100 women.`
+        );
+      });
+
+      // when the mouse is out, hide detail
+      province.mouseOut(() => {
+        province.style("filter", "none");
+        select("#detail").html("");
+      });
+    });
+  };
+
+  /* Add DOM Elements ---------------------------------------------------------------------------------*/
   this.addDOMElements = function () {
     // Create the DOM element container
     this.inputContainer = createDiv();
