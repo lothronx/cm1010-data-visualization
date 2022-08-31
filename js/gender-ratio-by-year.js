@@ -121,26 +121,21 @@ function GenderRatioByYear() {
     this.mapContainer.id("canvas");
     this.mapContainer.parent("app");
 
-    // Here I use a JS promise chain because the following 3 asynchronous tasks must be done in order
-    // JS Promise object code adapted from https://www.w3schools.com/js/js_promise.asp
-    let importMap = new Promise(function (resolve) {
-      // 1. Load the map
-      let map = new XMLHttpRequest();
-      map.open("GET", "data/china-gender-ratio/chinaLow.svg");
-      map.onload = function () {
-        if (map.status == 200) {
-          resolve(map.response);
-        }
-      };
-      map.send();
-    })
+    // Here I use a JS promise chain because the following asynchronous tasks must be done in order
+    // 1. get the contents of this .svg file
+    fetch("data/china-gender-ratio/chinaLow.svg")
+    
+    // 2. Read the response and return as text
+      .then((response) => response.text())
+
+      // 3. After the map is loaded, import the map to html and do some styling too
       .then((svg) => {
-        // 2. After the map is loaded, import the map to html and do some styling too
         select("#canvas").html(svg);
         this.mapStyling();
       })
+
+      // 4. After tha map is ready for usage, add mouse interactivity
       .then(() => {
-        // 3. After tha map is ready for usage, add mouse interactivity
         this.showDetails();
       });
   };
