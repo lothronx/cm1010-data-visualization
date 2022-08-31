@@ -24,14 +24,15 @@ function GenderRatioByYear() {
     // Make sure data is loaded
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    // Import the map
-    this.addMap();
-
     // Add the control panel
     this.addDOMElements();
 
-    // prepare the first round of data of the current year
+    // make sure this function run at list once before this.addMap()
+    // because the later needs data from the former
     this.findCurrentYear();
+
+    // Import the map
+    this.addMap();
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -42,15 +43,14 @@ function GenderRatioByYear() {
 
   /* Draw ----------------------------------------------------------------------------------*/
   this.draw = function () {
-    // identify the current year and then prepare the data of the current year
+    // Keep identifying the current year and then prepare the data for that year
     this.findCurrentYear();
 
-    // make sure map <svg> is loaded before all else
+    // make sure map <svg> is loaded before coloring
+    // then color each province according to its gender ratio. the more skewed ratio, the redder.
     if (select("svg")) {
       this.dataOfCurrentYear.forEach((data) => {
         let province = select("#" + data.name);
-
-        // color each province according to its gender ratio. the more skewed ratio, the redder.
         data.ratio > 120
           ? province.style("fill", "#581845")
           : data.ratio > 115
@@ -66,7 +66,52 @@ function GenderRatioByYear() {
     }
   };
 
-  /* Import the map ------------------------------------------------------------------------*/
+  /* Add DOM Elements ---------------------------------------------------------------------------------*/
+  this.addDOMElements = function () {
+    // Create the DOM element container
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("app");
+    this.inputContainer.style("padding-bottom", "1.5rem");
+
+    // Create some text, content defined later in draw()
+    createElement("h4", "").parent("input");
+
+    // Create the slider DOM element.
+    this.slider = createSlider(1998, 2020, 2020, 1);
+    this.slider.parent("input");
+
+    // Create some more text, content defined later in draw()
+    createDiv().id("detail").parent("input");
+  };
+
+  /* Prepare the data of current year -----------------------------------------------------------------------*/
+  this.findCurrentYear = function () {
+    // the current year is the selected year
+    this.currentYear = this.slider.value();
+
+    // show the current year in the control panel text
+    select("h4").html(`Gender ratio in year ${this.currentYear}`);
+
+    // prepare the data of current year.
+    // the data of current year is an array of objects with two properties: name and ratio.
+    const provinces = this.data.getColumn("Province");
+    let ratios = null;
+    this.data.columns.forEach((column) => {
+      if (column == this.currentYear) {
+        ratios = this.data.getColumn(column);
+      }
+    });
+
+    this.dataOfCurrentYear = provinces.map((province, i) => {
+      return {
+        name: province,
+        ratio: ratios[i],
+      };
+    });
+  };
+
+  /* Add the map -----------------------------------------------------------------------------*/
   this.addMap = function () {
     // Remove the canvas
     if (select("canvas")) noCanvas();
@@ -76,9 +121,10 @@ function GenderRatioByYear() {
     this.mapContainer.id("canvas");
     this.mapContainer.parent("app");
 
-    // load the map
+    // Here I use a JS promise chain because the following 3 asynchronous tasks must be done in order
     // JS Promise object code adapted from https://www.w3schools.com/js/js_promise.asp
-    new Promise(function (resolve) {
+    let importMap = new Promise(function (resolve) {
+      // 1. Load the map
       let map = new XMLHttpRequest();
       map.open("GET", "data/china-gender-ratio/chinaLow.svg");
       map.onload = function () {
@@ -87,30 +133,30 @@ function GenderRatioByYear() {
         }
       };
       map.send();
-    }).then((svg) => {
-      // after the map is loaded, import the map to html
-      select("#canvas").html(svg);
-
-      // set the map height and width
-      select("svg").style("width", "60vw");
-      select("svg").style("height", "42vw");
-
-      // by default, each province on the map is gray with white outline.
-      selectAll(".land").forEach((land) => {
-        land.style("fill", "#cccccc");
-        land.style("stroke", "#ffffff");
+    })
+      .then((svg) => {
+        // 2. After the map is loaded, import the map to html and do some styling too
+        select("#canvas").html(svg);
+        this.mapStyling();
+      })
+      .then(() => {
+        // 3. After tha map is ready for usage, add mouse interactivity
+        this.showDetails();
       });
-
-      // add some legend
-      this.addLegend();
-
-      // and then add mouse interactivity
-      this.showDetails();
-    });
   };
 
-  /* Add legend to the map ----------------------------------------------------------------------------------*/
-  this.addLegend = function () {
+  /* some map styling --------------------------------------------------------------------------------*/
+  this.mapStyling = function () {
+    // set the map height and width
+    select("svg").style("width", "60vw");
+    select("svg").style("height", "42vw");
+
+    // by default, each province on the map is gray with white outline.
+    selectAll(".land").forEach((land) => {
+      land.style("fill", "#cccccc");
+      land.style("stroke", "#ffffff");
+    });
+
     // Create the legend container
     createDiv().id("legend").parent("canvas");
 
@@ -140,51 +186,6 @@ function GenderRatioByYear() {
         province.style("filter", "none");
         select("#detail").html("");
       });
-    });
-  };
-
-  /* Add DOM Elements ---------------------------------------------------------------------------------*/
-  this.addDOMElements = function () {
-    // Create the DOM element container
-    this.inputContainer = createDiv();
-    this.inputContainer.id("input");
-    this.inputContainer.parent("app");
-    this.inputContainer.style("padding-bottom", "1.5rem");
-
-    // Create some text, content defined later in draw()
-    createElement("h4", "").parent("input");
-
-    // Create the slider DOM element.
-    this.slider = createSlider(1998, 2020, 2020, 1);
-    this.slider.parent("input");
-
-    // Create some more text, content defined later in draw()
-    createDiv().id("detail").parent("input");
-  };
-
-  /* prepare the data of current year -----------------------------------------------------------------------*/
-  this.findCurrentYear = function () {
-    // the current year is the selected year
-    this.currentYear = this.slider.value();
-
-    // show the current year in the control panel text
-    select("h4").html(`Gender ratio in year ${this.currentYear}`);
-
-    // prepare the data of current year.
-    // the data of current year is an array of objects with two properties: name and ratio.
-    const provinces = this.data.getColumn("Province");
-    let ratios = null;
-    this.data.columns.forEach((column) => {
-      if (column == this.currentYear) {
-        ratios = this.data.getColumn(column);
-      }
-    });
-
-    this.dataOfCurrentYear = provinces.map((province, i) => {
-      return {
-        name: province,
-        ratio: ratios[i],
-      };
     });
   };
 }
