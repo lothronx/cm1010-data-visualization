@@ -94,7 +94,7 @@ function GenderRatio() {
     // Draw the dumbbells
     dumbbells.forEach((dumbbell) => {
       dumbbell.display();
-      dumbbell.hover(mouseX, mouseY);
+      dumbbell.hover();
     });
   };
 

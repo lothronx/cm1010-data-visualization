@@ -40,7 +40,7 @@ class Dumbbell {
   }
 
   // When the mouse hovers over the dumbbell, make the text bold and the dots larger.
-  hover(mouseX, mouseY) {
+  hover() {
     if (
       mouseX > this.xMin &&
       mouseX < this.xMax + 15 + textWidth(this.tag) &&

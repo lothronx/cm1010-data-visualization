@@ -80,6 +80,7 @@ class Waffle {
       }
     });
   }
+
   // If the mouse is hovered over a box, show its details
   showDetails() {
     this.boxes.forEach((box) => {

@@ -34,7 +34,7 @@ class Line {
   }
 
   // When the mouse hovers over the country name tags, highlight the current country while make other countries transparent.
-  hover(mouseX, mouseY) {
+  hover() {
     if (
       mouseX > this.x[this.x.length - 1] + 10 &&
       mouseX < this.x[this.x.length - 1] + 10 + textWidth(this.name) &&

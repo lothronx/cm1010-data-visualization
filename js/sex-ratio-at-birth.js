@@ -85,7 +85,7 @@ function SexRatioAtBirth() {
     this.drawYLabels();
     lines.forEach((line) => {
       line.display();
-      line.hover(mouseX, mouseY);
+      line.hover();
     });
   };
 
