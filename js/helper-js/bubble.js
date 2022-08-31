@@ -16,13 +16,14 @@ class Bubble {
     this.bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
     this.spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
     this.margin = 30;
+    this.hovered = false;
   }
 
   display() {
     // Draw the bubble.
     noStroke();
     fill(this.color);
-    circle(this.x, this.y, this.size);
+    this.hovered ? circle(this.x, this.y, this.size * 1.1) : circle(this.x, this.y, this.size);
 
     // Draw the pay gap % on the center of the bubble.
     fill(255);
@@ -32,23 +33,17 @@ class Bubble {
     text(this._payGap + "%", this.x, this.y);
   }
 
-  // When the mouse hovers over the bubble, show the bubble's detailed information on the bottom of the canvas.
-  hover(mouseX, mouseY) {
+  // When the mouse hovers over the bubble, show the bubble's notes in the notes area.
+  hover() {
     if (dist(this.x, this.y, mouseX, mouseY) <= this.size / 2) {
-      push();
-      textAlign(CENTER, CENTER);
-      textStyle(NORMAL);
-      textSize(13);
-      fill(50);
-      text(
-        `In UK, ${this.label.num} thousand workers work as ${
-          this.label.name
-        }. ${round(this.label.ratio)}% of them are women.
-On average, each woman earns ${this._payGap}% less than man.`,
-        width / 2,
-        height - this.margin
+      this.hovered = true;
+      select("h4").html(
+        `In UK, ${this.label.num} thousand workers work as ${this.label.name}. ${round(
+          this.label.ratio
+        )}% of them are women. On average, each woman earns ${this._payGap}% less than man.`
       );
-      pop();
+    } else {
+      this.hovered = false;
     }
   }
 
@@ -57,9 +52,7 @@ On average, each woman earns ${this._payGap}% less than man.`,
     // By default, every bubble tends to move towards the center of the canvas.
     // Due to the collision mechanism, they can keep moving for a very long time.
     this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
-    this.y > height / 2 - this.margin
-      ? (this.vy -= this.speed)
-      : (this.vy += this.speed);
+    this.y > height / 2 ? (this.vy -= this.speed) : (this.vy += this.speed);
     this.x += this.vx;
     this.y += this.vy;
 
@@ -71,8 +64,8 @@ On average, each woman earns ${this._payGap}% less than man.`,
       this.x = this.size / 2 + this.margin;
       this.vx *= this.bounce;
     }
-    if (this.y + this.size / 2 > height - this.margin * 2) {
-      this.y = height - this.margin * 2 - this.size / 2;
+    if (this.y + this.size / 2 > height - this.margin) {
+      this.y = height - this.margin - this.size / 2;
       this.vy *= this.bounce;
     } else if (this.y - this.size / 2 < this.margin) {
       this.y = this.size / 2 + this.margin;

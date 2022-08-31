@@ -23,8 +23,7 @@ function PayGap() {
   let bubbles = [];
   this.setup = function () {
     // create canvas
-    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
-    c.parent("app");
+    createCanvas(windowWidth * 0.7, windowHeight * 0.7).parent("app");
 
     if (!this.loaded) throw new Error("Data not yet loaded");
 
@@ -51,6 +50,14 @@ function PayGap() {
         )
       )
     );
+
+    // Add some notes
+    this.addDOMElements();
+  };
+
+  /* Destroy ---------------------------------------------------------------------------------*/
+  this.destroy = function () {
+    this.inputContainer.remove();
   };
 
   /* Draw ----------------------------------------------------------------------------------*/
@@ -60,11 +67,17 @@ function PayGap() {
     textSize(16);
     textAlign(NORMAL);
     textStyle(NORMAL);
+
+    let hovered = false;
+
     bubbles.forEach((bubble) => {
       bubble.display(); //Draw the bubbles
-      bubble.hover(mouseX, mouseY); // Hover over each bubble to see detailed information.
+      bubble.hover(); // Hover over each bubble to see notes.
       if (clickSwitch) bubble.move(); // Click the canvas to make bubbles move around. Click the canvas again to stop.
+      if (bubble.hovered) hovered = true;
     });
+
+    if (!hovered) select("h4").html(""); // if no bubble is hovered, do not display any note.
   };
 
   /* Click the mouse to switch between move and stop--------------------------------------------*/
@@ -74,7 +87,7 @@ function PayGap() {
       clickSwitch ? (clickSwitch = false) : (clickSwitch = true);
   };
 
-  /* Helper Functions -----------------------------------------------------------------------*/
+  /* Map data to parameters of circles -----------------------------------------------------------------------*/
   this.mapDataToShape = function () {
     this.jobType = this.data.getColumn("job_subtype");
 
@@ -86,11 +99,7 @@ function PayGap() {
     const percentMin = 0;
     const percentMax = 100;
     this.xCoordinates = [];
-    this.percent.forEach((value) =>
-      this.xCoordinates.push(
-        map(value, percentMin, percentMax, margin, width - margin)
-      )
-    );
+    this.percent.forEach((value) => this.xCoordinates.push(map(value, percentMin, percentMax, margin, width - margin)));
 
     // Y coordinate: pay gap. The larger the pay gap, the higher.
     this.payGap = this.data.getColumn("pay_gap");
@@ -106,16 +115,16 @@ function PayGap() {
     this.payGap.forEach((value) => {
       this.colors.push(
         value > 16
-          ? "#581845CC"
+          ? "#581845be"
           : value > 12
-          ? "#900C3FCC"
+          ? "#900C3Fbe"
           : value > 8
-          ? "#C70039CC"
+          ? "#C70039be"
           : value > 4
-          ? "#FF5733CC"
+          ? "#FF5733be"
           : value > 0
-          ? "#FFC300CC"
-          : "#2A9D8FCC"
+          ? "#FFC300be"
+          : "#2A9D8Fbe"
       );
     });
 
@@ -126,10 +135,19 @@ function PayGap() {
     const bubbleSizeMin = min(width * 0.04, windowHeight * 0.7 * 0.06);
     const bubbleSizeMax = min(width * 0.12, windowHeight * 0.7 * 0.18);
     this.sizes = [];
-    this.numJobs.forEach((value) =>
-      this.sizes.push(
-        map(value, numJobsMin, numJobsMax, bubbleSizeMin, bubbleSizeMax)
-      )
-    );
+    this.numJobs.forEach((value) => this.sizes.push(map(value, numJobsMin, numJobsMax, bubbleSizeMin, bubbleSizeMax)));
+  };
+
+  /* Add notes ------------------------------------------------------------------------*/
+  this.addDOMElements = function () {
+    // Create the DOM element container
+    this.inputContainer = createDiv();
+    this.inputContainer.id("input");
+    this.inputContainer.parent("app");
+    this.inputContainer.style("min-height", "4rem");
+
+    // Create some text, content defined later in draw()
+    createElement("h4", "").parent("input");
+    select("h4").style("padding", "0 4rem");
   };
 }

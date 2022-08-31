@@ -19,6 +19,5 @@ function draw() {
 }
 
 function mouseClicked() {
-  if (gallery.selectedVisual.hasOwnProperty("mouseClicked"))
-    gallery.selectedVisual.mouseClicked(mouseX, mouseY);
+  if (gallery.selectedVisual.hasOwnProperty("mouseClicked")) gallery.selectedVisual.mouseClicked(mouseX, mouseY);
 }

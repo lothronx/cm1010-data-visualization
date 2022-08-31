@@ -18,8 +18,7 @@ function TechDiversity() {
   /* Setup ----------------------------------------------------------------------------------*/
   this.setup = function () {
     // create canvas
-    const c = createCanvas(windowWidth * 0.7, windowHeight * 0.7);
-    c.parent("app");
+    createCanvas(windowWidth * 0.7, windowHeight * 0.7).parent("app");
 
     if (!this.loaded) throw new Error("Data not yet loaded");
 

@@ -11,8 +11,7 @@ class Gallery {
       throw new Error("Make sure your visualization has an id and name!");
 
     // Check that the vis object has a unique id.
-    if (this.findVisIndex(vis.id) != null)
-      throw new Error(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
+    if (this.findVisIndex(vis.id) != null) throw new Error(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
 
     // If there is no error, push the new visualization to the visuals array.
     this.visuals.push(vis);
@@ -25,14 +24,10 @@ class Gallery {
 
     // Menu item interactivity
     menuItem.mouseOver((e) => select("#" + e.srcElement.id).addClass("hover"));
-    menuItem.mouseOut((e) =>
-      select("#" + e.srcElement.id).removeClass("hover")
-    );
+    menuItem.mouseOut((e) => select("#" + e.srcElement.id).removeClass("hover"));
 
     menuItem.mouseClicked((e) => {
-      selectAll(".menu-item").forEach((menuItem) =>
-        menuItem.removeClass("selected")
-      );
+      selectAll(".menu-item").forEach((menuItem) => menuItem.removeClass("selected"));
       select("#" + e.srcElement.id).addClass("selected");
       this.selectVisual(e.srcElement.id);
     });
@@ -68,26 +63,19 @@ class Gallery {
 
     if (visIndex != null) {
       // If the current visualization has a deselect method run it.
-      if (
-        this.selectedVisual != null &&
-        this.selectedVisual.hasOwnProperty("destroy")
-      )
-        this.selectedVisual.destroy();
+      if (this.selectedVisual != null && this.selectedVisual.hasOwnProperty("destroy")) this.selectedVisual.destroy();
 
       // Select the visualization in the gallery.
       this.selectedVisual = this.visuals[visIndex];
 
       // Initialize visualization if necessary.
-      if (this.selectedVisual.hasOwnProperty("setup"))
-        this.selectedVisual.setup();
+      if (this.selectedVisual.hasOwnProperty("setup")) this.selectedVisual.setup();
 
       // Only display the selected title and description.
       select("header").show();
       selectAll("h1", "header").forEach((a) => a.hide());
       selectAll("p", "header").forEach((a) => a.hide());
-      selectAll("#" + this.selectedVisual.id, "header").forEach((a) =>
-        a.show()
-      );
+      selectAll("#" + this.selectedVisual.id, "header").forEach((a) => a.show());
 
       // Enable animation in case it has been paused by the current visualization.
       loop();
