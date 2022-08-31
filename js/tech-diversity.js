@@ -7,18 +7,12 @@ function TechDiversity() {
   this.name = "Tech Diversity (Waffle Chart)";
   this.id = "tech-diversity-waffle";
   this.title = "Race Diversity in Major Tech Companies";
-  this.description =
-    "*Tip: Hover over the waffle chart to see the percentage of employees of each race.";
+  this.description = "*Tip: Hover over the waffle chart to see the percentage of employees of each race.";
 
   /* Load Data -------------------------------------------------------------------------------*/
   this.loaded = false;
   this.preload = function () {
-    this.data = loadTable(
-      "/data/tech-diversity/race-2018.csv",
-      "csv",
-      "header",
-      () => (this.loaded = true)
-    );
+    this.data = loadTable("/data/tech-diversity/race-2018.csv", "csv", "header", () => (this.loaded = true));
   };
 
   /* Setup ----------------------------------------------------------------------------------*/
@@ -44,26 +38,16 @@ function TechDiversity() {
     let company2 = this.select2.value();
 
     // Draw the first waffle chart.
-    const waffle1 = new Waffle(
-      width * 0.05,
-      20,
-      width * 0.4,
-      this.data,
-      company1
-    );
+    const waffle1 = new Waffle(width * 0.05, 20, round(width * 0.04) * 10, this.data, company1);
     waffle1.display();
-    waffle1.checkMouse(mouseX, mouseY);
+    waffle1.highlightCurrentCategory();
+    waffle1.showDetails();
 
     // Draw the second waffle chart.
-    const waffle2 = new Waffle(
-      width * 0.55,
-      20,
-      width * 0.4,
-      this.data,
-      company2
-    );
+    const waffle2 = new Waffle(width * 0.55, 20, round(width * 0.04) * 10, this.data, company2);
     waffle2.display();
-    waffle2.checkMouse(mouseX, mouseY);
+    waffle2.highlightCurrentCategory();
+    waffle2.showDetails();
 
     // some text
     noStroke();
@@ -85,10 +69,7 @@ function TechDiversity() {
     this.inputContainer.parent("app");
 
     // Create some text.
-    const selectText1 = createElement(
-      "h4",
-      "Compare employee race diversity between"
-    );
+    const selectText1 = createElement("h4", "Compare employee race diversity between");
     selectText1.parent("input");
 
     // Create the select DOM element.

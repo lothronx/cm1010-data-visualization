@@ -106,7 +106,7 @@ function GenderRatioByYear() {
       select("svg").style("width", "60vw");
       select("svg").style("height", "42vw");
 
-      // by default, the whole map is gray with white outline.
+      // by default, each province on the map is gray with white outline.
       selectAll(".land").forEach((land) => {
         land.style("fill", "#cccccc");
         land.style("stroke", "#ffffff");
