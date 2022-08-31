@@ -37,13 +37,13 @@ function TechDiversity() {
     let company2 = this.select2.value();
 
     // Draw the first waffle chart.
-    const waffle1 = new Waffle(width * 0.05, 20, round(width * 0.04) * 10, this.data, company1);
+    const waffle1 = new Waffle(width * 0.05, 20, width * 0.4, this.data, company1);
     waffle1.display();
     waffle1.highlightCurrentCategory();
     waffle1.showDetails();
 
     // Draw the second waffle chart.
-    const waffle2 = new Waffle(width * 0.55, 20, round(width * 0.04) * 10, this.data, company2);
+    const waffle2 = new Waffle(width * 0.55, 20, width * 0.4, this.data, company2);
     waffle2.display();
     waffle2.highlightCurrentCategory();
     waffle2.showDetails();
