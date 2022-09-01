@@ -3,6 +3,10 @@
 
 class Bubble {
   // the private properties:
+  #color;
+  #label;
+  #id;
+  #others;
   #speed;
   #bounce;
   #spring;
@@ -15,13 +19,13 @@ class Bubble {
     this.vx = 0;
     this.vy = 0;
     this.size = size;
-    this.color = color;
-    this.label = label;
-    this.id = index;
-    this.others = others;
     this.hovered = false;
 
     // the private properties:
+    this.#color = color;
+    this.#label = label;
+    this.#id = index;
+    this.#others = others;
     this.#speed = 0.02; //the default velocity of the bubble
     this.#bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
     this.#spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
@@ -32,14 +36,14 @@ class Bubble {
   display() {
     // Draw the bubble.
     noStroke();
-    fill(this.color);
+    fill(this.#color);
     this.hovered ? circle(this.x, this.y, this.size * 1.1) : circle(this.x, this.y, this.size);
 
     // Draw the pay gap % on the center of the bubble.
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(this.size * 0.3);
-    this._payGap = Number(this.label.payGap).toFixed(1);
+    this._payGap = Number(this.#label.payGap).toFixed(1);
     text(this._payGap + "%", this.x, this.y);
   }
 
@@ -48,8 +52,8 @@ class Bubble {
     if (dist(this.x, this.y, mouseX, mouseY) <= this.size / 2) {
       this.hovered = true;
       select("h4").html(
-        `In UK, ${this.label.num} thousand workers work as ${this.label.name}. ${round(
-          this.label.ratio
+        `In UK, ${this.#label.num} thousand workers work as ${this.#label.name}. ${round(
+          this.#label.ratio
         )}% of them are women. On average, each woman earns ${this._payGap}% less than man.`
       );
     } else {
@@ -95,21 +99,21 @@ class Bubble {
   // Collision mechanism: If two bubbles collide, they will spring against each other.
   // This part of the code is directly copied from the code source without modification.
   #collisionDetection() {
-    for (let i = this.id + 1; i < this.others.length; i++) {
-      let dx = this.others[i].x - this.x;
-      let dy = this.others[i].y - this.y;
+    for (let i = this.#id + 1; i < this.#others.length; i++) {
+      let dx = this.#others[i].x - this.x;
+      let dy = this.#others[i].y - this.y;
       let distance = sqrt(dx * dx + dy * dy);
-      let minDist = this.others[i].size / 2 + this.size / 2;
+      let minDist = this.#others[i].size / 2 + this.size / 2;
       if (distance < minDist) {
         let angle = atan2(dy, dx);
         let targetX = this.x + cos(angle) * minDist;
         let targetY = this.y + sin(angle) * minDist;
-        let ax = (targetX - this.others[i].x) * this.#spring;
-        let ay = (targetY - this.others[i].y) * this.#spring;
+        let ax = (targetX - this.#others[i].x) * this.#spring;
+        let ay = (targetY - this.#others[i].y) * this.#spring;
         this.vx -= ax;
         this.vy -= ay;
-        this.others[i].vx += ax;
-        this.others[i].vy += ay;
+        this.#others[i].vx += ax;
+        this.#others[i].vy += ay;
       }
     }
   }

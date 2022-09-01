@@ -148,6 +148,6 @@ function PayGap() {
 
     // Create some text, content defined later in draw()
     createElement("h4", "").parent("input");
-    select("h4").style("padding", "0 4rem");
+    select("h4").style("padding", "0 3rem");
   };
 }
