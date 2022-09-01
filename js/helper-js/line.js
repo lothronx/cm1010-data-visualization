@@ -1,12 +1,19 @@
 class Line {
+  // the private properties:
+  #colorBackup;
+  #lineWeight;
+
   constructor(name, x, y, color, others) {
+    // the public properties:
     this.name = name;
     this.x = x;
     this.y = y;
     this.color = color;
-    this.colorBackup = color;
     this.others = others;
-    this.lineWeight = 1;
+
+    // the private properties:
+    this.#colorBackup = color;
+    this.#lineWeight = 1;
   }
 
   display() {
@@ -17,7 +24,7 @@ class Line {
     this.x.forEach((x, i) => point(x, this.y[i]));
 
     // Draw a curved line connecting all dots.
-    strokeWeight(this.lineWeight);
+    strokeWeight(this.#lineWeight);
     beginShape();
     curveVertex(this.x[0], this.y[0]);
     this.x.forEach((x, i) => curveVertex(x, this.y[i]));
@@ -42,11 +49,11 @@ class Line {
       mouseY < this.y[this.y.length - 1] + 7
     ) {
       this.others.forEach((line) => (line.color = color(0, 0, 0, 0)));
-      this.color = this.colorBackup;
-      this.lineWeight = 3;
+      this.color = this.#colorBackup;
+      this.#lineWeight = 3;
     } else {
-      this.color = this.colorBackup;
-      this.lineWeight = 1;
+      this.color = this.#colorBackup;
+      this.#lineWeight = 1;
     }
   }
 }

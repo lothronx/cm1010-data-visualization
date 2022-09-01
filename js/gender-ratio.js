@@ -27,9 +27,6 @@ function GenderRatio() {
 
     if (!this.loaded) throw new Error("Data not yet loaded");
 
-    // Get data from the table.
-    const provinces = this.data.getRows();
-
     // Find the vertical layout.
     const numProvinces = this.data.getRowCount();
     this.verticalSpacing = round((max(windowHeight * 0.7, 800) - margin * 2) / (numProvinces - 1));
@@ -43,6 +40,7 @@ function GenderRatio() {
 
     // Push all data to dumbbells. Each dumbbell represents one province.
     dumbbells = [];
+    const provinces = this.data.getRows();
     provinces.forEach((province, i) =>
       dumbbells.push(
         new Dumbbell(

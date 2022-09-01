@@ -2,7 +2,14 @@
 // Most code is newly added, adapted, or modified, except for the collision mechanism. The full credit of the collision mechanism belongs to the original code.
 
 class Bubble {
+  // the private properties:
+  #speed;
+  #bounce;
+  #spring;
+  #margin;
+
   constructor(x, y, size, color, label, index, others) {
+    // the public properties:
     this.x = x;
     this.y = y;
     this.vx = 0;
@@ -12,13 +19,16 @@ class Bubble {
     this.label = label;
     this.id = index;
     this.others = others;
-    this.speed = 0.02; //the default velocity of the bubble
-    this.bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
-    this.spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
-    this.margin = 30;
     this.hovered = false;
+
+    // the private properties:
+    this.#speed = 0.02; //the default velocity of the bubble
+    this.#bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
+    this.#spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
+    this.#margin = 30;
   }
 
+  /* the public methods -----------------------------------------------------------------------*/
   display() {
     // Draw the bubble.
     noStroke();
@@ -49,31 +59,42 @@ class Bubble {
 
   // When the canvas is clicked, call this function.
   move() {
-    // By default, every bubble tends to move towards the center of the canvas.
-    // Due to the collision mechanism, they can keep moving for a very long time.
-    this.x > width / 2 ? (this.vx -= this.speed) : (this.vx += this.speed);
-    this.y > height / 2 ? (this.vy -= this.speed) : (this.vy += this.speed);
+    this.#gravity();
+    this.#bounceBack();
+    this.#collisionDetection();
+  }
+
+  /* the private methods -----------------------------------------------------------------------*/
+  // By default, every bubble tends to move towards the center of the canvas.
+  // Due to the collision mechanism, they can keep moving for a very long time.
+  #gravity() {
+    this.x > width / 2 ? (this.vx -= this.#speed) : (this.vx += this.#speed);
+    this.y > height / 2 ? (this.vy -= this.#speed) : (this.vy += this.#speed);
     this.x += this.vx;
     this.y += this.vy;
+  }
 
-    // If the bubble reaches the edge of the canvas (margin considered), it bounces back.
-    if (this.x + this.size / 2 > width - this.margin) {
-      this.x = width - this.margin - this.size / 2;
-      this.vx *= this.bounce;
-    } else if (this.x - this.size / 2 < this.margin) {
-      this.x = this.size / 2 + this.margin;
-      this.vx *= this.bounce;
+  // If the bubble reaches the edge of the canvas (margin considered), it bounces back.
+  #bounceBack() {
+    if (this.x + this.size / 2 > width - this.#margin) {
+      this.x = width - this.#margin - this.size / 2;
+      this.vx *= this.#bounce;
+    } else if (this.x - this.size / 2 < this.#margin) {
+      this.x = this.size / 2 + this.#margin;
+      this.vx *= this.#bounce;
     }
-    if (this.y + this.size / 2 > height - this.margin) {
-      this.y = height - this.margin - this.size / 2;
-      this.vy *= this.bounce;
-    } else if (this.y - this.size / 2 < this.margin) {
-      this.y = this.size / 2 + this.margin;
-      this.vy *= this.bounce;
+    if (this.y + this.size / 2 > height - this.#margin) {
+      this.y = height - this.#margin - this.size / 2;
+      this.vy *= this.#bounce;
+    } else if (this.y - this.size / 2 < this.#margin) {
+      this.y = this.size / 2 + this.#margin;
+      this.vy *= this.#bounce;
     }
+  }
 
-    // Collision mechanism: If two bubbles collide, they will spring against each other.
-    // This part of the code is directly copied from the code source without modification.
+  // Collision mechanism: If two bubbles collide, they will spring against each other.
+  // This part of the code is directly copied from the code source without modification.
+  #collisionDetection() {
     for (let i = this.id + 1; i < this.others.length; i++) {
       let dx = this.others[i].x - this.x;
       let dy = this.others[i].y - this.y;
@@ -83,8 +104,8 @@ class Bubble {
         let angle = atan2(dy, dx);
         let targetX = this.x + cos(angle) * minDist;
         let targetY = this.y + sin(angle) * minDist;
-        let ax = (targetX - this.others[i].x) * this.spring;
-        let ay = (targetY - this.others[i].y) * this.spring;
+        let ax = (targetX - this.others[i].x) * this.#spring;
+        let ay = (targetY - this.others[i].y) * this.#spring;
         this.vx -= ax;
         this.vy -= ay;
         this.others[i].vx += ax;

@@ -1,13 +1,20 @@
 class Dumbbell {
+  // the private properties:
+  #textStyle;
+  #dotSize;
+
   constructor(tag, Urban, Town, Rural, Total, y) {
+    // the public properties:
     this.tag = tag;
     this.Urban = Urban;
     this.Town = Town;
     this.Rural = Rural;
     this.Total = Total;
     this.y = y;
-    this.textStyle = NORMAL;
-    this.dotSize = 8;
+
+    // the private properties:
+    this.#textStyle = NORMAL;
+    this.#dotSize = 8;
   }
 
   display() {
@@ -19,7 +26,7 @@ class Dumbbell {
     fill(50);
     textSize(14);
     textAlign(LEFT, CENTER);
-    textStyle(this.textStyle);
+    textStyle(this.#textStyle);
     text(this.tag, this.xMax + 15, this.y);
 
     // Draw the dumbbell handle
@@ -30,13 +37,13 @@ class Dumbbell {
     // Draw the dots representing total, urban, town, and rural gender ratio respectively.
     noStroke();
     fill(11, 50, 107);
-    square(this.Total - 4, this.y - 4, this.dotSize);
+    square(this.Total - 4, this.y - 4, this.#dotSize);
     fill(123, 203, 192);
-    circle(this.Urban, this.y, this.dotSize);
+    circle(this.Urban, this.y, this.#dotSize);
     fill(245, 189, 66);
-    circle(this.Town, this.y, this.dotSize);
+    circle(this.Town, this.y, this.#dotSize);
     fill(240, 81, 41);
-    circle(this.Rural, this.y, this.dotSize);
+    circle(this.Rural, this.y, this.#dotSize);
   }
 
   // When the mouse hovers over the dumbbell, make the text bold and the dots larger.
@@ -47,11 +54,11 @@ class Dumbbell {
       mouseY > this.y - 7 &&
       mouseY < this.y + 7
     ) {
-      this.textStyle = BOLD;
-      this.dotSize = 9;
+      this.#textStyle = BOLD;
+      this.#dotSize = 9;
     } else {
-      this.textStyle = NORMAL;
-      this.dotSize = 8;
+      this.#textStyle = NORMAL;
+      this.#dotSize = 8;
     }
   }
 }
