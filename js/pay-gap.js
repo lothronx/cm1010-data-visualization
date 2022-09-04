@@ -21,9 +21,10 @@ function PayGap() {
 
   /* Setup ----------------------------------------------------------------------------------*/
   let bubbles = [];
+
   this.setup = function () {
     // create canvas
-    createCanvas(windowWidth * 0.7, windowHeight * 0.7).parent("app");
+    const canvas = createCanvas(windowWidth * 0.7, windowHeight * 0.7).parent("app");
 
     if (!this.loaded) throw new Error("Data not yet loaded");
 
@@ -53,6 +54,12 @@ function PayGap() {
 
     // Add some notes
     this.addDOMElements();
+
+    // Click to switch between move and stop
+    this.clickSwitch = false;
+    canvas.mouseClicked(() => {
+      this.clickSwitch = !this.clickSwitch;
+    });
   };
 
   /* Destroy ---------------------------------------------------------------------------------*/
@@ -73,18 +80,11 @@ function PayGap() {
     bubbles.forEach((bubble) => {
       bubble.display(); //Draw the bubbles
       bubble.hover(); // Hover over each bubble to see notes.
-      if (clickSwitch) bubble.move(); // Click the canvas to make bubbles move around. Click the canvas again to stop.
+      if (this.clickSwitch) bubble.move(); // Click the canvas to make bubbles move around. Click the canvas again to stop.
       if (bubble.hovered) hovered = true;
     });
 
     if (!hovered) select("h4").html(""); // if no bubble is hovered, do not display any note.
-  };
-
-  /* Click the mouse to switch between move and stop--------------------------------------------*/
-  let clickSwitch = false;
-  this.mouseClicked = function (mouseX, mouseY) {
-    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height)
-      clickSwitch ? (clickSwitch = false) : (clickSwitch = true);
   };
 
   /* Map data to parameters of circles -----------------------------------------------------------------------*/

@@ -29,7 +29,7 @@ class Bubble {
     this.#speed = 0.02; //the default velocity of the bubble
     this.#bounce = -1; //how hard should the bubble bounce back from the edges. -1 means bouncing back at original speed.
     this.#spring = 0.03; // how hard should the bubbles bounce away from each other once they collide
-    this.#margin = 30;
+    this.#margin = 40;
   }
 
   /* the public methods -----------------------------------------------------------------------*/
@@ -87,11 +87,12 @@ class Bubble {
       this.x = this.size / 2 + this.#margin;
       this.vx *= this.#bounce;
     }
-    if (this.y + this.size / 2 > height - this.#margin) {
-      this.y = height - this.#margin - this.size / 2;
+
+    if (this.y + this.size / 2 > height) {
+      this.y = height - this.size / 2;
       this.vy *= this.#bounce;
-    } else if (this.y - this.size / 2 < this.#margin) {
-      this.y = this.size / 2 + this.#margin;
+    } else if (this.y - this.size / 2 < 0) {
+      this.y = this.size / 2;
       this.vy *= this.#bounce;
     }
   }
