@@ -131,7 +131,7 @@ function GenderRatioByYear() {
       // 3. After the map is loaded, import the map to html and do some styling too
       .then((svg) => {
         select("#canvas").html(svg);
-        this.mapStyling();
+        mapStyling();
       })
 
       // 4. After tha map is ready for usage, add mouse interactivity
@@ -141,7 +141,7 @@ function GenderRatioByYear() {
   };
 
   /* some map styling --------------------------------------------------------------------------------*/
-  this.mapStyling = function () {
+  const mapStyling = function () {
     // set the map height and width
     select("svg").style("width", "60vw");
     select("svg").style("height", "42vw");
