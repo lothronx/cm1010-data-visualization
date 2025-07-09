@@ -23,17 +23,27 @@ This project is an interactive data visualization dashboard that explores variou
 
 _Note: This project primarily focuses on gender inequality, with one additional visualization exploring racial diversity in tech to provide broader context on workplace inequality._
 
-## 🚀 Live Demo
-
-Open `index.html` in your browser to explore the interactive visualizations.
-
 ## 📈 Visualizations Included
 
 1. **🗺️ Gender Ratio in China by Provinces: 1998-2020 (Map)** - Geographic visualization showing gender ratio distribution across Chinese provinces over time
+
+![Gender Ratio in China by Provinces: 1998-2020 (Map)](demo/1.png)
+
 2. **🌆 Gender Ratio in Urban, Town, and Rural China 2020 (Dumbbell Plot)** - Comparison of gender ratios between different settlement types in China
+
+![Gender Ratio in Urban, Town, and Rural China 2020 (Dumbbell Plot)](demo/2.png)
+
 3. **👶 Sex Ratio At Birth in Top 10 Most Populated Countries (Line Chart Series)** - Time-series analysis of birth gender ratios in major world populations
+
+![Sex Ratio At Birth in Top 10 Most Populated Countries (Line Chart Series)](demo/3.png)
+
 4. **💰 Gender Pay Gap by Occupations, UK (Bubble Chart)** - Interactive visualization showing wage disparities across different professions
+
+![Gender Pay Gap by Occupations, UK (Bubble Chart)](demo/4.png)
+
 5. **🏢 Race Diversity in Top Tech Companies (Waffle Chart)** - Analysis of racial representation in major technology corporations
+
+![Race Diversity in Top Tech Companies (Waffle Chart)](demo/5.png)
 
 ## 💻 Technical Skills Demonstrated
 
@@ -94,10 +104,10 @@ Open `index.html` in your browser to explore the interactive visualizations.
 
 ## 🛠️ How to Run
 
-1. Clone this repository
-2. Open `index.html` in a modern web browser
-3. Navigate through different visualizations using the menu
-4. Interact with charts by hovering and clicking for detailed information
+1. Open the project folder in VS Code
+2. Install the "Live Server" extension if you haven't already
+3. Right-click on index.html and select "Open with Live Server"
+4. The webpage will open in your browser automatically
 
 ## 📚 Learning Outcomes
 
